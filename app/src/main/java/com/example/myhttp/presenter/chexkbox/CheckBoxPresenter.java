@@ -4,7 +4,7 @@ import com.example.myhttp.base.BasePresenter;
 import com.example.myhttp.model.bean.checkbox.CheckBox_Bean;
 import com.example.myhttp.model.callback.Callback;
 import com.example.myhttp.model.checkbox.CheckBoxModel;
-import com.example.myhttp.view.IChexkBox;
+import com.example.myhttp.view.checkbox.IChexkBox;
 
 public class CheckBoxPresenter extends BasePresenter<IChexkBox.View> implements IChexkBox.Persenter {
 

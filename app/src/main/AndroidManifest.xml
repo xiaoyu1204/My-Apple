@@ -14,7 +14,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.CheckBoxActivity"></activity>
+        <activity android:name=".ui.home.Home_Type_Activity"></activity>
+        <activity android:name=".ui.home.HomeActivity" />
+        <activity android:name=".ui.CheckBoxActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

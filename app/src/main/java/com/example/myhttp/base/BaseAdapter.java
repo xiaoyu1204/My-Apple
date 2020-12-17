@@ -40,7 +40,7 @@ public abstract class BaseAdapter<D> extends RecyclerView.Adapter {
         if(layout<=0){
             new RuntimeException("非法布局");
         }
-        View view = LayoutInflater.from(context).inflate(layout,parent,false);
+        View view = View.inflate(context, layout, null);
         VH vh=new VH(view);//绑定视图给VH
         vh.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

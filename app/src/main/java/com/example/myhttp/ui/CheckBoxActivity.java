@@ -14,7 +14,7 @@ import com.example.myhttp.base.BaseActivity;
 import com.example.myhttp.model.bean.checkbox.CheckBox_Bean;
 import com.example.myhttp.model.bean.checkbox.CheckBox_Bean1;
 import com.example.myhttp.presenter.chexkbox.CheckBoxPresenter;
-import com.example.myhttp.view.IChexkBox;
+import com.example.myhttp.view.checkbox.IChexkBox;
 
 import java.util.ArrayList;
 import java.util.List;

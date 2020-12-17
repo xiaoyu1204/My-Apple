@@ -6,7 +6,7 @@ import com.example.myhttp.model.callback.Callback;
 import com.example.myhttp.net.CommonSubscriber;
 import com.example.myhttp.net.HttpManager;
 import com.example.myhttp.utils.RxUtils;
-import com.example.myhttp.view.IChexkBox;
+import com.example.myhttp.view.checkbox.IChexkBox;
 
 public class CheckBoxModel extends BaseModel implements IChexkBox.Model {
     @Override

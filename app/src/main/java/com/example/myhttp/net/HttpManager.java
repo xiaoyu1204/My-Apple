@@ -3,6 +3,7 @@ import android.util.Log;
 
 
 import com.example.myhttp.model.api.ApiService;
+import com.example.myhttp.model.api.ApiShop;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -25,7 +26,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class HttpManager {
     //单例模式
     private static HttpManager instance;
-    private ApiService apiService;//网络请求
 
     private Map<String,Retrofit> map = new HashMap<>();  //retrofit请求对象的对象池
 
@@ -85,12 +85,21 @@ public class HttpManager {
         return retrofit;
     }
 
-    //使用天气网络请求
+    //使用提交请求
+    private ApiService apiService;//网络请求
     public ApiService getService(){
-        if(apiService==null){
-            apiService=getRetrofit(ApiService.BASE_URL).create(ApiService.class);
+        if(apiService == null){
+            apiService = getRetrofit(ApiService.BASE_URL).create(ApiService.class);
         }
         return apiService;
+    }
+
+    public ApiShop apiShop;
+    public ApiShop getApiShop() {
+        if(apiService == null){
+            apiShop = getRetrofit(ApiShop.BASE_URL).create(ApiShop.class);
+        }
+        return apiShop;
     }
 
 }

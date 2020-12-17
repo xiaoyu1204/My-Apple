@@ -1,11 +1,10 @@
-package com.example.myhttp.view;
+package com.example.myhttp.view.checkbox;
 
 import com.example.myhttp.base.IBaseModel;
-import com.example.myhttp.base.IBasePresenter;
+import com.example.myhttp.base.IBasePersenter;
 import com.example.myhttp.base.IBaseView;
 import com.example.myhttp.model.bean.checkbox.CheckBox_Bean;
 import com.example.myhttp.model.callback.Callback;
-
 
 //接口契约类
 public interface IChexkBox {
@@ -15,7 +14,7 @@ public interface IChexkBox {
         void getChexkBoxReturn(CheckBox_Bean checkBoxBean);
     }
 
-    interface Persenter extends IBasePresenter<View>{
+    interface Persenter extends IBasePersenter<View> {
         //定义一个V层调用的接口
         void getChexkBox();
     }

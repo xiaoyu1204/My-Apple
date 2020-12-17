@@ -7,4 +7,23 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="myapp" parent="Theme.AppCompat.Light.DarkActionBar"> </style>
+
+    <style name="Home_Text" parent="myapp">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">#000</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="channel" >
+        <item name="android:layout_width">@dimen/dp_30</item>
+        <item name="android:layout_height">@dimen/dp_30</item>
+    </style>
+    <style name="text" >
+        <item name="android:layout_width">@dimen/dp_25</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+    </style>
+
 </resources>
