@@ -24,4 +24,5 @@ public interface ApiShop {
     Flowable<Home_Tree_Bean> getChannel(@Query("id")String id);
 
 
+
 }
