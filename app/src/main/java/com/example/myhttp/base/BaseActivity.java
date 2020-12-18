@@ -19,28 +19,28 @@ public abstract class BaseActivity<P extends IBasePersenter> extends AppCompatAc
         super.onCreate(savedInstanceState);
         int layout=getLayout();//需要界面view
         if(layout<=0){
-            new RuntimeException("layout id not allow 0 or <0");
+            throw new RuntimeException("layout id not allow 0 or <0");
         }else {
             setContentView(getLayout());
         }
         bind = ButterKnife.bind(this);
 
-        //初始化界面
-        initView();
         persenter = createPersenter();
         if(persenter!=null){
             persenter.attachView(this);
         }
+        //初始化界面
+        initView();
         //初始化界面数据
         initData();
     }
 
     //定义一个获取当前界面的方法  由子类提供的
     protected abstract int getLayout();
-    //初始化界面
-    protected abstract void initView();
     //初始化p层的方法
     protected abstract P createPersenter();
+    //初始化界面
+    protected abstract void initView();
     //初始化界面数据
     protected abstract void initData();
 
@@ -71,4 +71,5 @@ public abstract class BaseActivity<P extends IBasePersenter> extends AppCompatAc
             persenter.unAttachView();
         }
     }
+
 }

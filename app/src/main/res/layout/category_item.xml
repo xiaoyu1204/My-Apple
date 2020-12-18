@@ -8,9 +8,9 @@
 
     <ImageView
         android:id="@+id/iv_category_img"
-        android:layout_width="@dimen/dp_100"
+        android:layout_width="@dimen/dp_195"
         android:background="#F1EEEE"
-        android:layout_height="@dimen/dp_100"/>
+        android:layout_height="@dimen/dp_195"/>
 
     <TextView
         android:id="@+id/tv_category_name"

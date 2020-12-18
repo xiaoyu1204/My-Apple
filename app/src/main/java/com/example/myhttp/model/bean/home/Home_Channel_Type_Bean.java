@@ -2,7 +2,7 @@ package com.example.myhttp.model.bean.home;
 
 import java.util.List;
 
-public class Home_Type_Bean {
+public class Home_Channel_Type_Bean {
 
 
     /**
@@ -386,7 +386,7 @@ public class Home_Type_Bean {
             }
         }
 
-        public static class CategoryListBean {
+        public static class   CategoryListBean {
             /**
              * id : 1005000
              * name : 居家

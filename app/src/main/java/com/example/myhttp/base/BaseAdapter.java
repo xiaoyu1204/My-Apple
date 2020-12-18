@@ -14,7 +14,7 @@ import java.util.List;
 public abstract class BaseAdapter<D> extends RecyclerView.Adapter {
 
     List<D> mData; //adapter的数据
-    Context context;
+    protected Context context;
     protected IListClick click;
     protected IItemViewClick iItemViewClick;
 
@@ -26,7 +26,6 @@ public abstract class BaseAdapter<D> extends RecyclerView.Adapter {
     public void addItemViewClick(IItemViewClick click){
         this.iItemViewClick = click;
     }
-
 
     public BaseAdapter( Context context,List<D> Data) {
         this.context = context;
@@ -40,7 +39,7 @@ public abstract class BaseAdapter<D> extends RecyclerView.Adapter {
         if(layout<=0){
             new RuntimeException("非法布局");
         }
-        View view = View.inflate(context, layout, null);
+        View view = LayoutInflater.from(context).inflate(layout,parent,false);
         VH vh=new VH(view);//绑定视图给VH
         vh.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,31 +1,22 @@
 package com.example.myhttp.base;
 
+
 import java.lang.ref.WeakReference;
 
-/**
- * p层的基类
- */
-public abstract class BasePresenter<V extends IBaseView>implements IBasePersenter<V> {
+public abstract class BasePresenter<V extends IBaseView> implements IBasePersenter<V> {
 
-    protected V mView;
-    //通过弱引用把V层关联
     WeakReference<V> weakReference;
-
-    IBaseModel model;
-    //绑定
+    protected V mView;
     @Override
     public void attachView(V view) {
-        weakReference=new WeakReference<V>(view);
-        mView=weakReference.get();
+        weakReference = new WeakReference<V>(view);
+        mView = weakReference.get();
     }
 
-    //解除绑定
     @Override
     public void unAttachView() {
         weakReference.clear();
-        mView=null;
-        if(model!=null){
-            model.clear();//清除缓存
-        }
+        mView = null;
     }
+
 }

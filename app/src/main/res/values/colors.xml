@@ -10,4 +10,13 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="Jiured">#AB2B2B</color>
+    <color name="red">#f00</color>
+    <color name="huise">#ECE9E9</color>
+
+    <!--按钮-->
+    <drawable name="red">#f00</drawable>
+    <drawable name="green">#0f0</drawable>
+    <drawable name="gray">#ccc</drawable>
+
 </resources>

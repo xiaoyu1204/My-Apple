@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myhttp.R;
-import com.example.myhttp.adapter.chexkbox.CheckBox_Adapter;
+import com.example.myhttp.adapter.chexkbox.CheckBoxAdapter;
 import com.example.myhttp.base.BaseActivity;
 import com.example.myhttp.model.bean.checkbox.CheckBox_Bean;
 import com.example.myhttp.model.bean.checkbox.CheckBox_Bean1;
@@ -38,7 +38,7 @@ public class CheckBoxActivity extends BaseActivity<CheckBoxPresenter> implements
     //黄油刀
     private Unbinder bind;
     //适配器
-    private CheckBox_Adapter checkBox_adapter;
+    private CheckBoxAdapter checkBox_adapter;
     //集合有数据的 return
     private List<CheckBox_Bean.DataBean> data;
     //集合    空集合     后添加数据   没修改的数据
@@ -63,11 +63,11 @@ public class CheckBoxActivity extends BaseActivity<CheckBoxPresenter> implements
         //创建空集合 没修改的数据
         datalist = new ArrayList<>();
         //绑定适配器
-        checkBox_adapter = new CheckBox_Adapter(this, datalist);
+        checkBox_adapter = new CheckBoxAdapter(this, datalist);
         checkboxRlv.setAdapter(checkBox_adapter);
 
         //点击监听
-        checkBox_adapter.setIonclickitem(new CheckBox_Adapter.Ionclickitem() {
+        checkBox_adapter.setIonclickitem(new CheckBoxAdapter.Ionclickitem() {
             @Override
             public void onitem(int qq) {
                 //通过下标获取值

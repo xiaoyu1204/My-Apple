@@ -15,12 +15,12 @@ import com.example.myhttp.model.bean.checkbox.CheckBox_Bean;
 
 import java.util.List;
 
-public class CheckBox_Adapter extends RecyclerView.Adapter {
+public class CheckBoxAdapter extends RecyclerView.Adapter {
 
     private Context context;
     private List<CheckBox_Bean.DataBean> list;
 
-    public CheckBox_Adapter(Context context, List<CheckBox_Bean.DataBean> list) {
+    public CheckBoxAdapter(Context context, List<CheckBox_Bean.DataBean> list) {
         this.context = context;
         this.list = list;
     }

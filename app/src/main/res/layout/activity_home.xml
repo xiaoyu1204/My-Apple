@@ -6,16 +6,17 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ui.home.HomeActivity">
-    <androidx.appcompat.widget.Toolbar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/Home_Text"
-            android:text="仿网易严选"
-            />
-    </androidx.appcompat.widget.Toolbar>
+
+<!--    <androidx.appcompat.widget.Toolbar-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content">-->
+<!--        <TextView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            style="@style/Home_Text"-->
+<!--            android:text="仿网易严选"-->
+<!--            />-->
+<!--    </androidx.appcompat.widget.Toolbar>-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"

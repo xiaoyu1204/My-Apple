@@ -42,8 +42,8 @@ public class HomeActivity extends AppCompatActivity {
     private void initFragment() {
         //准备fragment
         homeFragment = new HomeFragment();
-        sortFragment = new SortFragment();
         topicFragment = new TopicFragment();
+        sortFragment = new SortFragment();
         shopFragment = new ShopFragment();
         meFragment = new MeFragment();
 
@@ -84,15 +84,15 @@ public class HomeActivity extends AppCompatActivity {
                             .hide(shopFragment)
                             .hide(meFragment);
                 } else if (tab.getPosition() == 1) {
-                    t1.show(sortFragment)
-                            .hide(homeFragment)
-                            .hide(topicFragment)
-                            .hide(shopFragment)
-                            .hide(meFragment);
-                } else if (tab.getPosition() == 2) {
                     t1.show(topicFragment)
                             .hide(homeFragment)
                             .hide(sortFragment)
+                            .hide(shopFragment)
+                            .hide(meFragment);
+                } else if (tab.getPosition() == 2) {
+                    t1.show(sortFragment)
+                            .hide(homeFragment)
+                            .hide(topicFragment)
                             .hide(shopFragment)
                             .hide(meFragment);
                 } else if (tab.getPosition() == 3) {

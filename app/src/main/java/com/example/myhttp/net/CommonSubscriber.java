@@ -1,6 +1,7 @@
 package com.example.myhttp.net;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.example.myhttp.model.callback.Callback;
 
@@ -31,6 +32,7 @@ public abstract class CommonSubscriber<T> extends ResourceSubscriber<T> {
         if(callback == null) return;
         if(errorMsg != null && TextUtils.isEmpty(errorMsg)){
             callback.fail(errorMsg);
+            Log.e("TAG", "onError: "+t.getMessage());
         }
     }
 

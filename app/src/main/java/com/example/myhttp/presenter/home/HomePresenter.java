@@ -10,8 +10,8 @@ import com.example.myhttp.view.home.IHome;
 
 public class HomePresenter extends BasePresenter<IHome.View> implements IHome.Persenter  {
 
-    IHome.View mView;
     IHome.Model model;
+    IHome.View mView;
 
     public HomePresenter(IHome.View mView) {
         this.mView = mView;

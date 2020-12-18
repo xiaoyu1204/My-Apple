@@ -22,25 +22,29 @@ import com.example.myhttp.adapter.home.RecyBrandAdapter;
 import com.example.myhttp.adapter.home.RecyHotgoodAdapter;
 import com.example.myhttp.adapter.home.RecyNewgoodAdapter;
 import com.example.myhttp.adapter.home.RecyTopicAdapter;
+import com.example.myhttp.base.BaseAdapter;
 import com.example.myhttp.base.BaseFragment;
 import com.example.myhttp.model.bean.home.HomeBean;
 import com.example.myhttp.presenter.home.HomePresenter;
+import com.example.myhttp.ui.home.Home_Brand_Activity;
+import com.example.myhttp.ui.home.Home_Brand_Info_Activity;
+import com.example.myhttp.ui.home.Home_NewGoods_Activity;
 import com.example.myhttp.ui.home.Home_Type_Activity;
-import com.example.myhttp.utils.ImageLoader;
 import com.example.myhttp.utils.TxtUtils;
 import com.example.myhttp.view.home.IHome;
 import com.youth.banner.Banner;
+import com.youth.banner.loader.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 public class HomeFragment extends BaseFragment<IHome.Persenter> implements IHome.View {
 
     @BindView(R.id.home_banner)
     Banner homeBanner;
-
     @BindView(R.id.recy_brand)
     RecyclerView recyBrand;
     @BindView(R.id.recy_newgood)
@@ -53,6 +57,11 @@ public class HomeFragment extends BaseFragment<IHome.Persenter> implements IHome
     LinearLayout mLlCategory;
     @BindView(R.id.layout_tab)
     LinearLayout layoutTab;
+    @BindView(R.id.home_brand_text)
+    TextView homeBrandText;
+    @BindView(R.id.home_newgood_text)
+    TextView homeNewgoodText;
+
     private RecyBrandAdapter recyBrandAdapter;
     private List<HomeBean.DataBean.BrandListBean> brandListBeans;
     private ArrayList<HomeBean.DataBean.NewGoodsListBean> newGoodsListBeans;
@@ -86,12 +95,21 @@ public class HomeFragment extends BaseFragment<IHome.Persenter> implements IHome
 
         recyBrand.setLayoutManager(new GridLayoutManager(getActivity(), 2));
 
-        recyBrand.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayout.VERTICAL));
-        recyBrand.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayout.HORIZONTAL));
-
         brandListBeans = new ArrayList<>();
         recyBrandAdapter = new RecyBrandAdapter(getActivity(), brandListBeans);
         recyBrand.setAdapter(recyBrandAdapter);
+
+        //点击监听
+        Intent intent = new Intent(mContext, Home_Brand_Info_Activity.class);
+        recyBrandAdapter.addListClick(new BaseAdapter.IListClick() {
+            @Override
+            public void itemClick(int pos) {
+                int id = brandListBeans.get(pos).getId();
+                intent.putExtra("id", id);
+                startActivity(intent);
+            }
+        });
+
 
     }
 
@@ -122,7 +140,6 @@ public class HomeFragment extends BaseFragment<IHome.Persenter> implements IHome
     private void initTopic() {
 
         mRlvHomeTopic.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        mRlvHomeTopic.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayout.HORIZONTAL));
 
         topicListBeans = new ArrayList<>();
         recyTopicAdapter = new RecyTopicAdapter(getActivity(), topicListBeans);
@@ -164,7 +181,7 @@ public class HomeFragment extends BaseFragment<IHome.Persenter> implements IHome
      */
     private void initBanner(List<HomeBean.DataBean.BannerBean> list) {
 
-        homeBanner.setImages(list).setImageLoader(new com.youth.banner.loader.ImageLoader() {
+        homeBanner.setImages(list).setImageLoader(new ImageLoader() {
             @Override
             public void displayImage(Context context, Object path, ImageView imageView) {
                 HomeBean.DataBean.BannerBean bannerBean = (HomeBean.DataBean.BannerBean) path;
@@ -196,7 +213,19 @@ public class HomeFragment extends BaseFragment<IHome.Persenter> implements IHome
 
             layoutTab.addView(channel);
 
-            Intent intent = new Intent(getActivity(), Home_Type_Activity.class);
+            channel.setTag(list);
+            channel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String url = item.getUrl();
+                    String name = item.getName();
+
+                    Intent intent = new Intent(getActivity(), Home_Type_Activity.class);
+                    intent.putExtra("name", name);
+                    intent.putExtra("murl", url);
+                    startActivity(intent);
+                }
+            });
 
         }
 
@@ -268,6 +297,20 @@ public class HomeFragment extends BaseFragment<IHome.Persenter> implements IHome
             recyhome.setAdapter(categoryAdapter);
             mLlCategory.addView(view);
 
+        }
+    }
+
+    @OnClick({R.id.home_brand_text, R.id.home_newgood_text})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.home_brand_text:
+                Intent intent = new Intent(mContext, Home_Brand_Activity.class);
+                startActivity(intent);
+                break;
+            case R.id.home_newgood_text:
+                Intent intent1 = new Intent(mContext, Home_NewGoods_Activity.class);
+                startActivity(intent1);
+                break;
         }
     }
 

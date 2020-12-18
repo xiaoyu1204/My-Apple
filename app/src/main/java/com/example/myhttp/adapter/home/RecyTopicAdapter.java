@@ -5,7 +5,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.myhttp.R;
 import com.example.myhttp.base.BaseAdapter;
 import com.example.myhttp.model.bean.home.HomeBean;
@@ -38,8 +41,8 @@ public class RecyTopicAdapter extends BaseAdapter {
 
         TxUtils.setTextView(topic_item_tv_name,topicListBean.getTitle());
         TxUtils.setTextView(topic_item_price, topicListBean.getPrice_info()+"元起");
-        TxUtils.setTextView(topic_item_brif, topicListBean.getSubtitle());
         Glide.with(context).load(topicListBean.getItem_pic_url()).into(topic_item_iv);
+        TxUtils.setTextView(topic_item_brif, topicListBean.getSubtitle());
 
     }
 

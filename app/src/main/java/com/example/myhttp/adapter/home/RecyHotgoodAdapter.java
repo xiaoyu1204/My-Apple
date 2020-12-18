@@ -37,7 +37,7 @@ public class RecyHotgoodAdapter extends BaseAdapter {
 
         TxUtils.setTextView(hotgoods_item_tv_name,hotGoodsListBean.getName());
         TxUtils.setTextView(hotgoods_item_tv_brif, hotGoodsListBean.getGoods_brief());
-        TxUtils.setTextView(hotgoods_item_tv_price, hotGoodsListBean.getRetail_price()+"元起");
+        TxUtils.setTextView(hotgoods_item_tv_price, "￥"+hotGoodsListBean.getRetail_price());
         Glide.with(context).load(hotGoodsListBean.getList_pic_url()).into(hotgoods_item_iv);
 
     }

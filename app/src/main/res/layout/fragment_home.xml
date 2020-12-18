@@ -44,7 +44,7 @@
 
             <LinearLayout
                 android:id="@+id/layout_tab"
-                android:paddingLeft="@dimen/dp_20"
+                android:paddingLeft="@dimen/dp_25"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -132,9 +132,10 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <TextView
+                    android:id="@+id/home_brand_text"
                     style="@style/Home_Text"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/dp_80"
                     android:text="品牌制作商直供"
                     android:gravity="center"
                     android:paddingVertical="@dimen/dp_10"></TextView>
@@ -148,9 +149,10 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <TextView
+                    android:id="@+id/home_newgood_text"
                     style="@style/Home_Text"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/dp_80"
                     android:text="周一周四·新品首发"
                     android:gravity="center"
                     android:paddingVertical="@dimen/dp_10"></TextView>
@@ -168,12 +170,17 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <TextView
+                    android:id="@+id/home_hotgoods_text"
                     style="@style/Home_Text"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/dp_80"
                     android:text="人气推荐"
                     android:gravity="center"
                     android:paddingVertical="@dimen/dp_10"></TextView>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_2"
+                    android:background="#E3E3E3"></View>
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recy_hotgoods"
                     android:layout_width="match_parent"
@@ -188,9 +195,10 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <TextView
+                    android:id="@+id/home_topic_text"
                     style="@style/Home_Text"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/dp_80"
                     android:paddingVertical="@dimen/dp_10"
                     android:gravity="center"
                     android:text="专题精选" />

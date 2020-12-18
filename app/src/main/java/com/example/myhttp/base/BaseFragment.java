@@ -30,7 +30,7 @@ public abstract class BaseFragment<P extends IBasePersenter> extends Fragment im
         int layout = getLayout();//获取布局
         View view = null;
         if(layout <= 0){
-            new RuntimeException("布局非法");
+            throw new RuntimeException("布局非法");
         }else{
            view = inflater.inflate(layout,container,false);
         }

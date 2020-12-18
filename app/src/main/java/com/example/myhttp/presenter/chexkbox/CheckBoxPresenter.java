@@ -8,11 +8,11 @@ import com.example.myhttp.view.checkbox.IChexkBox;
 
 public class CheckBoxPresenter extends BasePresenter<IChexkBox.View> implements IChexkBox.Persenter {
 
-    IChexkBox.View mView;
     IChexkBox.Model model;
+    IChexkBox.View view;
 
-    public CheckBoxPresenter(IChexkBox.View mView) {
-        this.mView = mView;
+    public CheckBoxPresenter(IChexkBox.View view) {
+        this.view = view;
         model = new CheckBoxModel();
     }
 
@@ -21,16 +21,14 @@ public class CheckBoxPresenter extends BasePresenter<IChexkBox.View> implements 
         model.getChexkBox(new Callback<CheckBox_Bean>() {
             @Override
             public void success(CheckBox_Bean o) {
-                if(mView != null){
-                    mView.getChexkBoxReturn(o);
+                if(view != null){
+                    view.getChexkBoxReturn(o);
                 }
             }
 
             @Override
             public void fail(String msg) {
-                if(mView != null){
-                    mView.tips(msg);
-                }
+
             }
         });
     }
