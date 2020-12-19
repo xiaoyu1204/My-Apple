@@ -2,10 +2,12 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="wrap_content"
     android:layout_height="wrap_content">
-    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <TextView
+        android:id="@+id/home_newgoods_fiter_item_tv_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape_tv_red"
+        android:background="@drawable/shape_home_newgoods_filter_item_banckground_black"
         android:paddingLeft="10dp"
         android:paddingTop="5dp"
         android:paddingRight="10dp"
@@ -14,9 +16,7 @@
         android:layout_marginBottom="5dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="5dp"
-        android:id="@+id/tv_type"
-        android:textColor="#ff0000">
-
+        android:textColor="@color/black">
     </TextView>
 
 </LinearLayout>

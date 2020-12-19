@@ -22,6 +22,7 @@ public abstract class BaseAdapter<D> extends RecyclerView.Adapter {
     public void addListClick(IListClick click){
         this.click = click;
     }
+
     //接口回调 给条目元素点击
     public void addItemViewClick(IItemViewClick click){
         this.iItemViewClick = click;
@@ -79,17 +80,16 @@ public abstract class BaseAdapter<D> extends RecyclerView.Adapter {
 
     protected abstract void bindData(D data,VH vh);
 
-
     //定义条目回调接口
     public interface IListClick{
         void itemClick(int pos);
     }
+
     //接口回调 给条目元素点击
     public interface IItemViewClick<D>{
         //条目中的元素点击
         void itemViewClick(int viewid, D data);
     }
-
 
     public class VH extends RecyclerView.ViewHolder{
         SparseArray views = new SparseArray();

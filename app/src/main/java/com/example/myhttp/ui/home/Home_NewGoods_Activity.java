@@ -3,10 +3,12 @@ package com.example.myhttp.ui.home;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -17,6 +19,7 @@ import com.example.myhttp.R;
 import com.example.myhttp.adapter.home.HomeNewGoodsFilterAdapter;
 import com.example.myhttp.adapter.home.HomeNewGoodsBelowAdapter;
 import com.example.myhttp.base.BaseActivity;
+import com.example.myhttp.base.BaseAdapter;
 import com.example.myhttp.model.bean.home.Home_NewGoods_Below_Bean;
 import com.example.myhttp.model.bean.home.Home_NewGoods_Top_Bean;
 import com.example.myhttp.presenter.home.Home_NewGoods_Presenter;
@@ -24,6 +27,7 @@ import com.example.myhttp.utils.ItemDecoration;
 import com.example.myhttp.view.home.IHomeNewGoods;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -207,21 +211,36 @@ public class Home_NewGoods_Activity extends BaseActivity<Home_NewGoods_Presenter
                 resetPriceState();
                 tvNewgoodsListSort.setTextColor(Color.parseColor(this.getString(R.color.red)));
                 sort = CATEGORY;
-
-                //判断选中状态
-                if (isSelect==false){
-                    isSelect=true;
-                }else {
-                    isSelect=false;
-                }
-                //显示隐藏
-                if (isSelect){
-                    homeNewgoodsRlvGone.setVisibility(View.VISIBLE);
-                }else {
-                    homeNewgoodsRlvGone.setVisibility(View.GONE);
-                }
+                initRlvGnon();
                 break;
         }
+
+    }
+
+    //分类显示隐藏
+    private void initRlvGnon() {
+        //判断选中状态
+        if (isSelect==false){
+            isSelect=true;
+        }else {
+            isSelect=false;
+        }
+        //显示隐藏
+        if (isSelect){
+            homeNewgoodsRlvGone.setVisibility(View.VISIBLE);
+        }else {
+            homeNewgoodsRlvGone.setVisibility(View.GONE);
+        }
+
+        //点击条目
+        homeNewGoodsFilterAdapter.addListClick(new BaseAdapter.IListClick() {
+            @Override
+            public void itemClick(int pos) {
+                int id = filterCategoryBeans.get(pos).getId();
+                presenter.getHomeNewGoodsBelow(isNew, page, size, order, sort, id);
+//                homeNewgoodsRlvGone.setVisibility(View.GONE);
+            }
+        });
 
     }
 

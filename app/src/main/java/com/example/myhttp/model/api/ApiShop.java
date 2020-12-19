@@ -6,6 +6,7 @@ import com.example.myhttp.model.bean.home.Home_Brand_Info_Below_Bean;
 import com.example.myhttp.model.bean.home.Home_Brand_Info_Top_Bean;
 import com.example.myhttp.model.bean.home.Home_Channel_Tree_Bean;
 import com.example.myhttp.model.bean.home.Home_Channel_Type_Bean;
+import com.example.myhttp.model.bean.home.Home_DetailInfo_Bean;
 import com.example.myhttp.model.bean.home.Home_NewGoods_Below_Bean;
 import com.example.myhttp.model.bean.home.Home_NewGoods_Top_Bean;
 import com.example.myhttp.model.bean.topic.TopicBean;
@@ -52,5 +53,9 @@ public interface ApiShop {
     //首页新品首发    点进去     下面的数据       isNew=1  &  page=1  &  size =1000  &  order=asc  &  sort=default  &  categoryId=0
     @GET("goods/list")
     Flowable<Home_NewGoods_Below_Bean> getHomeNewGoodsBelow(@Query("isNew")int isNew,@Query("page")int page,@Query("size")int size,@Query("order")String order,@Query("sort")String sort,@Query("categoryId")int categoryId);
+
+    //商品详情  id=1155000
+    @GET("/goods/detail")
+    Flowable<Home_DetailInfo_Bean> getDetailInfo(@Query("id")int id);
 
 }

@@ -1,6 +1,11 @@
 package com.example.myhttp.adapter.home;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.os.Build;
+import android.view.View;
+import android.widget.Button;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.example.myhttp.R;
@@ -10,6 +15,7 @@ import com.example.myhttp.model.bean.home.Home_NewGoods_Below_Bean;
 import java.util.List;
 
 public class HomeNewGoodsFilterAdapter extends BaseAdapter {
+
     public HomeNewGoodsFilterAdapter(Context context, List Data) {
         super(context, Data);
     }
@@ -21,8 +27,10 @@ public class HomeNewGoodsFilterAdapter extends BaseAdapter {
 
     @Override
     protected void bindData(Object data, VH vh) {
-        TextView tv_type = (TextView) vh.getViewById(R.id.tv_type);
+
+        TextView home_newgoods_fiter_item_tv_type = (TextView) vh.getViewById(R.id.home_newgoods_fiter_item_tv_type);
         Home_NewGoods_Below_Bean.DataBeanX.FilterCategoryBean filterCategoryBean= (Home_NewGoods_Below_Bean.DataBeanX.FilterCategoryBean) data;
-        tv_type.setText(filterCategoryBean.getName());
+        home_newgoods_fiter_item_tv_type.setText(filterCategoryBean.getName());
+
     }
 }

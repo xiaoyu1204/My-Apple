@@ -1,5 +1,6 @@
 package com.example.myhttp.ui.home.fragment.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -9,9 +10,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myhttp.R;
 import com.example.myhttp.adapter.home.HomeTreeAdapter;
+import com.example.myhttp.base.BaseAdapter;
 import com.example.myhttp.base.BaseFragment;
 import com.example.myhttp.model.bean.home.Home_Channel_Tree_Bean;
 import com.example.myhttp.presenter.home.Home_Tree_Presenter;
+import com.example.myhttp.ui.home.Home_DetailInfo_Activity;
 import com.example.myhttp.utils.ItemDecoration;
 import com.example.myhttp.view.home.IHomeTree;
 
@@ -83,6 +86,16 @@ public class HomeTreeFragment extends BaseFragment<Home_Tree_Presenter> implemen
         dataBeans.addAll(data);
         //刷新适配器
         homeTreeAdapter.notifyDataSetChanged();
+
+        homeTreeAdapter.addListClick(new BaseAdapter.IListClick() {
+            @Override
+            public void itemClick(int pos) {
+                Intent intent = new Intent(mContext, Home_DetailInfo_Activity.class);
+                intent.putExtra("id",dataBeans.get(pos).getId());
+                startActivity(intent);
+            }
+        });
+
     }
 
 }

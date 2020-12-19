@@ -9,7 +9,7 @@ import com.example.myhttp.net.HttpManager;
 import com.example.myhttp.utils.RxUtils;
 import com.example.myhttp.view.home.IHomeNewGoods;
 
-public class Home_NewGoods_Model extends BaseModel implements IHomeNewGoods.Model {
+public class HomeNewGoodsModel extends BaseModel implements IHomeNewGoods.Model {
     @Override
     public void getHomeNewGoodsTop(Callback callback) {
         addDisposable(HttpManager.getInstance().getApiShop().getHomeNewBrandsTop()
