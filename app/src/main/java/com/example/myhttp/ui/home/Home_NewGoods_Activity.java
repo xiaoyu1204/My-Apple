@@ -3,18 +3,18 @@ package com.example.myhttp.ui.home;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.myhttp.R;
+import com.example.myhttp.adapter.home.HomeNewGoodsFilterAdapter;
 import com.example.myhttp.adapter.home.HomeNewGoodsBelowAdapter;
 import com.example.myhttp.base.BaseActivity;
 import com.example.myhttp.model.bean.home.Home_NewGoods_Below_Bean;
@@ -49,7 +49,11 @@ public class Home_NewGoods_Activity extends BaseActivity<Home_NewGoods_Presenter
     TextView tvNewgoodsListSort;
     @BindView(R.id.mRlv_NewGoodList)
     RecyclerView mRlvNewGoodList;
-    private ArrayList<Home_NewGoods_Below_Bean.DataBeanX.DataBean> belowBeans;
+    @BindView(R.id.con)
+    ConstraintLayout con;
+    @BindView(R.id.home_newgoods_rlv_gone)
+    RecyclerView homeNewgoodsRlvGone;
+    private List<Home_NewGoods_Below_Bean.DataBeanX.DataBean> belowBeans;
     private HomeNewGoodsBelowAdapter homeNewGoodsBelowAdapter;
 
     //是否是新品
@@ -58,13 +62,17 @@ public class Home_NewGoods_Activity extends BaseActivity<Home_NewGoods_Presenter
     private int size = 100;
     private String order;
     private String sort;
-    private int categoryId = 0;
+    private int categoryId;
 
     private static final String ASC = "asc";
     private static final String DESC = "desc";
     private static final String DEFAULT = "default";
     private static final String PRICE = "price";
     private static final String CATEGORY = "category";
+
+    private List<Home_NewGoods_Below_Bean.DataBeanX.FilterCategoryBean> filterCategoryBeans;
+    private List<Home_NewGoods_Below_Bean.DataBeanX.GoodsListBean> goodsListBeans;
+    private HomeNewGoodsFilterAdapter homeNewGoodsFilterAdapter;
 
     @Override
     protected int getLayout() {
@@ -86,12 +94,22 @@ public class Home_NewGoods_Activity extends BaseActivity<Home_NewGoods_Presenter
         tvNewgoodsListPrice.setTag(0);
         tvNewgoodsListAll.setTextColor(Color.parseColor(this.getString(R.color.red)));
 
+        //综合价格数据
+        belowBeans = new ArrayList<>();
         mRlvNewGoodList.setLayoutManager(new GridLayoutManager(this, 2));
         mRlvNewGoodList.addItemDecoration(new ItemDecoration(this));
-
-        belowBeans = new ArrayList<>();
         homeNewGoodsBelowAdapter = new HomeNewGoodsBelowAdapter(this, belowBeans);
         mRlvNewGoodList.setAdapter(homeNewGoodsBelowAdapter);
+
+        //类别id数据
+        filterCategoryBeans = new ArrayList<>();
+        homeNewGoodsFilterAdapter = new HomeNewGoodsFilterAdapter(this,filterCategoryBeans);
+        homeNewgoodsRlvGone.setLayoutManager(new GridLayoutManager(this,5));
+        homeNewgoodsRlvGone.setAdapter(homeNewGoodsFilterAdapter);
+
+        //类别分类数据
+        goodsListBeans = new ArrayList<>();
+
 
     }
 
@@ -101,7 +119,6 @@ public class Home_NewGoods_Activity extends BaseActivity<Home_NewGoods_Presenter
         presenter.getHomeNewGoodsTop();
         presenter.getHomeNewGoodsBelow(isNew, page, size, order, sort, categoryId);
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,13 +141,27 @@ public class Home_NewGoods_Activity extends BaseActivity<Home_NewGoods_Presenter
 
     @Override
     public void getHomeNewGoodsBelowReturn(Home_NewGoods_Below_Bean result) {
-        //清空集合
-        belowBeans.clear();
+
+        //数据集合
         List<Home_NewGoods_Below_Bean.DataBeanX.DataBean> data = result.getData().getData();
+        belowBeans.clear();
         belowBeans.addAll(data);
         homeNewGoodsBelowAdapter.notifyDataSetChanged();
+
+        //分类集合
+        List<Home_NewGoods_Below_Bean.DataBeanX.FilterCategoryBean> filterCategory = result.getData().getFilterCategory();
+        filterCategoryBeans.clear();
+        filterCategoryBeans.addAll(filterCategory);
+        homeNewGoodsFilterAdapter.notifyDataSetChanged();
+
+        //分类数据
+        List<Home_NewGoods_Below_Bean.DataBeanX.GoodsListBean> goodsList = result.getData().getGoodsList();
+        goodsListBeans.addAll(goodsList);
+
     }
 
+
+    private boolean isSelect=false;
     @SuppressLint("ResourceType")
     @OnClick({R.id.tv_newgoods_list_all, R.id.tv_newgoods_list_price, R.id.tv_newgoods_list_sort})
     public void onClick(View view) {
@@ -141,15 +172,21 @@ public class Home_NewGoods_Activity extends BaseActivity<Home_NewGoods_Presenter
                 sort = DEFAULT;
                 //点击给值
                 presenter.getHomeNewGoodsBelow(isNew, page, size, order, sort, categoryId);
+
+                //隐藏rlv
+                if (isSelect==true){
+                    isSelect=false;
+                    homeNewgoodsRlvGone.setVisibility(View.GONE);
+                }
                 break;
             case R.id.tv_newgoods_list_price:
                 int tag = (int) tvNewgoodsListPrice.getTag();
-                if(tag == 0){
+                if (tag == 0) {
                     resetPriceState();
                     priceStateUp();
                     tvNewgoodsListPrice.setTag(1);
                     order = ASC;
-                }else if(tag == 1){
+                } else if (tag == 1) {
                     resetPriceState();
                     priceStateDown();
                     tvNewgoodsListPrice.setTag(0);
@@ -158,14 +195,31 @@ public class Home_NewGoods_Activity extends BaseActivity<Home_NewGoods_Presenter
                 sort = PRICE;
                 //点击给值
                 presenter.getHomeNewGoodsBelow(isNew, page, size, order, sort, categoryId);
+
+                //隐藏rlv
+                if (isSelect==true){
+                    isSelect=false;
+                    homeNewgoodsRlvGone.setVisibility(View.GONE);
+                }
+
                 break;
             case R.id.tv_newgoods_list_sort:
                 resetPriceState();
                 tvNewgoodsListSort.setTextColor(Color.parseColor(this.getString(R.color.red)));
                 sort = CATEGORY;
-                //点击给值
-                presenter.getHomeNewGoodsBelow(isNew, page, size, order, sort, categoryId);
-                initPw();
+
+                //判断选中状态
+                if (isSelect==false){
+                    isSelect=true;
+                }else {
+                    isSelect=false;
+                }
+                //显示隐藏
+                if (isSelect){
+                    homeNewgoodsRlvGone.setVisibility(View.VISIBLE);
+                }else {
+                    homeNewgoodsRlvGone.setVisibility(View.GONE);
+                }
                 break;
         }
 
@@ -211,12 +265,5 @@ public class Home_NewGoods_Activity extends BaseActivity<Home_NewGoods_Presenter
         tvNewgoodsListPrice.setTextColor(Color.parseColor(getString(R.color.red)));
     }
 
-    //分类 弹出pw   流布局
-    private void initPw() {
-
-        View inflate = View.inflate(this, R.layout.layout_home_newgoods_pw, null);
-
-
-    }
 
 }
