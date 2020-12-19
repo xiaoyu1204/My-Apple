@@ -35,8 +35,8 @@ public class TopicFragment extends BaseFragment<ITopic.Persenter> implements ITo
     Button topicBtnXia;
     @BindView(R.id.fr_topic_sc)
     NestedScrollView frTopicSc;
-    @BindView(R.id.lfr_topic_oading)
-    TextView lfrTopicOading;
+    @BindView(R.id.lfr_topic_loading)
+    TextView lfrTopicloading;
     @BindView(R.id.fr_topic_all)
     ImageView frTopicAll;
 
@@ -83,7 +83,7 @@ public class TopicFragment extends BaseFragment<ITopic.Persenter> implements ITo
         topicAdapter.notifyDataSetChanged();
 
         //隐藏加载中...
-        lfrTopicOading.setVisibility(View.GONE);
+        lfrTopicloading.setVisibility(View.GONE);
         frTopicAll.setVisibility(View.GONE);
 
     }
@@ -96,7 +96,7 @@ public class TopicFragment extends BaseFragment<ITopic.Persenter> implements ITo
                 page = ONE;
 
                 //显示加载中...      白版
-                lfrTopicOading.setVisibility(View.VISIBLE);
+                lfrTopicloading.setVisibility(View.VISIBLE);
                 frTopicAll.setVisibility(View.VISIBLE);
                 //请求数据
                 persenter.getTopic(page);
@@ -109,7 +109,7 @@ public class TopicFragment extends BaseFragment<ITopic.Persenter> implements ITo
                 page = TWO;
 
                 //显示加载中...  白板
-                lfrTopicOading.setVisibility(View.VISIBLE);
+                lfrTopicloading.setVisibility(View.VISIBLE);
                 frTopicAll.setVisibility(View.VISIBLE);
                 //请求数据
                 persenter.getTopic(page);

@@ -81,7 +81,7 @@
         android:layout_height="match_parent"/>
 
     <TextView
-        android:id="@+id/lfr_topic_oading"
+        android:id="@+id/lfr_topic_loading"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"

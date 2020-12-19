@@ -4,8 +4,10 @@ import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -163,6 +165,7 @@ public class Home_NewGoods_Activity extends BaseActivity<Home_NewGoods_Presenter
                 sort = CATEGORY;
                 //点击给值
                 presenter.getHomeNewGoodsBelow(isNew, page, size, order, sort, categoryId);
+                initPw();
                 break;
         }
 
@@ -208,5 +211,12 @@ public class Home_NewGoods_Activity extends BaseActivity<Home_NewGoods_Presenter
         tvNewgoodsListPrice.setTextColor(Color.parseColor(getString(R.color.red)));
     }
 
+    //分类 弹出pw   流布局
+    private void initPw() {
+
+        View inflate = View.inflate(this, R.layout.layout_home_newgoods_pw, null);
+        new PopupWindow(inflate, RecyclerView.LayoutParams.MATCH_PARENT, GridLayoutManager.LayoutParams.WRAP_CONTENT);
+
+    }
 
 }
