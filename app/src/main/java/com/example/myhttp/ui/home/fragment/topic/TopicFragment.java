@@ -1,9 +1,13 @@
 package com.example.myhttp.ui.home.fragment.topic;
 
-import android.util.Log;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,7 +33,17 @@ public class TopicFragment extends BaseFragment<ITopic.Persenter> implements ITo
     Button topicBtnShang;
     @BindView(R.id.topic_btn_xia)
     Button topicBtnXia;
-    private int page = 1;
+    @BindView(R.id.fr_topic_sc)
+    NestedScrollView frTopicSc;
+    @BindView(R.id.lfr_topic_oading)
+    TextView lfrTopicOading;
+    @BindView(R.id.fr_topic_all)
+    ImageView frTopicAll;
+
+    private int ONE = 1;
+    private int TWO = 2;
+    private int page = ONE;
+
     private List<TopicBean.DataBeanX.DataBean> dataBeans;
     private TopicAdapter topicAdapter;
 
@@ -48,7 +62,7 @@ public class TopicFragment extends BaseFragment<ITopic.Persenter> implements ITo
         topicRlv.setLayoutManager(new LinearLayoutManager(mContext));
 
         dataBeans = new ArrayList<>();
-        topicAdapter = new TopicAdapter(mContext,dataBeans);
+        topicAdapter = new TopicAdapter(mContext, dataBeans);
 
         topicRlv.setAdapter(topicAdapter);
 
@@ -62,17 +76,46 @@ public class TopicFragment extends BaseFragment<ITopic.Persenter> implements ITo
 
     @Override
     public void getTopicReturn(TopicBean result) {
+        //清空集合
+        dataBeans.clear();
         List<TopicBean.DataBeanX.DataBean> data = result.getData().getData();
         dataBeans.addAll(data);
         topicAdapter.notifyDataSetChanged();
+
+        //隐藏加载中...
+        lfrTopicOading.setVisibility(View.GONE);
+        frTopicAll.setVisibility(View.GONE);
+
     }
 
     @OnClick({R.id.topic_btn_shang, R.id.topic_btn_xia})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.topic_btn_shang:
+                //更换page页
+                page = ONE;
+
+                //显示加载中...      白版
+                lfrTopicOading.setVisibility(View.VISIBLE);
+                frTopicAll.setVisibility(View.VISIBLE);
+                //请求数据
+                persenter.getTopic(page);
+                // 返回顶部
+                frTopicSc.fullScroll(ScrollView.FOCUS_UP);
+
                 break;
             case R.id.topic_btn_xia:
+                //更换page页
+                page = TWO;
+
+                //显示加载中...  白板
+                lfrTopicOading.setVisibility(View.VISIBLE);
+                frTopicAll.setVisibility(View.VISIBLE);
+                //请求数据
+                persenter.getTopic(page);
+                // 返回顶部
+                frTopicSc.fullScroll(ScrollView.FOCUS_UP);
+
                 break;
         }
     }
