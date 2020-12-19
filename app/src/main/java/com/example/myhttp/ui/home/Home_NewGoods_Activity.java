@@ -215,7 +215,7 @@ public class Home_NewGoods_Activity extends BaseActivity<Home_NewGoods_Presenter
     private void initPw() {
 
         View inflate = View.inflate(this, R.layout.layout_home_newgoods_pw, null);
-        new PopupWindow(inflate, RecyclerView.LayoutParams.MATCH_PARENT, GridLayoutManager.LayoutParams.WRAP_CONTENT);
+
 
     }
 
