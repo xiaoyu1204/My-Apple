@@ -2,6 +2,7 @@ package com.example.myhttp.ui.home.fragment.home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,10 +18,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.myhttp.R;
-import com.example.myhttp.adapter.home.CategoryAdapter;
-import com.example.myhttp.adapter.home.RecyBrandAdapter;
+import com.example.myhttp.adapter.home.detail.CategoryAdapter;
+import com.example.myhttp.adapter.home.brand.RecyBrandAdapter;
 import com.example.myhttp.adapter.home.RecyHotgoodAdapter;
-import com.example.myhttp.adapter.home.RecyNewgoodAdapter;
+import com.example.myhttp.adapter.home.newgoods.RecyNewgoodAdapter;
 import com.example.myhttp.adapter.home.RecyTopicAdapter;
 import com.example.myhttp.base.BaseAdapter;
 import com.example.myhttp.base.BaseFragment;
@@ -28,6 +29,7 @@ import com.example.myhttp.model.bean.home.HomeBean;
 import com.example.myhttp.presenter.home.HomePresenter;
 import com.example.myhttp.ui.home.Home_Brand_Activity;
 import com.example.myhttp.ui.home.Home_Brand_Info_Activity;
+import com.example.myhttp.ui.home.Home_DetailInfo_Activity;
 import com.example.myhttp.ui.home.Home_NewGoods_Activity;
 import com.example.myhttp.ui.home.Home_Type_Activity;
 import com.example.myhttp.utils.TxtUtils;
@@ -296,6 +298,16 @@ public class HomeFragment extends BaseFragment<IHome.Persenter> implements IHome
             categoryAdapter = new CategoryAdapter(getActivity(), goodsList);
             recyhome.setAdapter(categoryAdapter);
             mLlCategory.addView(view);
+
+            categoryAdapter.addListClick(new BaseAdapter.IListClick() {
+                @Override
+                public void itemClick(int pos) {
+                    Intent intent = new Intent(mContext, Home_DetailInfo_Activity.class);
+                    intent.putExtra("id",goodsList.get(pos).getId());
+                    Log.e("TAG", "itemClick: "+goodsList.get(pos).getId() );
+                    startActivity(intent);
+                }
+            });
 
         }
     }

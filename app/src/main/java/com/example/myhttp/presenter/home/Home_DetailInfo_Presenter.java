@@ -2,6 +2,7 @@ package com.example.myhttp.presenter.home;
 
 import com.example.myhttp.base.BasePresenter;
 import com.example.myhttp.model.bean.home.Home_DetailInfo_Bean;
+import com.example.myhttp.model.bean.home.Home_DetailInfo_Bottom_Bean;
 import com.example.myhttp.model.callback.Callback;
 import com.example.myhttp.model.home.HomeDetailInfoModel;
 import com.example.myhttp.view.home.IHomeDetailInfo;
@@ -25,6 +26,23 @@ public class Home_DetailInfo_Presenter extends BasePresenter<IHomeDetailInfo.Vie
             public void success(Object o) {
                 if(mView != null){
                     mView.getHomeDetailInfoReturn((Home_DetailInfo_Bean) o);
+                }
+            }
+
+            @Override
+            public void fail(String msg) {
+
+            }
+        });
+    }
+
+    @Override
+    public void getHomeDetailInfoBottom(int id) {
+        model.getHomeDetailInfoBottom(id, new Callback() {
+            @Override
+            public void success(Object o) {
+                if(mView != null){
+                    mView.getHomeDetailInfoBottomReturn((Home_DetailInfo_Bottom_Bean) o);
                 }
             }
 

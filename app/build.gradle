@@ -99,5 +99,14 @@ dependencies {
 //提供了多种现成的刷新Header库，可以直接用，如不需要可以不集成
     compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.4-7'
 
+    //垂直 Tab
+    implementation 'q.rorbin:VerticalTabLayout:1.2.5'
+
+    // 支持双指拖动放大的ImageView
+    compile 'com.bm.photoview:library:1.4.1'
+    //Glide 图片加载框架
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    //图片
+    implementation 'com.github.chrisbanes:PhotoView:2.0.0'
 
 }

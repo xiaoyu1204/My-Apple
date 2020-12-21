@@ -2,14 +2,13 @@ package com.example.myhttp.ui.home;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myhttp.R;
-import com.example.myhttp.adapter.home.HomeBrandAdapter;
+import com.example.myhttp.adapter.home.brand.HomeBrandAdapter;
 import com.example.myhttp.base.BaseActivity;
 import com.example.myhttp.base.BaseAdapter;
 import com.example.myhttp.model.bean.home.Home_Brand_Bean;

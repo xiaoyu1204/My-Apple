@@ -1,4 +1,4 @@
-package com.example.myhttp.adapter.home;
+package com.example.myhttp.adapter.home.newgoods;
 
 import android.content.Context;
 import android.widget.ImageView;

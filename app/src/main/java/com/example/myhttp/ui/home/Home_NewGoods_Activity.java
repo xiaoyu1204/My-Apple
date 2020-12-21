@@ -3,12 +3,9 @@ package com.example.myhttp.ui.home;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -16,8 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.myhttp.R;
-import com.example.myhttp.adapter.home.HomeNewGoodsFilterAdapter;
-import com.example.myhttp.adapter.home.HomeNewGoodsBelowAdapter;
+import com.example.myhttp.adapter.home.newgoods.HomeNewGoodsFilterAdapter;
+import com.example.myhttp.adapter.home.newgoods.HomeNewGoodsBelowAdapter;
 import com.example.myhttp.base.BaseActivity;
 import com.example.myhttp.base.BaseAdapter;
 import com.example.myhttp.model.bean.home.Home_NewGoods_Below_Bean;
@@ -27,7 +24,6 @@ import com.example.myhttp.utils.ItemDecoration;
 import com.example.myhttp.view.home.IHomeNewGoods;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;

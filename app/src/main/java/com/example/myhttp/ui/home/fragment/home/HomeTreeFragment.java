@@ -87,15 +87,6 @@ public class HomeTreeFragment extends BaseFragment<Home_Tree_Presenter> implemen
         //刷新适配器
         homeTreeAdapter.notifyDataSetChanged();
 
-        homeTreeAdapter.addListClick(new BaseAdapter.IListClick() {
-            @Override
-            public void itemClick(int pos) {
-                Intent intent = new Intent(mContext, Home_DetailInfo_Activity.class);
-                intent.putExtra("id",dataBeans.get(pos).getId());
-                startActivity(intent);
-            }
-        });
-
     }
 
 }

@@ -2,7 +2,6 @@ package com.example.myhttp.ui.home;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -11,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.myhttp.R;
-import com.example.myhttp.adapter.home.HomeBrandInfoBelowAdapter;
+import com.example.myhttp.adapter.home.brand.HomeBrandInfoBelowAdapter;
 import com.example.myhttp.base.BaseActivity;
 import com.example.myhttp.model.bean.home.Home_Brand_Info_Below_Bean;
 import com.example.myhttp.model.bean.home.Home_Brand_Info_Top_Bean;

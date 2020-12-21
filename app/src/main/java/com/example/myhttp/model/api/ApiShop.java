@@ -7,8 +7,10 @@ import com.example.myhttp.model.bean.home.Home_Brand_Info_Top_Bean;
 import com.example.myhttp.model.bean.home.Home_Channel_Tree_Bean;
 import com.example.myhttp.model.bean.home.Home_Channel_Type_Bean;
 import com.example.myhttp.model.bean.home.Home_DetailInfo_Bean;
+import com.example.myhttp.model.bean.home.Home_DetailInfo_Bottom_Bean;
 import com.example.myhttp.model.bean.home.Home_NewGoods_Below_Bean;
 import com.example.myhttp.model.bean.home.Home_NewGoods_Top_Bean;
+import com.example.myhttp.model.bean.sort.SortBean;
 import com.example.myhttp.model.bean.topic.TopicBean;
 
 import io.reactivex.Flowable;
@@ -57,5 +59,17 @@ public interface ApiShop {
     //商品详情  id=1155000
     @GET("/goods/detail")
     Flowable<Home_DetailInfo_Bean> getDetailInfo(@Query("id")int id);
+
+    //商品详情底部数据  id=1155000
+    @GET("api/goods/related")
+    Flowable<Home_DetailInfo_Bottom_Bean> getDetailInfoBottom(@Query("id") int id);
+
+    //分类竖着导航
+    @GET("api/catalog/index")
+    Flowable<SortBean> getHomeType();
+
+    //用来请求当前分类的列表数据
+//    @GET("catalog/current")
+//    Flowable<SortDataBean> getTypeInfo(@Query("id") int id);
 
 }

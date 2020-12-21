@@ -3,7 +3,6 @@ package com.example.myhttp.model.bean.home;
 import java.util.List;
 
 public class Home_DetailInfo_Bean {
-
     /**
      * errno : 0
      * errmsg :
@@ -193,7 +192,7 @@ public class Home_DetailInfo_Bean {
             private String unit_price;
             private String promotion_desc;
             private String promotion_tag;
-            private String app_exclusive_price;
+            private int app_exclusive_price;
             private int is_app_exclusive;
             private int is_limited;
             private int is_hot;
@@ -406,11 +405,11 @@ public class Home_DetailInfo_Bean {
                 this.promotion_tag = promotion_tag;
             }
 
-            public String getApp_exclusive_price() {
+            public int getApp_exclusive_price() {
                 return app_exclusive_price;
             }
 
-            public void setApp_exclusive_price(String app_exclusive_price) {
+            public void setApp_exclusive_price(int app_exclusive_price) {
                 this.app_exclusive_price = app_exclusive_price;
             }
 
@@ -440,8 +439,129 @@ public class Home_DetailInfo_Bean {
         }
 
         public static class CommentBean {
+            /**
+             * count : 30
+             * data : {"content":"好舒服！可以变换各种形状！比我之前在朋友家看到的懒人沙发好很多啊！","add_time":"2017-04-27 09:00:02","nickname":null,"avatar":"","pic_list":[{"id":289,"comment_id":241,"pic_url":"https://yanxuan.nosdn.127.net/a3bd6f130fe3ee340037a37b6c721d16.jpg","sort_order":5}]}
+             */
+
+            private int count;
+            private DataBean data;
+
+            public int getCount() {
+                return count;
+            }
+
+            public void setCount(int count) {
+                this.count = count;
+            }
+
+            public DataBean getData() {
+                return data;
+            }
+
+            public void setData(DataBean data) {
+                this.data = data;
+            }
+
             public static class DataBean {
+                /**
+                 * content : 好舒服！可以变换各种形状！比我之前在朋友家看到的懒人沙发好很多啊！
+                 * add_time : 2017-04-27 09:00:02
+                 * nickname : null
+                 * avatar :
+                 * pic_list : [{"id":289,"comment_id":241,"pic_url":"https://yanxuan.nosdn.127.net/a3bd6f130fe3ee340037a37b6c721d16.jpg","sort_order":5}]
+                 */
+
+                private String content;
+                private String add_time;
+                private String nickname;
+                private String avatar;
+                private List<PicListBean> pic_list;
+
+                public String getContent() {
+                    return content;
+                }
+
+                public void setContent(String content) {
+                    this.content = content;
+                }
+
+                public String getAdd_time() {
+                    return add_time;
+                }
+
+                public void setAdd_time(String add_time) {
+                    this.add_time = add_time;
+                }
+
+                public String getNickname() {
+                    return nickname;
+                }
+
+                public void setNickname(String nickname) {
+                    this.nickname = nickname;
+                }
+
+                public String getAvatar() {
+                    return avatar;
+                }
+
+                public void setAvatar(String avatar) {
+                    this.avatar = avatar;
+                }
+
+                public List<PicListBean> getPic_list() {
+                    return pic_list;
+                }
+
+                public void setPic_list(List<PicListBean> pic_list) {
+                    this.pic_list = pic_list;
+                }
+
                 public static class PicListBean {
+                    /**
+                     * id : 289
+                     * comment_id : 241
+                     * pic_url : https://yanxuan.nosdn.127.net/a3bd6f130fe3ee340037a37b6c721d16.jpg
+                     * sort_order : 5
+                     */
+
+                    private int id;
+                    private int comment_id;
+                    private String pic_url;
+                    private int sort_order;
+
+                    public int getId() {
+                        return id;
+                    }
+
+                    public void setId(int id) {
+                        this.id = id;
+                    }
+
+                    public int getComment_id() {
+                        return comment_id;
+                    }
+
+                    public void setComment_id(int comment_id) {
+                        this.comment_id = comment_id;
+                    }
+
+                    public String getPic_url() {
+                        return pic_url;
+                    }
+
+                    public void setPic_url(String pic_url) {
+                        this.pic_url = pic_url;
+                    }
+
+                    public int getSort_order() {
+                        return sort_order;
+                    }
+
+                    public void setSort_order(int sort_order) {
+                        this.sort_order = sort_order;
+                    }
                 }
             }
         }
