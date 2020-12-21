@@ -251,12 +251,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <WebView
-                    android:id="@+id/webView_category"
+<!--                <WebView-->
+<!--                    android:id="@+id/webView_category"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    app:layout_constraintTop_toTopOf="parent"-->
+<!--                    tools:ignore="WebViewLayout" />-->
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/home_detail_info_bigimage"
+                    app:layout_constraintTop_toTopOf="parent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="WebViewLayout" />
+                    />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
             <!--商品常见问题区域-->
             <LinearLayout

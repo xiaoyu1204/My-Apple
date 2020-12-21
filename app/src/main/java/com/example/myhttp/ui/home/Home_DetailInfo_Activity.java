@@ -10,6 +10,7 @@ import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,13 +21,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.myhttp.R;
+import com.example.myhttp.adapter.home.bigimg.HomeDetailBigImageAdapter;
 import com.example.myhttp.adapter.home.detail.HomeDetailInfoButtomAdapter;
 import com.example.myhttp.adapter.home.detail.HomeDetailInfoIssueAdapter;
 import com.example.myhttp.adapter.home.detail.HomeDetailInfoparamenterAdapter;
 import com.example.myhttp.base.BaseActivity;
+import com.example.myhttp.base.BaseAdapter;
 import com.example.myhttp.model.bean.home.Home_DetailInfo_Bean;
 import com.example.myhttp.model.bean.home.Home_DetailInfo_Bottom_Bean;
 import com.example.myhttp.presenter.home.Home_DetailInfo_Presenter;
+import com.example.myhttp.ui.home.fragment.home.HomeBigimageActivity;
 import com.example.myhttp.utils.ImageLoaderUtils;
 import com.example.myhttp.utils.ItemDecoration;
 import com.example.myhttp.view.home.IHomeDetailInfo;
@@ -35,6 +39,8 @@ import com.youth.banner.loader.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Home_DetailInfo_Activity extends BaseActivity<Home_DetailInfo_Presenter> implements IHomeDetailInfo.View {
 
@@ -65,6 +71,7 @@ public class Home_DetailInfo_Activity extends BaseActivity<Home_DetailInfo_Prese
     private RecyclerView mRlv_category_issue;         //常见问题
     private RecyclerView mRlv_category_all;           //大家都爱看
     private RecyclerView mRlv_category_parameter;     //商品参数
+    private RecyclerView home_detail_info_bigimage;     //商品详情
 
     //底部
     private ImageView img_collect;              //收藏
@@ -128,10 +135,11 @@ public class Home_DetailInfo_Activity extends BaseActivity<Home_DetailInfo_Prese
         home_detail_info_comment_head_date = (TextView) findViewById(R.id.home_detail_info_comment_head_date);
         home_detail_info_comment_head_desc = (TextView) findViewById(R.id.home_detail_info_comment_head_desc);
         home_detail_info_comment_img = (ImageView) findViewById(R.id.home_detail_info_comment_img);
-        webView_category = (WebView) findViewById(R.id.webView_category);
+//        webView_category = (WebView) findViewById(R.id.webView_category);
         mRlv_category_issue = (RecyclerView) findViewById(R.id.mRlv_category_issue);
         mRlv_category_all = (RecyclerView) findViewById(R.id.mRlv_category_all);
         mRlv_category_parameter = (RecyclerView) findViewById(R.id.mRlv_category_parameter);
+        home_detail_info_bigimage = (RecyclerView) findViewById(R.id.home_detail_info_bigimage);
         img_collect = (ImageView) findViewById(R.id.img_collect);
         iv_category_car = (ImageView) findViewById(R.id.iv_category_car);
         tv_category_number = (TextView) findViewById(R.id.tv_category_number);
@@ -196,10 +204,79 @@ public class Home_DetailInfo_Activity extends BaseActivity<Home_DetailInfo_Prese
             //常见问题数据
             initIssue(result.getData().getIssue());
             //h5 商品详情
-            initGoodDetail(result.getData().getInfo().getGoods_desc());
+//            initGoodDetail(result.getData().getInfo().getGoods_desc());
             //商品参数
             initParameter(result.getData().getAttribute());
+
+            //展示goods_desc
+            showImage(result.getData().getInfo().getGoods_desc());
+
         }
+    }
+
+    private void showImage(String goods_desc) {
+
+        ArrayList<String> listUrl = new ArrayList<>();
+        String img = "<img[\\s\\S]*?>";
+        Pattern pattern = Pattern.compile(img);
+        Matcher matcher = pattern.matcher(goods_desc);
+
+        while(matcher.find()){
+            String word = matcher.group();
+            int start = word.indexOf("\"")+1;
+            int end = word.indexOf(".jpg");
+            if(end>0){//如果是jpg格式的就截取jpg
+                String url = word.substring(start,end);
+                if(url!=null){
+                    url = url +".jpg";
+                    listUrl.add(url);
+                }else {
+                    return;
+                }
+            }else {
+                int end1 = word.indexOf(".png");//如果是png格式的就截取png
+                String url = word.substring(start,end1);
+                if(url!=null){
+                    url = url +".png";
+                    listUrl.add(url);
+                }else {
+                    return;
+                }
+            }
+        }
+
+        home_detail_info_bigimage.setLayoutManager(new LinearLayoutManager(this));
+        HomeDetailBigImageAdapter homeDetailBigImageAdapter = new HomeDetailBigImageAdapter(this, listUrl);
+        home_detail_info_bigimage.setAdapter(homeDetailBigImageAdapter);
+
+        //点击条目跳转
+        homeDetailBigImageAdapter.addListClick(new BaseAdapter.IListClick() {
+            @Override
+            public void itemClick(int pos) {
+
+                Bundle bundle = new Bundle();
+                bundle.putStringArrayList("image",listUrl);
+                bundle.putInt("position",pos);  //点那个就传那个下标
+
+                Intent intent = new Intent(Home_DetailInfo_Activity.this, HomeBigimageActivity.class);
+                intent.putExtra("bundle", bundle);
+                startActivity(intent);
+
+            }
+        });
+
+//        LinearLayout id = findViewById(R.id.home__detail_info_30_ll);
+//        id.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Bundle bundle = new Bundle();
+//                bundle.putStringArrayList("image",listUrl);
+//                Intent intent = new Intent(CategoryActivity.this, BigImageActivity.class);
+//                intent.putExtra("bundle", bundle);
+//                startActivity(intent);
+//            }
+//        });
+
     }
 
     //TODO Banner数据
@@ -231,8 +308,8 @@ public class Home_DetailInfo_Activity extends BaseActivity<Home_DetailInfo_Prese
     private void initComment(Home_DetailInfo_Bean.DataBeanX.CommentBean.DataBean data) {
 
         if(data!=null && data.getAdd_time() != null && data.getNickname() != null && data.getContent() != null && data.getPic_list()!= null){
-            home_detail_info_comment_con1.setVisibility(View.VISIBLE);
-            home_detail_info_comment_con2.setVisibility(View.VISIBLE);
+            home_detail_info_comment_con1.setVisibility(View.VISIBLE);  //进行显示评论
+            home_detail_info_comment_con2.setVisibility(View.VISIBLE);      //显示商品文字
 
             //时间
             home_detail_info_comment_head_date.setText(data.getAdd_time());

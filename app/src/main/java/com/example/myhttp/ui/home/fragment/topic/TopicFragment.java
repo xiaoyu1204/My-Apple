@@ -1,5 +1,6 @@
 package com.example.myhttp.ui.home.fragment.topic;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myhttp.R;
 import com.example.myhttp.adapter.topic.TopicAdapter;
+import com.example.myhttp.base.BaseAdapter;
 import com.example.myhttp.base.BaseFragment;
 import com.example.myhttp.model.bean.topic.TopicBean;
 import com.example.myhttp.presenter.topic.TopicPresenter;
@@ -85,6 +87,15 @@ public class TopicFragment extends BaseFragment<ITopic.Persenter> implements ITo
         //隐藏加载中...
         lfrTopicloading.setVisibility(View.GONE);
         frTopicAll.setVisibility(View.GONE);
+
+        topicAdapter.addListClick(new BaseAdapter.IListClick() {
+            @Override
+            public void itemClick(int pos) {
+                Intent intent = new Intent(mContext, Topic_CommentActivity.class);
+                intent.putExtra("id",dataBeans.get(pos).getId());
+                startActivity(intent);
+            }
+        });
 
     }
 
