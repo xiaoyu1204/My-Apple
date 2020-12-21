@@ -69,7 +69,7 @@ public class Home_Type_Activity extends BaseActivity<Home_Type_Presenter> implem
 
         List<Home_Channel_Type_Bean.DataBean.CategoryListBean> categoryList = result.getData().getCategoryList();
 
-        List<Fragment> fs = new ArrayList<>();
+        List<HomeTreeFragment> fs = new ArrayList<>();
         for (int i = 0; i <categoryList.size() ; i++) {
 
             int id = categoryList.get(i).getId();

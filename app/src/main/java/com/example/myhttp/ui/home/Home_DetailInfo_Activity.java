@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -71,6 +72,10 @@ public class Home_DetailInfo_Activity extends BaseActivity<Home_DetailInfo_Prese
     private TextView tv_category_number;        //购物车上面红字
     private TextView tv_category_buy;           //立即购买
     private TextView tv_category_addCar;        //加入购物车
+
+    //评论con
+    private ConstraintLayout home_detail_info_comment_con1;        //加入购物车
+    private ConstraintLayout home_detail_info_comment_con2;        //加入购物车
 
     private String h5 = "<html>\n" +
             "            <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no\"/>\n" +
@@ -132,6 +137,9 @@ public class Home_DetailInfo_Activity extends BaseActivity<Home_DetailInfo_Prese
         tv_category_number = (TextView) findViewById(R.id.tv_category_number);
         tv_category_buy = (TextView) findViewById(R.id.tv_category_buy);
         tv_category_addCar = (TextView) findViewById(R.id.tv_category_addCar);
+
+        home_detail_info_comment_con1 = (ConstraintLayout) findViewById(R.id.home_detail_info_comment_con1);
+        home_detail_info_comment_con2 = (ConstraintLayout) findViewById(R.id.home_detail_info_comment_con2);
 
         Intent intent = getIntent();
         id = intent.getIntExtra("id", 0);
@@ -221,14 +229,22 @@ public class Home_DetailInfo_Activity extends BaseActivity<Home_DetailInfo_Prese
 
     //TODO 评论
     private void initComment(Home_DetailInfo_Bean.DataBeanX.CommentBean.DataBean data) {
-        //时间
-        home_detail_info_comment_head_date.setText(data.getAdd_time());
-        //名字
-        home_detail_info_comment_head_name.setText(data.getNickname());
-        //评论内容
-        home_detail_info_comment_head_desc.setText(data.getContent());
-        //底部图片
-        ImageLoaderUtils.loadImage(data.getPic_list().get(0).getPic_url(),home_detail_info_comment_img);
+
+        if(data!=null && data.getAdd_time() != null && data.getNickname() != null && data.getContent() != null && data.getPic_list()!= null){
+            home_detail_info_comment_con1.setVisibility(View.VISIBLE);
+            home_detail_info_comment_con2.setVisibility(View.VISIBLE);
+
+            //时间
+            home_detail_info_comment_head_date.setText(data.getAdd_time());
+            //名字
+            home_detail_info_comment_head_name.setText(data.getNickname());
+            //评论内容
+            home_detail_info_comment_head_desc.setText(data.getContent());
+            //底部图片
+            ImageLoaderUtils.loadImage(data.getPic_list().get(0).getPic_url(),home_detail_info_comment_img);
+
+        }
+
     }
 
     //TODO 常见问题数据

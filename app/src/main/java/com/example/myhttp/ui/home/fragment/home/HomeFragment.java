@@ -124,6 +124,15 @@ public class HomeFragment extends BaseFragment<IHome.Persenter> implements IHome
         recyNewgoodAdapter = new RecyNewgoodAdapter(getActivity(), newGoodsListBeans);
         recyNewgood.setAdapter(recyNewgoodAdapter);
 
+        recyNewgoodAdapter.addListClick(new BaseAdapter.IListClick() {
+            @Override
+            public void itemClick(int pos) {
+                Intent intent = new Intent(mContext, Home_DetailInfo_Activity.class);
+                intent.putExtra("id",newGoodsListBeans.get(pos).getId());
+                startActivity(intent);
+            }
+        });
+
     }
 
     //人气推荐
@@ -135,6 +144,15 @@ public class HomeFragment extends BaseFragment<IHome.Persenter> implements IHome
         hotGoodsListBeans = new ArrayList<>();
         recyHotgoodAdapter = new RecyHotgoodAdapter(getActivity(), hotGoodsListBeans);
         recyHotgoods.setAdapter(recyHotgoodAdapter);
+
+        recyHotgoodAdapter.addListClick(new BaseAdapter.IListClick() {
+            @Override
+            public void itemClick(int pos) {
+                Intent intent = new Intent(mContext, Home_DetailInfo_Activity.class);
+                intent.putExtra("id",hotGoodsListBeans.get(pos).getId());
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -304,7 +322,6 @@ public class HomeFragment extends BaseFragment<IHome.Persenter> implements IHome
                 public void itemClick(int pos) {
                     Intent intent = new Intent(mContext, Home_DetailInfo_Activity.class);
                     intent.putExtra("id",goodsList.get(pos).getId());
-                    Log.e("TAG", "itemClick: "+goodsList.get(pos).getId() );
                     startActivity(intent);
                 }
             });

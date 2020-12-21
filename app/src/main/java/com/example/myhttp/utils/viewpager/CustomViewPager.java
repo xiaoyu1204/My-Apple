@@ -20,28 +20,41 @@ public class CustomViewPager extends ViewPager {
         super(context, attrs);
     }
 
-    /**
-     * 设置其是否能滑动换页
-     * @param isCanScroll false 不能换页， true 可以滑动换页
-     */
-    
     public void setScanScroll(boolean isCanScroll) {
         this.isCanScroll = isCanScroll;
     }
 
     @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        return isCanScroll && super.onInterceptTouchEvent(ev);
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        return super.dispatchTouchEvent(ev);
     }
 
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        if (isCanScroll) {
+            return false;
+        } else {
+            return super.onInterceptTouchEvent(ev);
+        }
+    }
+
+    /**
+     * 是否消费事件
+     * 消费:事件就结束
+     * 不消费:往父控件传
+     */
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        return isCanScroll && super.onTouchEvent(ev);
+        if (isCanScroll) {
+            return false;
+        } else {
+            return super.onTouchEvent(ev);
+        }
+    }
 
-    }
     @Override
-    public void scrollTo(int x, int y) {
-        super.scrollTo(x, y);
+    public void setCurrentItem(int item) {
+        super.setCurrentItem(item, false);
     }
- 
+
 }

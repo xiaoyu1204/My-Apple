@@ -11,7 +11,10 @@ import com.example.myhttp.model.bean.home.Home_DetailInfo_Bottom_Bean;
 import com.example.myhttp.model.bean.home.Home_NewGoods_Below_Bean;
 import com.example.myhttp.model.bean.home.Home_NewGoods_Top_Bean;
 import com.example.myhttp.model.bean.sort.SortBean;
+import com.example.myhttp.model.bean.sort.SortDataBean;
+import com.example.myhttp.model.bean.sort.Sort_Data_InfoBean;
 import com.example.myhttp.model.bean.topic.TopicBean;
+import com.example.myhttp.model.bean.topic.TopicCommentBean;
 
 import io.reactivex.Flowable;
 import retrofit2.http.GET;
@@ -36,7 +39,11 @@ public interface ApiShop {
     @GET("topic/list")
     Flowable<TopicBean> getTopic(@Query("page")int page);
 
-    //首页制造商     page=1&size=1000
+    //专题评论    valueId=314&typeId=1&size=5
+    @GET("comment/list")
+    Flowable<TopicCommentBean> getTopicComment(@Query("valueId")int valueId,@Query("typeId")int typeId,@Query("size")int size);
+
+   //首页制造商     page=1&size=1000
     @GET("brand/list")
     Flowable<Home_Brand_Bean> getHomeBrand(@Query("page")int page, @Query("size")int size);
 
@@ -57,7 +64,7 @@ public interface ApiShop {
     Flowable<Home_NewGoods_Below_Bean> getHomeNewGoodsBelow(@Query("isNew")int isNew,@Query("page")int page,@Query("size")int size,@Query("order")String order,@Query("sort")String sort,@Query("categoryId")int categoryId);
 
     //商品详情  id=1155000
-    @GET("/goods/detail")
+    @GET("goods/detail")
     Flowable<Home_DetailInfo_Bean> getDetailInfo(@Query("id")int id);
 
     //商品详情底部数据  id=1155000
@@ -65,11 +72,16 @@ public interface ApiShop {
     Flowable<Home_DetailInfo_Bottom_Bean> getDetailInfoBottom(@Query("id") int id);
 
     //分类竖着导航
-    @GET("api/catalog/index")
-    Flowable<SortBean> getHomeType();
+    @GET("catalog/index")
+    Flowable<SortBean> getHomeSort();
 
-    //用来请求当前分类的列表数据
-//    @GET("catalog/current")
-//    Flowable<SortDataBean> getTypeInfo(@Query("id") int id);
+    //分类右边数据    id=1005000
+    @GET("catalog/current")
+    Flowable<SortDataBean> getSortData(@Query("id") int id);
+
+    //分类右边数据点击详情
+    @GET("goods/category")
+    Flowable<Sort_Data_InfoBean> getSortDataInfo(@Query("id") int id);
+
 
 }

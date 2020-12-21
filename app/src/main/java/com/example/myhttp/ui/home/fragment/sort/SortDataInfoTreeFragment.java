@@ -1,4 +1,4 @@
-package com.example.myhttp.ui.home.fragment.home;
+package com.example.myhttp.ui.home.fragment.sort;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,7 +23,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class HomeTreeFragment extends BaseFragment<Home_Tree_Presenter> implements IHomeTree.View {
+public class SortDataInfoTreeFragment extends BaseFragment<Home_Tree_Presenter> implements IHomeTree.View {
 
     IHomeTree.Persenter persenter;
     @BindView(R.id.home_tree_name)

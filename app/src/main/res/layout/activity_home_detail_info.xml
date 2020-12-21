@@ -53,7 +53,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_10"
-                    android:text="沙发"
                     android:textColor="@color/black"
                     android:textSize="@dimen/dp_24"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -64,7 +63,6 @@
                     android:id="@+id/home_detail_info_desc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="新体验"
                     android:textSize="@dimen/dp_16"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
@@ -118,8 +116,10 @@
 
             <!--商品评论区域-->
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/home_detail_info_comment_con1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_margin="@dimen/dp_10">
 
                 <TextView
@@ -159,6 +159,8 @@
                 android:background="@color/huise" />
             <!--评论内容-->
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/home_detail_info_comment_con2"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/dp_10"
@@ -202,7 +204,7 @@
                     android:layout_marginLeft="@dimen/dp_20"
                     android:layout_marginTop="@dimen/dp_10"
                     android:layout_marginRight="@dimen/dp_30"
-                    android:text="nuldkjasfaoif发布IE部分看见啥DNF奥斯福呢就是否能爱哦翻就开始放你博FB那l"
+                    android:text="nuldkjB那l"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/home_detail_info_comment_head_img" />
 
