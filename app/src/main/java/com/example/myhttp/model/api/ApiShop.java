@@ -11,6 +11,7 @@ import com.example.myhttp.model.bean.home.Home_DetailInfo_Bottom_Bean;
 import com.example.myhttp.model.bean.home.Home_NewGoods_Below_Bean;
 import com.example.myhttp.model.bean.home.Home_NewGoods_Top_Bean;
 import com.example.myhttp.model.bean.me.MeLoginBean;
+import com.example.myhttp.model.bean.me.MeRegisterBean;
 import com.example.myhttp.model.bean.sort.SortBean;
 import com.example.myhttp.model.bean.sort.SortDataBean;
 import com.example.myhttp.model.bean.sort.Sort_Data_InfoBean;
@@ -94,6 +95,11 @@ public interface ApiShop {
     @POST("auth/login")
     @FormUrlEncoded
     Flowable<MeLoginBean> getMeLogin(@Field("username") String username, @Field("password") String password);
+
+    //注册接口
+    @POST("auth/register")
+    @FormUrlEncoded
+    Flowable<MeRegisterBean> getMeRegist(@Field("username") String username, @Field("password") String password);
 
     //添加到购物车
     @POST("cart/add")

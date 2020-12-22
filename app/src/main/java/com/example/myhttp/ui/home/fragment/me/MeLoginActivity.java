@@ -13,6 +13,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+
 import com.example.myhttp.R;
 import com.example.myhttp.base.BaseActivity;
 import com.example.myhttp.model.bean.me.MeLoginBean;
@@ -43,6 +45,8 @@ public class MeLoginActivity extends BaseActivity<IMeLogin.Persenter> implements
     TextView meLoginRegist;
     @BindView(R.id.me_login_forget_psd)
     TextView meLoginForgetPsd;
+    private String token;
+
 
     @Override
     protected int getLayout() {
@@ -66,6 +70,7 @@ public class MeLoginActivity extends BaseActivity<IMeLogin.Persenter> implements
 
     @OnClick({R.id.me_login_btn_login, R.id.me_login_regist, R.id.me_login_forget_psd,R.id.me_login_img_pw})
     public void onClick(View view) {
+        if(!TextUtils.isEmpty(SpUtils.getInstance().getString("token"))) {
             switch (view.getId()) {
                 case R.id.me_login_btn_login:
                     login();
@@ -79,6 +84,7 @@ public class MeLoginActivity extends BaseActivity<IMeLogin.Persenter> implements
                     initPwImg();
                     break;
             }
+        }
     }
 
     private void login() {
@@ -91,10 +97,20 @@ public class MeLoginActivity extends BaseActivity<IMeLogin.Persenter> implements
         }
     }
 
-    private void initRegist() {
-        //跳转到注册页面
+    private void initRegist() {        //跳转到注册页面
         Intent intent = new Intent(this, MeRegistActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent,100);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 100 && resultCode == 100){
+            String regist_name = data.getStringExtra("name");
+            String regist_pw = data.getStringExtra("pw");
+            meLoginInputUsername.setText(regist_name);
+            meLoginInputPw.setText(regist_pw);
+        }
     }
 
     private void initPwImg() {
@@ -114,9 +130,10 @@ public class MeLoginActivity extends BaseActivity<IMeLogin.Persenter> implements
 
     @Override
     public void getMeLoginReturn(MeLoginBean result) {
-        String token = result.getData().getToken();
+        token = result.getData().getToken();
+        Log.e("TAG", "getMeLoginReturn: "+token );
         if(!TextUtils.isEmpty(token)){
-            SpUtils.getInstance().setValue("token",token);
+            SpUtils.getInstance().setValue("token", token);
             SpUtils.getInstance().setValue("uid",result.getData().getUserInfo().getUid());
 
             String name = meLoginInputUsername.getText().toString();

@@ -55,7 +55,6 @@
         app:layout_constraintLeft_toRightOf="@+id/me_regist_input_verification"
         android:layout_height="@dimen/dp_37"
         app:layout_constraintTop_toBottomOf="@+id/me_regist_input_pw2"
-        android:src="@mipmap/like"
         android:scaleType="fitXY"
         app:layout_constraintRight_toRightOf="parent" />
 

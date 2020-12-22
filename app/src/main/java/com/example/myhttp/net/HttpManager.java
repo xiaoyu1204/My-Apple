@@ -60,7 +60,10 @@ public class HttpManager {
             Request request = chain.request()
                     .newBuilder()
                     .addHeader("Authorization","APPCODE 964e16aa1ae944e9828e87b8b9fbd30a")
+                    //添加购物车
                     .addHeader("X-Nideshop-Token", SpUtils.getInstance().getString("token"))
+                    //注册
+                    .addHeader("Client-Type",SpUtils.getInstance().getString("token"))
                     .build();
             return chain.proceed(request);
         }
