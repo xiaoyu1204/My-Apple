@@ -73,7 +73,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_15"
-                    android:text="599"
+                    android:text="￥"
                     android:textColor="@color/Jiured"
                     android:textSize="@dimen/dp_24"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -318,30 +318,31 @@
 
         <FrameLayout
             android:id="@+id/fl_collect"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/dp_75"
             android:layout_height="match_parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/fl_car">
 
             <ImageView
                 android:id="@+id/img_collect"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_width="@dimen/dp_40"
+                android:layout_height="@dimen/dp_40"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_gravity="center_horizontal"
                 android:src="@mipmap/ic_collect_normal" />
         </FrameLayout>
 
         <FrameLayout
             android:id="@+id/fl_car"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/dp_75"
             android:layout_height="match_parent"
             app:layout_constraintLeft_toRightOf="@id/fl_collect"
             app:layout_constraintRight_toLeftOf="@id/tv_category_buy">
 
             <ImageView
                 android:id="@+id/iv_category_car"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/dp_30"
+                android:layout_height="@dimen/dp_30"
                 android:layout_gravity="center"
                 android:src="@mipmap/ic_car" />
 
@@ -350,8 +351,8 @@
                 android:layout_width="@dimen/sp_15"
                 android:layout_height="@dimen/sp_15"
                 android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/dp_10"
-                android:layout_marginBottom="@dimen/dp_10"
+                android:layout_marginLeft="@dimen/dp_15"
+                android:layout_marginBottom="@dimen/dp_18"
                 android:background="@drawable/shape_car_number"
                 android:gravity="center"
                 android:text="11"
@@ -361,7 +362,7 @@
 
         <TextView
             android:id="@+id/tv_category_buy"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/dp_100"
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="立即购买"
@@ -372,7 +373,7 @@
             android:id="@+id/tv_category_addCar"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:background="@color/red"
+            android:background="@color/Jiured"
             android:gravity="center"
             android:text="加入购物车"
             android:textColor="@color/white"

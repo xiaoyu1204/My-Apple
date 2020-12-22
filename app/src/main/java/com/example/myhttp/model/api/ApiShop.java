@@ -10,14 +10,21 @@ import com.example.myhttp.model.bean.home.Home_DetailInfo_Bean;
 import com.example.myhttp.model.bean.home.Home_DetailInfo_Bottom_Bean;
 import com.example.myhttp.model.bean.home.Home_NewGoods_Below_Bean;
 import com.example.myhttp.model.bean.home.Home_NewGoods_Top_Bean;
+import com.example.myhttp.model.bean.me.MeLoginBean;
 import com.example.myhttp.model.bean.sort.SortBean;
 import com.example.myhttp.model.bean.sort.SortDataBean;
 import com.example.myhttp.model.bean.sort.Sort_Data_InfoBean;
 import com.example.myhttp.model.bean.topic.TopicBean;
 import com.example.myhttp.model.bean.topic.TopicCommentBean;
 
+import java.util.HashMap;
+
 import io.reactivex.Flowable;
+import retrofit2.http.Field;
+import retrofit2.http.FieldMap;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface ApiShop {
@@ -83,5 +90,14 @@ public interface ApiShop {
     @GET("goods/category")
     Flowable<Sort_Data_InfoBean> getSortDataInfo(@Query("id") int id);
 
+    //登录接口
+    @POST("auth/login")
+    @FormUrlEncoded
+    Flowable<MeLoginBean> getMeLogin(@Field("username") String username, @Field("password") String password);
+
+    //添加到购物车
+    @POST("cart/add")
+    @FormUrlEncoded
+    Flowable<MeLoginBean> getAddCar(@FieldMap HashMap<String,String> map);
 
 }

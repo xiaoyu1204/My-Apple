@@ -4,13 +4,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,14 +41,21 @@ import com.example.myhttp.model.bean.home.Home_DetailInfo_Bean;
 import com.example.myhttp.model.bean.home.Home_DetailInfo_Bottom_Bean;
 import com.example.myhttp.presenter.home.Home_DetailInfo_Presenter;
 import com.example.myhttp.ui.home.fragment.home.HomeBigimageActivity;
+import com.example.myhttp.ui.home.fragment.me.MeLoginActivity;
 import com.example.myhttp.utils.ImageLoaderUtils;
 import com.example.myhttp.utils.ItemDecoration;
+import com.example.myhttp.utils.SpUtils;
+import com.example.myhttp.utils.ToastUtils;
 import com.example.myhttp.view.home.IHomeDetailInfo;
 import com.youth.banner.Banner;
 import com.youth.banner.loader.ImageLoader;
 
+import java.io.Serializable;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -111,6 +128,13 @@ public class Home_DetailInfo_Activity extends BaseActivity<Home_DetailInfo_Prese
     private HomeDetailInfoIssueAdapter categoryIssueAdapter;  //常见问题
     private HomeDetailInfoparamenterAdapter categoryParameterAdapter;  //商品参数
 
+    //添加购物车
+    private Button btn_jia;
+    private Button btn_jian;
+    private TextView tv_shu;
+    private int shu;
+    private boolean isSelect = false;
+
     @Override
     protected int getLayout() {
         return R.layout.activity_home_detail_info;
@@ -149,9 +173,6 @@ public class Home_DetailInfo_Activity extends BaseActivity<Home_DetailInfo_Prese
         home_detail_info_comment_con1 = (ConstraintLayout) findViewById(R.id.home_detail_info_comment_con1);
         home_detail_info_comment_con2 = (ConstraintLayout) findViewById(R.id.home_detail_info_comment_con2);
 
-        Intent intent = getIntent();
-        id = intent.getIntExtra("id", 0);
-
         initViewIssue();//常见问题布局
         initBottomInfo();//底部列表数据
         initViewParameter();//商品参数
@@ -160,35 +181,18 @@ public class Home_DetailInfo_Activity extends BaseActivity<Home_DetailInfo_Prese
 
     @Override
     protected void initData() {
+        //接受值 进行判断
         presenter = new Home_DetailInfo_Presenter(this);
-        presenter.getHomeDetailInfo(id);
-        presenter.getHomeDetailInfoBottom(id);
-    }
-
-
-    //TODO 商品参数布局
-    private void initViewParameter() {
-        attributeList = new ArrayList<>();
-        mRlv_category_parameter.setLayoutManager(new LinearLayoutManager(this));
-        categoryParameterAdapter = new HomeDetailInfoparamenterAdapter(this, attributeList);
-        mRlv_category_parameter.setAdapter(categoryParameterAdapter);
-    }
-
-    //TODO 常见问题布局
-    private void initViewIssue() {
-        issuelist = new ArrayList<>();
-        mRlv_category_issue.setLayoutManager(new LinearLayoutManager(this));
-        categoryIssueAdapter = new HomeDetailInfoIssueAdapter(this, issuelist);
-        mRlv_category_issue.setAdapter(categoryIssueAdapter);
-    }
-
-    //TODO 底部列表数据
-    private void initBottomInfo() {
-        goodsList = new ArrayList<>();
-        mRlv_category_all.setLayoutManager(new GridLayoutManager(this, 2));
-        mRlv_category_all.addItemDecoration(new ItemDecoration(this));
-        categoryButtomInfoAdapter = new HomeDetailInfoButtomAdapter(this, goodsList);
-        mRlv_category_all.setAdapter(categoryButtomInfoAdapter);
+        Intent intent = getIntent();
+        if (intent.hasExtra("id")) {
+            id = intent.getIntExtra("id", 0);
+            if (id > 0) {
+                presenter.getHomeDetailInfo(id);
+                presenter.getHomeDetailInfoBottom(id);
+            } else {
+                ToastUtils.s(this, getString(R.string.tips_error_goodid));
+            }
+        }
     }
 
     //TODO 居家 商品详情购买页
@@ -208,12 +212,76 @@ public class Home_DetailInfo_Activity extends BaseActivity<Home_DetailInfo_Prese
             //商品参数
             initParameter(result.getData().getAttribute());
 
-            //展示goods_desc
+            //展示goods_desc  大图
             showImage(result.getData().getInfo().getGoods_desc());
 
         }
     }
 
+    //TODO Banner数据
+    private void initBanner(Home_DetailInfo_Bean.DataBeanX data) {
+        home_detail_info_banner_category.setImages(data.getGallery()).setImageLoader(new ImageLoader() {
+            @Override
+            public void displayImage(Context context, Object path, ImageView imageView) {
+                Home_DetailInfo_Bean.DataBeanX.GalleryBean bean = (Home_DetailInfo_Bean.DataBeanX.GalleryBean) path;
+                Glide.with(context).load(bean.getImg_url()).into(imageView);
+            }
+        }).start();
+    }
+
+    //TODO Banner下面的展示数据 商品信息
+    private void initInfo(Home_DetailInfo_Bean.DataBeanX.InfoBean info) {
+        home_detail_info_title.setText(info.getName());
+        home_detail_info_desc.setText(info.getGoods_brief());
+        home__detail_info_price.setText("￥" + info.getRetail_price());
+
+        //加入购物车
+        initaddCar(info);
+
+    }
+
+    //TODO 评论
+    private void initComment(Home_DetailInfo_Bean.DataBeanX.CommentBean.DataBean data) {
+
+        if (data != null && data.getAdd_time() != null && data.getNickname() != null && data.getContent() != null && data.getPic_list() != null) {
+            home_detail_info_comment_con1.setVisibility(View.VISIBLE);  //进行显示评论
+            home_detail_info_comment_con2.setVisibility(View.VISIBLE);      //显示商品文字
+
+            //时间
+            home_detail_info_comment_head_date.setText(data.getAdd_time());
+            //名字
+            home_detail_info_comment_head_name.setText(data.getNickname());
+            //评论内容
+            home_detail_info_comment_head_desc.setText(data.getContent());
+            //底部图片
+            ImageLoaderUtils.loadImage(data.getPic_list().get(0).getPic_url(), home_detail_info_comment_img);
+
+        }
+
+    }
+
+    //TODO 商品参数布局
+    private void initViewParameter() {
+        attributeList = new ArrayList<>();
+        mRlv_category_parameter.setLayoutManager(new LinearLayoutManager(this));
+        categoryParameterAdapter = new HomeDetailInfoparamenterAdapter(this, attributeList);
+        mRlv_category_parameter.setAdapter(categoryParameterAdapter);
+    }
+
+    //TODO 商品参数数据
+    private void initParameter(List<Home_DetailInfo_Bean.DataBeanX.AttributeBean> attribute) {
+        attributeList.addAll(attribute);
+        categoryParameterAdapter.notifyDataSetChanged();
+    }
+
+    //TODO h5 商品详情数据
+    private void initGoodDetail(String webData) {
+        String content = h5.replace("word", webData);
+        Log.e("TAG", content);
+        webView_category.loadDataWithBaseURL("about:blank", content, "text/html", "utf-8", null);
+    }
+
+    //TODO 显示大图
     private void showImage(String goods_desc) {
 
         ArrayList<String> listUrl = new ArrayList<>();
@@ -221,26 +289,28 @@ public class Home_DetailInfo_Activity extends BaseActivity<Home_DetailInfo_Prese
         Pattern pattern = Pattern.compile(img);
         Matcher matcher = pattern.matcher(goods_desc);
 
-        while(matcher.find()){
+        while (matcher.find()) {
             String word = matcher.group();
-            int start = word.indexOf("\"")+1;
-            int end = word.indexOf(".jpg");
-            if(end>0){//如果是jpg格式的就截取jpg
-                String url = word.substring(start,end);
-                if(url!=null){
-                    url = url +".jpg";
-                    listUrl.add(url);
-                }else {
-                    return;
+
+            int start = word.indexOf("\"") + 1;
+            //截取.jpg
+            int end = word.indexOf(".jpg");     //截取到就有.jpg
+            if (end > 0) {  //如果是jpg格式的就截取jpg       有的话就 >0
+                String url = word.substring(start, end);     //截取 start 到 .jpg   中间的网址
+                if (url != null) {      //如果 截取的网址 不等于null
+                    url = url + ".jpg";      //就在尾部加.jpg
+                    listUrl.add(url);      //添加到集合
+                } else {
+                    return;     //结束
                 }
-            }else {
-                int end1 = word.indexOf(".png");//如果是png格式的就截取png
-                String url = word.substring(start,end1);
-                if(url!=null){
-                    url = url +".png";
-                    listUrl.add(url);
-                }else {
-                    return;
+            } else {
+                int end1 = word.indexOf(".png");    //如果是png格式的就截取png
+                String url = word.substring(start, end1);    //截取start 到     .png
+                if (url != null) {       //如果 截取的网址 不等于null
+                    url = url + ".png";      //就在尾部加.png
+                    listUrl.add(url);    //添加到集合
+                } else {
+                    return; //结束
                 }
             }
         }
@@ -255,8 +325,8 @@ public class Home_DetailInfo_Activity extends BaseActivity<Home_DetailInfo_Prese
             public void itemClick(int pos) {
 
                 Bundle bundle = new Bundle();
-                bundle.putStringArrayList("image",listUrl);
-                bundle.putInt("position",pos);  //点那个就传那个下标
+                bundle.putStringArrayList("image", listUrl);
+                bundle.putInt("position", pos);  //点那个就传那个下标
 
                 Intent intent = new Intent(Home_DetailInfo_Activity.this, HomeBigimageActivity.class);
                 intent.putExtra("bundle", bundle);
@@ -279,49 +349,12 @@ public class Home_DetailInfo_Activity extends BaseActivity<Home_DetailInfo_Prese
 
     }
 
-    //TODO Banner数据
-    private void initBanner(Home_DetailInfo_Bean.DataBeanX data) {
-        home_detail_info_banner_category.setImages(data.getGallery()).setImageLoader(new ImageLoader() {
-            @Override
-            public void displayImage(Context context, Object path, ImageView imageView) {
-                Home_DetailInfo_Bean.DataBeanX.GalleryBean bean = (Home_DetailInfo_Bean.DataBeanX.GalleryBean) path;
-                Glide.with(context).load(bean.getImg_url()).into(imageView);
-            }
-        }).start();
-    }
-
-    //TODO Banner下面的展示数据
-    private void initInfo(Home_DetailInfo_Bean.DataBeanX.InfoBean info) {
-        home_detail_info_title.setText(info.getName());
-        home_detail_info_desc.setText(info.getGoods_brief());
-        home__detail_info_price.setText("￥"+info.getRetail_price());
-    }
-
-    //TODO h5 商品详情数据
-    private void initGoodDetail(String webData) {
-        String content = h5.replace("word", webData);
-        Log.e("TAG", content);
-        webView_category.loadDataWithBaseURL("about:blank", content, "text/html", "utf-8", null);
-    }
-
-    //TODO 评论
-    private void initComment(Home_DetailInfo_Bean.DataBeanX.CommentBean.DataBean data) {
-
-        if(data!=null && data.getAdd_time() != null && data.getNickname() != null && data.getContent() != null && data.getPic_list()!= null){
-            home_detail_info_comment_con1.setVisibility(View.VISIBLE);  //进行显示评论
-            home_detail_info_comment_con2.setVisibility(View.VISIBLE);      //显示商品文字
-
-            //时间
-            home_detail_info_comment_head_date.setText(data.getAdd_time());
-            //名字
-            home_detail_info_comment_head_name.setText(data.getNickname());
-            //评论内容
-            home_detail_info_comment_head_desc.setText(data.getContent());
-            //底部图片
-            ImageLoaderUtils.loadImage(data.getPic_list().get(0).getPic_url(),home_detail_info_comment_img);
-
-        }
-
+    //TODO 常见问题布局
+    private void initViewIssue() {
+        issuelist = new ArrayList<>();
+        mRlv_category_issue.setLayoutManager(new LinearLayoutManager(this));
+        categoryIssueAdapter = new HomeDetailInfoIssueAdapter(this, issuelist);
+        mRlv_category_issue.setAdapter(categoryIssueAdapter);
     }
 
     //TODO 常见问题数据
@@ -330,10 +363,13 @@ public class Home_DetailInfo_Activity extends BaseActivity<Home_DetailInfo_Prese
         categoryIssueAdapter.notifyDataSetChanged();
     }
 
-    //TODO 商品参数数据
-    private void initParameter(List<Home_DetailInfo_Bean.DataBeanX.AttributeBean> attribute) {
-        attributeList.addAll(attribute);
-        categoryParameterAdapter.notifyDataSetChanged();
+    //TODO 底部列表数据
+    private void initBottomInfo() {
+        goodsList = new ArrayList<>();
+        mRlv_category_all.setLayoutManager(new GridLayoutManager(this, 2));
+        mRlv_category_all.addItemDecoration(new ItemDecoration(this));
+        categoryButtomInfoAdapter = new HomeDetailInfoButtomAdapter(this, goodsList);
+        mRlv_category_all.setAdapter(categoryButtomInfoAdapter);
     }
 
     //TODO 商品 详情购买页 底部数据列表
@@ -344,10 +380,112 @@ public class Home_DetailInfo_Activity extends BaseActivity<Home_DetailInfo_Prese
         categoryButtomInfoAdapter.notifyDataSetChanged();
     }
 
+    //TODO 加入购物车
+    private void initaddCar(Home_DetailInfo_Bean.DataBeanX.InfoBean info) {
+        //判断选中状态
+        if (isSelect == false) {
+            isSelect = true;
+        } else {
+            isSelect = false;
+        }
+
+        tv_category_addCar.setOnClickListener(new View.OnClickListener() {
+
+            private PopupWindow popupWindow;
+
+            @Override
+            public void onClick(View v) {
+                //显示隐藏
+                if (isSelect) {
+                    View join_view = LayoutInflater.from(Home_DetailInfo_Activity.this).inflate(R.layout.layout_detail_pop, null);
+                    popupWindow = new PopupWindow(join_view, GridLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//                  WindowManager.LayoutParams attributes = getWindow().getAttributes();
+//                  attributes.alpha = 0.5f;
+//                  getWindow().setAttributes(attributes);
+                    popupWindow.showAtLocation(tv_category_addCar, Gravity.BOTTOM, 0, 150);
+
+                    ImageView image_pop = join_view.findViewById(R.id.detail_image_pop);
+                    TextView price_pop = join_view.findViewById(R.id.detail_tv_price_pop);
+                    btn_jia = join_view.findViewById(R.id.detail_btn_jia);
+                    btn_jian = join_view.findViewById(R.id.detail_btn_jian);
+                    tv_shu = join_view.findViewById(R.id.detail_btn_shu);
+                    TextView tv_back = join_view.findViewById(R.id.detail_tv_back);
+
+                    Glide.with(Home_DetailInfo_Activity.this).load(info.getList_pic_url()).into(image_pop);
+                    price_pop.setText("价格:  ￥" + info.getRetail_price() + "");
+                    shu = 1;
+
+                    ClickListener clickListener = new ClickListener();
+                    btn_jia.setOnClickListener(clickListener);
+                    btn_jian.setOnClickListener(clickListener);
+
+                    tv_back.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            popupWindow.dismiss();
+                        }
+                    });
+                    isSelect = false;
+                } else {
+
+                    popupWindow.dismiss();
+
+                    View join_view = LayoutInflater.from(Home_DetailInfo_Activity.this).inflate(R.layout.layout_detail_pop_ok, null);
+                    PopupWindow popupWindow1 = new PopupWindow(join_view, 200, 200);
+
+                    WindowManager.LayoutParams attributes = getWindow().getAttributes();
+                    attributes.alpha = 0.5f;
+                    getWindow().setAttributes(attributes);
+
+                    popupWindow1.showAtLocation(tv_category_addCar, Gravity.CENTER, 0, 0);
+
+                    //两秒自动关闭
+                    new Timer().schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    popupWindow1.dismiss();
+                                    WindowManager.LayoutParams attributes = getWindow().getAttributes();
+                                    attributes.alpha = 1f;
+                                    getWindow().setAttributes(attributes);
+                                }
+                            });
+                        }
+                    },1000,3000);
+
+                    isSelect = true;
+
+                }
+            }
+        });
+    }
+
+    //TODO 购物车的点击
+    class ClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.detail_btn_jia:
+                    shu++;
+                    if (shu > 0) {
+                        tv_shu.setText(shu + "");
+                    }
+                    break;
+                case R.id.detail_btn_jian:
+                    shu--;
+                    if (shu > 0) {
+                        tv_shu.setText(shu + "");
+                    }
+                    break;
+            }
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // TODO: add setContentView(...) and run LayoutCreator again
     }
-
 }

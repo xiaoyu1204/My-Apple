@@ -110,7 +110,6 @@ public class Home_NewGoods_Activity extends BaseActivity<Home_NewGoods_Presenter
         //类别分类数据
         goodsListBeans = new ArrayList<>();
 
-
     }
 
     @Override
@@ -234,7 +233,6 @@ public class Home_NewGoods_Activity extends BaseActivity<Home_NewGoods_Presenter
             public void itemClick(int pos) {
                 int id = filterCategoryBeans.get(pos).getId();
                 presenter.getHomeNewGoodsBelow(isNew, page, size, order, sort, id);
-//                homeNewgoodsRlvGone.setVisibility(View.GONE);
             }
         });
 

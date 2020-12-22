@@ -15,7 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.home.fragment.home.HomeBigimageActivity"></activity>
+        <activity android:name=".ui.home.fragment.me.MeRegistActivity"></activity>
+        <activity android:name=".ui.home.fragment.me.MeLoginActivity" />
+        <activity android:name=".ui.home.fragment.home.HomeBigimageActivity" />
         <activity android:name=".ui.home.fragment.topic.Topic_CommentActivity" />
         <activity android:name=".ui.home.fragment.sort.Sort_Data_InfoActivity" />
         <activity android:name=".ui.home.Home_DetailInfo_Activity" />
