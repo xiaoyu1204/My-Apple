@@ -63,7 +63,7 @@
             android:text="-" />
 
         <TextView
-            android:id="@+id/detail_btn_shu"
+            android:id="@+id/detail_tv_shu"
             android:layout_gravity="center"
             android:layout_width="match_parent"
             android:gravity="center"

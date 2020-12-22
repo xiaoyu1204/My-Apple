@@ -139,4 +139,5 @@ public class MeFragment extends BaseFragment {
             meHeadLogin.setText(name);
         }
     }
+
 }

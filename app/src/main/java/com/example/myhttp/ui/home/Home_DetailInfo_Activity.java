@@ -408,7 +408,7 @@ public class Home_DetailInfo_Activity extends BaseActivity<Home_DetailInfo_Prese
                     TextView price_pop = join_view.findViewById(R.id.detail_tv_price_pop);
                     btn_jia = join_view.findViewById(R.id.detail_btn_jia);
                     btn_jian = join_view.findViewById(R.id.detail_btn_jian);
-                    tv_shu = join_view.findViewById(R.id.detail_btn_shu);
+                    tv_shu = join_view.findViewById(R.id.detail_tv_shu);
                     TextView tv_back = join_view.findViewById(R.id.detail_tv_back);
 
                     Glide.with(Home_DetailInfo_Activity.this).load(info.getList_pic_url()).into(image_pop);
