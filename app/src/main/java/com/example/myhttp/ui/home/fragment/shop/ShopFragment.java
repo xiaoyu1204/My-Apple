@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myhttp.R;
 import com.example.myhttp.adapter.shop.ShopAdapter;
+import com.example.myhttp.base.BaseAdapter;
 import com.example.myhttp.base.BaseFragment;
 import com.example.myhttp.model.bean.shop.ShopBean;
 import com.example.myhttp.presenter.shop.ShopPresenter;
@@ -67,10 +68,11 @@ public class ShopFragment extends BaseFragment<IShop.Persenter> implements IShop
         cbShoppingCarAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                boolean bool = cbShoppingCarAll.isChecked();
                 if(isEdit){
-                    updateGoodSelectStateEdit(isChecked);
+                    updateGoodSelectStateEdit(!bool);
                 }else{
-                    updateGoodSelectStateOrder(isChecked);
+                    updateGoodSelectStateOrder(!bool);
                 }
             }
         });
@@ -93,14 +95,113 @@ public class ShopFragment extends BaseFragment<IShop.Persenter> implements IShop
         }else{
             ActivityManagerUtils.startFragmentForResult(this,100, MeLoginActivity.class);
         }
+
+        initItemClick();
+
+    }
+
+    private void initItemClick() {
+        /**
+         * 监听条目元素点击的时候的接口回调
+         */
+        shopAdapter.addItemViewClick(new BaseAdapter.IItemViewClick() {
+            @Override
+            public void itemViewClick(int id, Object data) {
+                for(ShopBean.DataBean.CartListBean item : shopBean.getData().getCartList()){
+                    if(item.getId() == id){
+                        if(!isEdit){
+                            item.selectOrder = (boolean) data;
+                        }else{
+                            item.selectEdit = (boolean) data;
+                        }
+                        break;
+                    }
+                }
+                boolean isSelectAll;
+                if(!isEdit){
+                    isSelectAll = totalSelectOrder();
+                }else{
+                    isSelectAll = totalSelectEdit();
+                }
+                cbShoppingCarAll.setChecked(isSelectAll);
+            }
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        presenter.getShop();
     }
 
     @Override
     public void getShopReturn(ShopBean result) {
         this.shopBean=result;
-        List<ShopBean.DataBean.CartListBean> cartList = shopBean.getData().getCartList();
-        cartListBeans.addAll(cartList);
+        cartListBeans.clear();
+        cartListBeans.addAll(shopBean.getData().getCartList());
         shopAdapter.notifyDataSetChanged();
+    }
+
+    //TODO 下单状态的数据刷新
+    private void updateGoodSelectStateOrder(boolean isChecked) {
+        for(ShopBean.DataBean.CartListBean item : shopBean.getData().getCartList()){
+            item.selectOrder = isChecked;
+        }
+        totalSelectOrder();
+        // 更新列表条目的选中状态
+        shopAdapter.notifyDataSetChanged();
+    }
+
+    //TODO 编辑状态下的数据刷新
+    private void updateGoodSelectStateEdit(boolean isChecked) {
+        for(ShopBean.DataBean.CartListBean item:shopBean.getData().getCartList()){
+            item.selectEdit = isChecked;
+        }
+        totalSelectOrder();
+    }
+
+    //TODO 下单状态下的总数和价格的计算
+    private boolean totalSelectOrder() {
+        int num = 0;
+        int totalPrice = 0;
+        boolean isSelectAll = true;
+        for(ShopBean.DataBean.CartListBean item:shopBean.getData().getCartList()){
+            if(item.selectOrder){
+                num += item.getNumber();
+                totalPrice += item.getNumber()*item.getRetail_price();
+            }else{
+                if(isSelectAll){
+                    isSelectAll = false;
+                }
+            }
+        }
+        String strAll = "全选($)";
+        strAll = strAll.replace("$",String.valueOf(num));
+        cbShoppingCarAll.setText(strAll);
+        tvShoppingCarTotalPrice.setText("￥"+totalPrice);
+        return isSelectAll;
+    }
+
+    //TODO 编辑状态下的总数和价格的计算
+    private boolean totalSelectEdit(){
+        int num = 0;
+        int totalPrice = 0;
+        boolean isSelectAll = true;
+        for(ShopBean.DataBean.CartListBean item:shopBean.getData().getCartList()){
+            if(item.selectEdit){
+                num += item.getNumber();
+                totalPrice += item.getNumber()*item.getRetail_price();
+            }else{
+                if(isSelectAll){
+                    isSelectAll = false;
+                }
+            }
+        }
+        String strAll = "全选($)";
+        strAll = strAll.replace("$",String.valueOf(num));
+        cbShoppingCarAll.setText(strAll);
+        tvShoppingCarTotalPrice.setText("￥"+totalPrice);
+        return isSelectAll;
     }
 
     @OnClick({R.id.cb_Shopping_car_all, R.id.tv_Shopping_Car_edit, R.id.tv_Shopping_Car_submit})
@@ -119,50 +220,6 @@ public class ShopFragment extends BaseFragment<IShop.Persenter> implements IShop
                 submit();
                 break;
         }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        presenter.getShop();
-    }
-
-    //TODO 下单状态的数据刷新
-    private void updateGoodSelectStateOrder(boolean isChecked) {
-        for(ShopBean.DataBean.CartListBean item : shopBean.getData().getCartList()){
-            item.selectOrder = isChecked;
-        }
-        totalSelectOrder();
-    }
-
-    //TODO 编辑状态下的数据刷新
-    private void updateGoodSelectStateEdit(boolean isChecked) {
-        for(ShopBean.DataBean.CartListBean item:shopBean.getData().getCartList()){
-            item.selectEdit = isChecked;
-        }
-        totalSelectOrder();
-    }
-
-    //TODO 下单状态下的总数和价格的计算
-    private void totalSelectOrder() {
-        int num = 0;
-        int totalPrice = 0;
-        boolean isSelectAll = true;
-        for(ShopBean.DataBean.CartListBean item:shopBean.getData().getCartList()){
-            if(item.selectOrder){
-                num += item.getNumber();
-                totalPrice += item.getNumber()*item.getRetail_price();
-            }else{
-                if(isSelectAll){
-                    isSelectAll = false;
-                }
-            }
-        }
-        String strAll = "全选($)";
-        strAll = strAll.replace("$",String.valueOf(num));
-        cbShoppingCarAll.setText(strAll);
-        tvShoppingCarTotalPrice.setText("￥"+totalPrice);
-        cbShoppingCarAll.setChecked(isSelectAll);
     }
 
     //TODO 修改编辑和完成的状态
