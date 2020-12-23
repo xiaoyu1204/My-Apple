@@ -26,6 +26,7 @@
     <!-- me - login -->
     <string name="hint_login_username">账号</string>
     <string name="hint_login_pw">密码</string>
+    <string name="tips_login_">用户名和密码不能为空</string>
     <string name="tips_login">请输入正确的用户名和密码</string>
     <string name="tips_ok_login">已经登录</string>
 

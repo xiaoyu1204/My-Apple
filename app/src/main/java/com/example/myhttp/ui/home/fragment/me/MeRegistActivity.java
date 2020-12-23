@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.myhttp.R;
 import com.example.myhttp.base.BaseActivity;
@@ -40,6 +41,7 @@ public class MeRegistActivity extends BaseActivity<IMeRegist.Persenter> implemen
     ImageView meRegistBtnVerification;
     @BindView(R.id.me_regist_btn_regist)
     Button meRegistBtnRegist;
+    private String username;
 
     @Override
     protected int getLayout() {
@@ -81,51 +83,73 @@ public class MeRegistActivity extends BaseActivity<IMeRegist.Persenter> implemen
 
     private void initRegist() {
 
-        String username = meRegistInputUsername.getText().toString();
+        username = meRegistInputUsername.getText().toString();
         String pw = meRegistInputPw.getText().toString();
         String pw2 = meRegistInputPw2.getText().toString();
         String ver = meRegistInputVerification.getText().toString();
+
         //不能为空
         if(!TextUtils.isEmpty(username) && !TextUtils.isEmpty(pw) && !TextUtils.isEmpty(pw2)){
-            //密码必须一致
-            if(pw.equals(pw2)){
+            //密码和确认密码必须一致
+            if (pw.equals(pw2)){
                 //密码大于6位
-                if(pw.length() >=6 ){
-                    //验证码不为空
-                    if(!TextUtils.isEmpty(ver)){
-                        //获得服务器的token
-                        String token = SpUtils.getInstance().getString("token");
-                        //判断输入的用户名密码是否存在
-                        if(username.equals(token) && pw.equals(token)){
+                if(pw.length() >= 6){
+                    //验证码不能为空
+                    if(ver.equals("") || ver.length() != 0){
+
+
+                        //取出sp中存入的username
+                        String string = SpUtils.getInstance().getString(username);
+                        //判断sp中是否有存入的username
+                        if (!TextUtils.isEmpty(string)){     //如果有存入的
+                            //用户名已经注册
                             ToastUtils.s(this,getString(R.string.tips_regist_));
-                        }else{
-                            //请求数据
-                            persenter.getMeRegist(username,pw);
+                            return;
+                        }else{     //没有存入的
+                            //注册方法
+                            zhuce(username,pw);
                         }
+
+
+
                     }else{
+                        //验证码不能为空
                         ToastUtils.s(this,getString(R.string.tips_regist_ver));
                     }
                 }else{
+                    //密码大于6位
                     ToastUtils.s(this,getString(R.string.tips_regist_pw_6));
                 }
-            }else{
+            }else {
+                //密码不一样
                 ToastUtils.s(this,getString(R.string.tips_regist_pw_pw2));
             }
         }else{
+            //null
             ToastUtils.s(this,getString(R.string.tips_regist));
         }
+
+    }
+
+    private void zhuce(String username, String pw) {
+        /**
+         * 1.注册
+         * 2.将用户名最为key 密钥（token）作为value 存入sp (sp.....set)
+         */
+        persenter.getMeRegist(username,pw);
+
     }
 
     @Override
     public void getMeRegistReturn(MeRegisterBean result) {
 
-        String token = result.getData().getToken();
+        String token = result.getData().getToken().toString();
 
         //如果获得token不为空
         if(!TextUtils.isEmpty(token)){
 
             //保存到sp中
-            SpUtils.getInstance().setValue("token", token);
+            SpUtils.getInstance().setValue(username, token);
             SpUtils.getInstance().setValue("uid",result.getData().getUserInfo().getUid());
 
             //回传值到登录界面

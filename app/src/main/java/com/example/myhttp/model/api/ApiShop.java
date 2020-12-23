@@ -12,6 +12,7 @@ import com.example.myhttp.model.bean.home.Home_NewGoods_Below_Bean;
 import com.example.myhttp.model.bean.home.Home_NewGoods_Top_Bean;
 import com.example.myhttp.model.bean.me.MeLoginBean;
 import com.example.myhttp.model.bean.me.MeRegisterBean;
+import com.example.myhttp.model.bean.shop.ShopBean;
 import com.example.myhttp.model.bean.sort.SortBean;
 import com.example.myhttp.model.bean.sort.SortDataBean;
 import com.example.myhttp.model.bean.sort.Sort_Data_InfoBean;
@@ -105,5 +106,9 @@ public interface ApiShop {
     @POST("cart/add")
     @FormUrlEncoded
     Flowable<MeLoginBean> getAddCar(@FieldMap HashMap<String,String> map);
+    
+    //购物车列表
+    @GET("cart/index")
+    Flowable<ShopBean> getShop();
 
 }
