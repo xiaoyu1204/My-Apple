@@ -111,8 +111,6 @@ public class HomeFragment extends BaseFragment<IHome.Persenter> implements IHome
                 startActivity(intent);
             }
         });
-
-
     }
 
     //新品首发
@@ -132,7 +130,6 @@ public class HomeFragment extends BaseFragment<IHome.Persenter> implements IHome
                 startActivity(intent);
             }
         });
-
     }
 
     //人气推荐
@@ -153,7 +150,6 @@ public class HomeFragment extends BaseFragment<IHome.Persenter> implements IHome
                 startActivity(intent);
             }
         });
-
     }
 
     //专题精选

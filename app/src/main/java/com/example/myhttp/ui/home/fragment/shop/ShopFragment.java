@@ -1,6 +1,9 @@
 package com.example.myhttp.ui.home.fragment.shop;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -68,11 +71,10 @@ public class ShopFragment extends BaseFragment<IShop.Persenter> implements IShop
         cbShoppingCarAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                boolean bool = cbShoppingCarAll.isChecked();
                 if(isEdit){
-                    updateGoodSelectStateEdit(!bool);
+                    updateGoodSelectStateEdit(isChecked);
                 }else{
-                    updateGoodSelectStateOrder(!bool);
+                    updateGoodSelectStateOrder(isChecked);
                 }
             }
         });
@@ -88,10 +90,16 @@ public class ShopFragment extends BaseFragment<IShop.Persenter> implements IShop
 
     @Override
     protected void initData() {
+        
         String token = SpUtils.getInstance().getString("token");
+
         persenter = new ShopPresenter(this);
         if(!TextUtils.isEmpty(token)){
             presenter.getShop();
+            //取出数值
+            IntentFilter intentFilter = new IntentFilter();
+            intentFilter.addAction("shu");
+            mContext.registerReceiver(receiver,intentFilter);
         }else{
             ActivityManagerUtils.startFragmentForResult(this,100, MeLoginActivity.class);
         }
@@ -99,6 +107,27 @@ public class ShopFragment extends BaseFragment<IShop.Persenter> implements IShop
         initItemClick();
 
     }
+    private BroadcastReceiver receiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //goodsId
+            int goodsId = intent.getIntExtra("goodsId",0);
+            //number
+            String number = intent.getStringExtra("number");
+            //productId
+            int productId = intent.getIntExtra("productId",0);
+            Log.e("TAG", "onReceive:goodsId "+goodsId );
+            Log.e("TAG", "onReceive:number "+number );
+            Log.e("TAG", "onReceive:productId "+productId );
+            //请求数据
+            if(goodsId>0 && number!=null && productId>0){   //不为空
+                persenter.ShopAdd(goodsId,number,productId);
+            }else{  //为空
+                Log.e("TAG", "onReceive: 无" );
+            }
+
+        }
+    };
 
     private void initItemClick() {
         /**
@@ -140,6 +169,11 @@ public class ShopFragment extends BaseFragment<IShop.Persenter> implements IShop
         cartListBeans.clear();
         cartListBeans.addAll(shopBean.getData().getCartList());
         shopAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void ShopAddCarReturn(ShopBean result) {
+        Log.e("TAG", "ShopAddCarReturn: "+result.getData().getCartList().get(0).getGoods_name());
     }
 
     //TODO 下单状态的数据刷新

@@ -22,4 +22,19 @@ public class ShopModel extends BaseModel implements IShop.Model {
                     }
                 }));
     }
+
+    @Override
+    public void ShopAdd(int goodsId, String number, int productId, Callback callback) {
+        addDisposable(
+                HttpManager.getInstance().getApiShop().ShopAddCar(goodsId,number,productId)
+                .compose(RxUtils.rxScheduler())
+                .subscribeWith(new CommonSubscriber<ShopBean>(callback) {
+                    @Override
+                    public void onNext(ShopBean shopBean) {
+                        callback.success(shopBean);
+                    }
+                })
+        );
+    }
+
 }

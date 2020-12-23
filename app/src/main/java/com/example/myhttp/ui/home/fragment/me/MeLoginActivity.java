@@ -91,12 +91,16 @@ public class MeLoginActivity extends BaseActivity<IMeLogin.Persenter> implements
         String username = meLoginInputUsername.getText().toString();
         String pw = meLoginInputPw.getText().toString();
         if(!TextUtils.isEmpty(username) && !TextUtils.isEmpty(pw)){
+
             String token = SpUtils.getInstance().getString("token");
-            if(username.equals(token) && pw.equals(token)){
-                presenter.getMeLogin(username,pw);
+            Log.e("TAG", "login: "+token);
+
+            if(token != null){
+                presenter.MeLogin(username,pw);
             }else{
                 ToastUtils.s(this,getString(R.string.tips_login));
             }
+
         }else{
             ToastUtils.s(this,getString(R.string.tips_login_));
         }
@@ -134,7 +138,7 @@ public class MeLoginActivity extends BaseActivity<IMeLogin.Persenter> implements
     }
 
     @Override
-    public void getMeLoginReturn(MeLoginBean result) {
+    public void MeLoginReturn(MeLoginBean result) {
         token = result.getData().getToken();
         if(!TextUtils.isEmpty(token)){
             SpUtils.getInstance().setValue("token", token);

@@ -18,18 +18,35 @@ public class ShopPresenter extends BasePresenter<IShop.View> implements IShop.Pe
 
     @Override
     public void getShop() {
-        if(view!=null){
-           model.getShop(new Callback() {
-               @Override
-               public void fail(String msg) {
-                   view.tips(msg);
-               }
+        model.getShop(new Callback() {
+            @Override
+            public void success(Object o) {
+                if(view!=null){
+                    view.getShopReturn((ShopBean) o);
+                }
+            }
 
-               @Override
-               public void success(Object o) {
-                   view.getShopReturn((ShopBean) o);
-               }
-           });
-        }
+            @Override
+            public void fail(String msg) {
+
+            }
+        });
+    }
+
+    @Override
+    public void ShopAdd(int goodsId, String number, int productId) {
+        model.ShopAdd(goodsId, number, productId, new Callback() {
+            @Override
+            public void success(Object o) {
+                if(view!=null){
+                    view.ShopAddCarReturn((ShopBean) o);
+                }
+            }
+
+            @Override
+            public void fail(String msg) {
+
+            }
+        });
     }
 }

@@ -11,8 +11,8 @@ import com.example.myhttp.view.me.IMeRegist;
 
 public class MeRegistModel extends BaseModel implements IMeRegist.Model {
     @Override
-    public void getMeRegist(String username, String password, Callback callback) {
-        addDisposable(HttpManager.getInstance().getApiShop().getMeRegist(username,password)
+    public void MeRegist(String username, String password, Callback callback) {
+        addDisposable(HttpManager.getInstance().getApiShop().MeRegist(username,password)
         .compose(RxUtils.rxScheduler())
         .subscribeWith(new CommonSubscriber<MeRegisterBean>(callback) {
             @Override

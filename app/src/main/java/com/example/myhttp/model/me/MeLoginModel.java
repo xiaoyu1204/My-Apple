@@ -11,8 +11,8 @@ import com.example.myhttp.view.sort.ISortDataInfo;
 
 public class MeLoginModel extends BaseModel implements IMeLogin.Model  {
     @Override
-    public void getMeLogin(String username, String password, Callback callback) {
-        addDisposable(HttpManager.getInstance().getApiShop().getMeLogin(username,password)
+    public void MeLogin(String username, String password, Callback callback) {
+        addDisposable(HttpManager.getInstance().getApiShop().MeLogin(username,password)
         .compose(RxUtils.rxScheduler())
         .subscribeWith(new CommonSubscriber<MeLoginBean>(callback) {
             @Override

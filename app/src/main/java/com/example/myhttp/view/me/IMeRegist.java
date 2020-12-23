@@ -12,17 +12,17 @@ public interface IMeRegist {
 
     interface View extends IBaseView {
         //定义一个被实现的View层接口方法
-        void getMeRegistReturn(MeRegisterBean result);
+        void MeRegistReturn(MeRegisterBean result);
     }
 
     interface Persenter extends IBasePersenter<View> {
         //定义一个V层调用的接口
-        void getMeRegist(String username, String password);
+        void MeRegist(String username, String password);
     }
 
     interface Model extends IBaseModel {
         //定义一个加载数据的接口方法   被P层
-        void getMeRegist(String username, String password, Callback callback);
+        void MeRegist(String username, String password, Callback callback);
     }
 
 }
