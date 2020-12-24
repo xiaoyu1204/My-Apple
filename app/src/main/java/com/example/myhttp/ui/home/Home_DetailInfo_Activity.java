@@ -2,6 +2,7 @@ package com.example.myhttp.ui.home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -126,6 +127,7 @@ public class Home_DetailInfo_Activity extends BaseActivity<IHomeDetailInfo.Perse
     private ArrayList<Home_DetailInfo_Bottom_Bean.DataBean.GoodsListBean> goodsList;//底部列表集合
     private ArrayList<Home_DetailInfo_Bean.DataBeanX.IssueBean> issuelist;//常见问题集合
     private ArrayList<Home_DetailInfo_Bean.DataBeanX.AttributeBean> attributeList;//商品参数集合
+
     //底部列表适配器
     private HomeDetailInfoButtomAdapter categoryButtomInfoAdapter;
     private HomeDetailInfoIssueAdapter categoryIssueAdapter;  //常见问题
@@ -138,6 +140,10 @@ public class Home_DetailInfo_Activity extends BaseActivity<IHomeDetailInfo.Perse
     public static final int RECOMMEND_CAR = 1000; //打开购物车的指令
     private int shu;    //购买的数量
     private boolean isSelect = false;
+
+    //pw显示隐藏
+    private PopupWindow popupWindow;
+    private Intent intent;
 
     @Override
     protected int getLayout() {
@@ -180,6 +186,11 @@ public class Home_DetailInfo_Activity extends BaseActivity<IHomeDetailInfo.Perse
         initViewIssue();//常见问题布局
         initBottomInfo();//底部列表数据
         initViewParameter();//商品参数
+        initCar();      //点击购物车换
+
+        //广播
+        intent = new Intent();
+        intent.setAction("shu");
 
     }
 
@@ -224,13 +235,15 @@ public class Home_DetailInfo_Activity extends BaseActivity<IHomeDetailInfo.Perse
 
     //TODO Banner数据
     private void initBanner(Home_DetailInfo_Bean.DataBeanX data) {
-        home_detail_info_banner_category.setImages(data.getGallery()).setImageLoader(new ImageLoader() {
-            @Override
-            public void displayImage(Context context, Object path, ImageView imageView) {
-                Home_DetailInfo_Bean.DataBeanX.GalleryBean bean = (Home_DetailInfo_Bean.DataBeanX.GalleryBean) path;
-                Glide.with(context).load(bean.getImg_url()).into(imageView);
-            }
-        }).start();
+        if(data.getGallery() != null){
+            home_detail_info_banner_category.setImages(data.getGallery()).setImageLoader(new ImageLoader() {
+                @Override
+                public void displayImage(Context context, Object path, ImageView imageView) {
+                    Home_DetailInfo_Bean.DataBeanX.GalleryBean bean = (Home_DetailInfo_Bean.DataBeanX.GalleryBean) path;
+                    Glide.with(context).load(bean.getImg_url()).into(imageView);
+                }
+            }).start();
+        }
     }
 
     //TODO Banner下面的展示数据 商品信息
@@ -382,6 +395,7 @@ public class Home_DetailInfo_Activity extends BaseActivity<IHomeDetailInfo.Perse
         categoryButtomInfoAdapter.notifyDataSetChanged();
     }
 
+<<<<<<< HEAD
     //添加购物车返回
     @Override
     public void addGoodCarReturn(AddCarBean addCarBean) {
@@ -389,6 +403,20 @@ public class Home_DetailInfo_Activity extends BaseActivity<IHomeDetailInfo.Perse
         int number = addCarBean.getData().getCartTotal().getGoodsCount();
         tv_category_number.setText(String.valueOf(number));
         tv_category_number.setVisibility(View.VISIBLE);
+=======
+    //TODO 购物车换界面
+    private void initCar() {
+        iv_category_car.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                /**
+                 * eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo1LCJpYXQiOjE1ODMxNjgzMDB9.aqdQNPdW8anMSqaqfAGWNPZxbb6j39tAaV-fOuzNhUM
+                 */
+
+            }
+        });
+>>>>>>> origin/main
     }
 
     //TODO 加入购物车
@@ -401,13 +429,11 @@ public class Home_DetailInfo_Activity extends BaseActivity<IHomeDetailInfo.Perse
         }
 
         tv_category_addCar.setOnClickListener(new View.OnClickListener() {
-
-            private PopupWindow popupWindow;
-
             @Override
             public void onClick(View v) {
                 //显示隐藏
                 if (isSelect) {
+<<<<<<< HEAD
                     View join_view = LayoutInflater.from(Home_DetailInfo_Activity.this).inflate(R.layout.layout_detail_pop, null);
                     popupWindow = new PopupWindow(join_view, GridLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                     popupWindow.showAtLocation(tv_category_addCar, Gravity.BOTTOM, 0, 150);
@@ -437,9 +463,34 @@ public class Home_DetailInfo_Activity extends BaseActivity<IHomeDetailInfo.Perse
 
                     isSelect = false;
                 } else {
+=======
+                    initPwVis(info);
+                } else {
+                    initPwGone(info,productList);
+                }
+            }
+        });
 
-                    popupWindow.dismiss();
+    }
 
+    //pw显示
+    private void initPwVis(Home_DetailInfo_Bean.DataBeanX.InfoBean info) {
+        View join_view = LayoutInflater.from(Home_DetailInfo_Activity.this).inflate(R.layout.layout_detail_pop, null);
+        popupWindow = new PopupWindow(join_view, GridLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//                  WindowManager.LayoutParams attributes = getWindow().getAttributes();
+//                  attributes.alpha = 0.5f;
+//                  getWindow().setAttributes(attributes);
+        popupWindow.showAtLocation(tv_category_addCar, Gravity.BOTTOM, 0, 150);
+>>>>>>> origin/main
+
+        ImageView image_pop = join_view.findViewById(R.id.detail_image_pop);
+        TextView price_pop = join_view.findViewById(R.id.detail_tv_price_pop);
+        btn_jia = join_view.findViewById(R.id.detail_btn_jia);
+        btn_jian = join_view.findViewById(R.id.detail_btn_jian);
+        tv_shu = join_view.findViewById(R.id.detail_tv_shu);
+        TextView tv_back = join_view.findViewById(R.id.detail_tv_back);
+
+<<<<<<< HEAD
                     if(shu <= 0){
                         ToastUtils.s(Home_DetailInfo_Activity.this,getString(R.string.tips_shu));
                         return;
@@ -457,34 +508,69 @@ public class Home_DetailInfo_Activity extends BaseActivity<IHomeDetailInfo.Perse
 
                     View join_view = LayoutInflater.from(Home_DetailInfo_Activity.this).inflate(R.layout.layout_detail_pop_ok, null);
                     PopupWindow popupWindow1 = new PopupWindow(join_view, 200, 200);
+=======
+        Glide.with(Home_DetailInfo_Activity.this).load(info.getList_pic_url()).into(image_pop);
+        price_pop.setText("价格:  ￥" + info.getRetail_price() + "");
+        shu = 1;
+>>>>>>> origin/main
 
-                    WindowManager.LayoutParams attributes = getWindow().getAttributes();
-                    attributes.alpha = 0.5f;
-                    getWindow().setAttributes(attributes);
+        ClickListener clickListener = new ClickListener();
+        btn_jia.setOnClickListener(clickListener);
+        btn_jian.setOnClickListener(clickListener);
 
-                    popupWindow1.showAtLocation(tv_category_addCar, Gravity.CENTER, 0, 0);
-
-                    //两秒自动关闭
-                    new Timer().schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    popupWindow1.dismiss();
-                                    WindowManager.LayoutParams attributes = getWindow().getAttributes();
-                                    attributes.alpha = 1f;
-                                    getWindow().setAttributes(attributes);
-                                }
-                            });
-                        }
-                    },1000,3000);
-
-                    isSelect = true;
-
-                }
+        tv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
             }
         });
+        isSelect = false;
+    }
+
+    //pw隐藏
+    private void initPwGone(Home_DetailInfo_Bean.DataBeanX.InfoBean info, List<Home_DetailInfo_Bean.DataBeanX.ProductListBean> productList) {
+
+        popupWindow.dismiss();
+
+        //添加购物车goodsId
+        int goodsId = info.getId();
+        intent.putExtra("goodsId",goodsId);
+        sendBroadcast(intent);
+        //添加购物车number
+        String number = tv_shu.getText().toString();
+        intent.putExtra("number",number);
+        sendBroadcast(intent);
+        //添加购物车productId
+        int productId = productList.get(0).getId();
+        intent.putExtra("productId",productId);
+        sendBroadcast(intent);
+
+        View join_view = LayoutInflater.from(Home_DetailInfo_Activity.this).inflate(R.layout.layout_detail_pop_ok, null);
+        PopupWindow popupWindow1 = new PopupWindow(join_view, 200, 200);
+
+        WindowManager.LayoutParams attributes = getWindow().getAttributes();
+        attributes.alpha = 0.5f;
+        getWindow().setAttributes(attributes);
+
+        popupWindow1.showAtLocation(tv_category_addCar, Gravity.CENTER, 0, 0);
+
+        //两秒自动关闭
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        popupWindow1.dismiss();
+                        WindowManager.LayoutParams attributes = getWindow().getAttributes();
+                        attributes.alpha = 1f;
+                        getWindow().setAttributes(attributes);
+                    }
+                });
+            }
+        },1000,3000);
+
+        isSelect = true;
     }
 
     //TODO 购物车的点击

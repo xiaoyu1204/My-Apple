@@ -100,6 +100,7 @@ public class MeRegistActivity extends BaseActivity<IMeRegist.Persenter> implemen
 
                         //取出sp中存入的username
                         String string = SpUtils.getInstance().getString(username);
+                        
                         //判断sp中是否有存入的username
                         if (!TextUtils.isEmpty(string)){     //如果有存入的
                             //用户名已经注册
@@ -136,12 +137,12 @@ public class MeRegistActivity extends BaseActivity<IMeRegist.Persenter> implemen
          * 1.注册
          * 2.将用户名最为key 密钥（token）作为value 存入sp (sp.....set)
          */
-        persenter.getMeRegist(username,pw);
+        persenter.MeRegist(username,pw);
 
     }
 
     @Override
-    public void getMeRegistReturn(MeRegisterBean result) {
+    public void MeRegistReturn(MeRegisterBean result) {
 
         String token = result.getData().getToken().toString();
 

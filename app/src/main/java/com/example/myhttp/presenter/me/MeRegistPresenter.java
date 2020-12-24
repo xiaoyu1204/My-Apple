@@ -18,12 +18,12 @@ public class MeRegistPresenter extends BasePresenter<IMeRegist.View> implements 
     }
 
     @Override
-    public void getMeRegist(String username, String password) {
-        model.getMeRegist(username, password, new Callback() {
+    public void MeRegist(String username, String password) {
+        model.MeRegist(username, password, new Callback() {
             @Override
             public void success(Object o) {
                 if(view != null){
-                    view.getMeRegistReturn((MeRegisterBean) o);
+                    view.MeRegistReturn((MeRegisterBean) o);
                 }
             }
 

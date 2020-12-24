@@ -22,12 +22,14 @@ import com.example.myhttp.model.bean.sort.Sort_Data_InfoBean;
 import com.example.myhttp.model.bean.topic.TopicBean;
 import com.example.myhttp.model.bean.topic.TopicCommentBean;
 
+<<<<<<< HEAD
 import java.util.HashMap;
 import java.util.Map;
 
+=======
+>>>>>>> origin/main
 import io.reactivex.Flowable;
 import retrofit2.http.Field;
-import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -99,16 +101,17 @@ public interface ApiShop {
     //登录接口
     @POST("auth/login")
     @FormUrlEncoded
-    Flowable<MeLoginBean> getMeLogin(@Field("username") String username, @Field("password") String password);
+    Flowable<MeLoginBean> MeLogin(@Field("username") String username, @Field("password") String password);
 
     //注册接口
     @POST("auth/register")
     @FormUrlEncoded
-    Flowable<MeRegisterBean> getMeRegist(@Field("username") String username, @Field("password") String password);
+    Flowable<MeRegisterBean> MeRegist(@Field("username") String username, @Field("password") String password);
 
     //添加到购物车
-    @POST("cart/add")
+    @POST("cart/add")       //  goodsId=1035006 number=1   productId=47     // 1116033   1   171
     @FormUrlEncoded
+<<<<<<< HEAD
     Flowable<AddCarBean> addCar(@FieldMap Map<String,String> map);
 
     //更新购物车的数据
@@ -121,6 +124,10 @@ public interface ApiShop {
     @FormUrlEncoded
     Flowable<DeleteCarBean> deleteCar(@Field("productIds") String productIds);
 
+=======
+    Flowable<ShopBean> ShopAddCar(@Field("goodsId")int goodsId,@Field("number")String number,@Field("productId")int productId);
+    
+>>>>>>> origin/main
     //购物车列表
     @GET("cart/index")
     Flowable<CarBean> getCarList();
