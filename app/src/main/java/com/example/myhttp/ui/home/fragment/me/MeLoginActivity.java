@@ -92,7 +92,7 @@ public class MeLoginActivity extends BaseActivity<IMeLogin.Persenter> implements
         String pw = meLoginInputPw.getText().toString();
         if(!TextUtils.isEmpty(username) && !TextUtils.isEmpty(pw)){
             String token = SpUtils.getInstance().getString("token");
-            if(username.equals(token) && pw.equals(token)){
+            if(token != null){
                 presenter.getMeLogin(username,pw);
             }else{
                 ToastUtils.s(this,getString(R.string.tips_login));

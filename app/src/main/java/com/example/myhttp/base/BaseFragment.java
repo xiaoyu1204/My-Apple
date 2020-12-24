@@ -1,5 +1,6 @@
 package com.example.myhttp.base;
 
+
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
@@ -11,6 +12,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.example.myhttp.ui.home.HomeActivity;
+import com.example.myhttp.utils.ActivityManager;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -69,6 +73,12 @@ public abstract class BaseFragment<P extends IBasePersenter> extends Fragment im
         Toast.makeText(mActivity, msg,time).show();
     }
 
+    /**
+     * 跳转登录
+     */
+    protected void gotoLogin(){
+        ActivityManager.startFragmentForResult(this,100, HomeActivity.class);
+    }
 
     @Override
     public void onDestroy() {

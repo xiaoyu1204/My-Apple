@@ -39,5 +39,6 @@
     <string name="tips_regist_pw_6">密码必须大于6位</string>
     <string name="tips_regist_ver">正确填写验证码</string>
     <string name="tips_regist_">用户已经被注册</string>
+    <string name="tips_shu">请选中购买商品数量</string>
 
 </resources>

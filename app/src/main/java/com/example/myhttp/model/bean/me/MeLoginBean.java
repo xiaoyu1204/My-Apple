@@ -2,11 +2,10 @@ package com.example.myhttp.model.bean.me;
 
 public class MeLoginBean {
 
-
     /**
      * errno : 0
      * errmsg :
-     * data : {"code":200,"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiN2I5NjU2NTYtNzBlYi00NzI2LWI0YTctYzUyMzY2ODYxNDg1IiwiaWF0IjoxNjA4NjA1ODQ5fQ.TorAxXEgzfRAkbTRLSi8U6NPz7yfGQKcZ6bql6cKtWA","userInfo":{"uid":"7b965656-70eb-4726-b4a7-c52366861485","username":"z1234","nickname":null,"gender":0,"avatar":"","birthday":0}}
+     * data : {"code":200,"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNzM0MDRmOGItYmY1MC00YmMxLWE3N2EtOTQyZWRjYTQxMjcyIiwiaWF0IjoxNjA4Nzc3MjQwfQ.OaD_joFjsTN7-cpeEqGHyoQhCqMfrx2dpBSjHKJGo7Y","userInfo":{"uid":"73404f8b-bf50-4bc1-a77a-942edca41272","username":"zwx123","nickname":null,"gender":0,"avatar":"","birthday":0}}
      */
 
     private int errno;
@@ -40,8 +39,8 @@ public class MeLoginBean {
     public static class DataBean {
         /**
          * code : 200
-         * token : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiN2I5NjU2NTYtNzBlYi00NzI2LWI0YTctYzUyMzY2ODYxNDg1IiwiaWF0IjoxNjA4NjA1ODQ5fQ.TorAxXEgzfRAkbTRLSi8U6NPz7yfGQKcZ6bql6cKtWA
-         * userInfo : {"uid":"7b965656-70eb-4726-b4a7-c52366861485","username":"z1234","nickname":null,"gender":0,"avatar":"","birthday":0}
+         * token : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNzM0MDRmOGItYmY1MC00YmMxLWE3N2EtOTQyZWRjYTQxMjcyIiwiaWF0IjoxNjA4Nzc3MjQwfQ.OaD_joFjsTN7-cpeEqGHyoQhCqMfrx2dpBSjHKJGo7Y
+         * userInfo : {"uid":"73404f8b-bf50-4bc1-a77a-942edca41272","username":"zwx123","nickname":null,"gender":0,"avatar":"","birthday":0}
          */
 
         private int code;
@@ -74,8 +73,8 @@ public class MeLoginBean {
 
         public static class UserInfoBean {
             /**
-             * uid : 7b965656-70eb-4726-b4a7-c52366861485
-             * username : z1234
+             * uid : 73404f8b-bf50-4bc1-a77a-942edca41272
+             * username : zwx123
              * nickname : null
              * gender : 0
              * avatar :

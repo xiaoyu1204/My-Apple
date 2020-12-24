@@ -150,6 +150,7 @@ public class MeRegistActivity extends BaseActivity<IMeRegist.Persenter> implemen
 
             //保存到sp中
             SpUtils.getInstance().setValue(username, token);
+            SpUtils.getInstance().setValue("token", token);
             SpUtils.getInstance().setValue("uid",result.getData().getUserInfo().getUid());
 
             //回传值到登录界面

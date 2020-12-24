@@ -39,6 +39,7 @@ import com.example.myhttp.base.BaseActivity;
 import com.example.myhttp.base.BaseAdapter;
 import com.example.myhttp.model.bean.home.Home_DetailInfo_Bean;
 import com.example.myhttp.model.bean.home.Home_DetailInfo_Bottom_Bean;
+import com.example.myhttp.model.bean.shop.AddCarBean;
 import com.example.myhttp.presenter.home.Home_DetailInfo_Presenter;
 import com.example.myhttp.ui.home.fragment.home.HomeBigimageActivity;
 import com.example.myhttp.ui.home.fragment.me.MeLoginActivity;
@@ -53,13 +54,15 @@ import com.youth.banner.loader.ImageLoader;
 import java.io.Serializable;
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Home_DetailInfo_Activity extends BaseActivity<Home_DetailInfo_Presenter> implements IHomeDetailInfo.View {
+public class Home_DetailInfo_Activity extends BaseActivity<IHomeDetailInfo.Persenter> implements IHomeDetailInfo.View {
 
     IHomeDetailInfo.Persenter presenter;
     private int id;
@@ -132,7 +135,8 @@ public class Home_DetailInfo_Activity extends BaseActivity<Home_DetailInfo_Prese
     private Button btn_jia;
     private Button btn_jian;
     private TextView tv_shu;
-    private int shu;
+    public static final int RECOMMEND_CAR = 1000; //打开购物车的指令
+    private int shu;    //购买的数量
     private boolean isSelect = false;
 
     @Override
@@ -141,7 +145,7 @@ public class Home_DetailInfo_Activity extends BaseActivity<Home_DetailInfo_Prese
     }
 
     @Override
-    protected Home_DetailInfo_Presenter createPersenter() {
+    protected IHomeDetailInfo.Persenter createPersenter() {
         return new Home_DetailInfo_Presenter(this);
     }
 
@@ -202,7 +206,7 @@ public class Home_DetailInfo_Activity extends BaseActivity<Home_DetailInfo_Prese
             //Banner
             initBanner(result.getData());
             //Banner下面的展示数据
-            initInfo(result.getData().getInfo());
+            initInfo(result.getData().getInfo(),result.getData().getProductList());
             //评论
             initComment(result.getData().getComment().getData());
             //常见问题数据
@@ -230,13 +234,13 @@ public class Home_DetailInfo_Activity extends BaseActivity<Home_DetailInfo_Prese
     }
 
     //TODO Banner下面的展示数据 商品信息
-    private void initInfo(Home_DetailInfo_Bean.DataBeanX.InfoBean info) {
+    private void initInfo(Home_DetailInfo_Bean.DataBeanX.InfoBean info, List<Home_DetailInfo_Bean.DataBeanX.ProductListBean> productList) {
         home_detail_info_title.setText(info.getName());
         home_detail_info_desc.setText(info.getGoods_brief());
         home__detail_info_price.setText("￥" + info.getRetail_price());
 
         //加入购物车
-        initaddCar(info);
+        initaddCar(info,productList);
 
     }
 
@@ -335,18 +339,6 @@ public class Home_DetailInfo_Activity extends BaseActivity<Home_DetailInfo_Prese
             }
         });
 
-//        LinearLayout id = findViewById(R.id.home__detail_info_30_ll);
-//        id.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Bundle bundle = new Bundle();
-//                bundle.putStringArrayList("image",listUrl);
-//                Intent intent = new Intent(CategoryActivity.this, BigImageActivity.class);
-//                intent.putExtra("bundle", bundle);
-//                startActivity(intent);
-//            }
-//        });
-
     }
 
     //TODO 常见问题布局
@@ -370,6 +362,16 @@ public class Home_DetailInfo_Activity extends BaseActivity<Home_DetailInfo_Prese
         mRlv_category_all.addItemDecoration(new ItemDecoration(this));
         categoryButtomInfoAdapter = new HomeDetailInfoButtomAdapter(this, goodsList);
         mRlv_category_all.setAdapter(categoryButtomInfoAdapter);
+
+        iv_category_car.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //打开购物车
+                setResult(RECOMMEND_CAR);
+                finish();
+            }
+        });
+
     }
 
     //TODO 商品 详情购买页 底部数据列表
@@ -380,8 +382,17 @@ public class Home_DetailInfo_Activity extends BaseActivity<Home_DetailInfo_Prese
         categoryButtomInfoAdapter.notifyDataSetChanged();
     }
 
+    //添加购物车返回
+    @Override
+    public void addGoodCarReturn(AddCarBean addCarBean) {
+        //添加成功以后跟新数量显示
+        int number = addCarBean.getData().getCartTotal().getGoodsCount();
+        tv_category_number.setText(String.valueOf(number));
+        tv_category_number.setVisibility(View.VISIBLE);
+    }
+
     //TODO 加入购物车
-    private void initaddCar(Home_DetailInfo_Bean.DataBeanX.InfoBean info) {
+    private void initaddCar(Home_DetailInfo_Bean.DataBeanX.InfoBean info, List<Home_DetailInfo_Bean.DataBeanX.ProductListBean> productList) {
         //判断选中状态
         if (isSelect == false) {
             isSelect = true;
@@ -399,9 +410,6 @@ public class Home_DetailInfo_Activity extends BaseActivity<Home_DetailInfo_Prese
                 if (isSelect) {
                     View join_view = LayoutInflater.from(Home_DetailInfo_Activity.this).inflate(R.layout.layout_detail_pop, null);
                     popupWindow = new PopupWindow(join_view, GridLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//                  WindowManager.LayoutParams attributes = getWindow().getAttributes();
-//                  attributes.alpha = 0.5f;
-//                  getWindow().setAttributes(attributes);
                     popupWindow.showAtLocation(tv_category_addCar, Gravity.BOTTOM, 0, 150);
 
                     ImageView image_pop = join_view.findViewById(R.id.detail_image_pop);
@@ -423,12 +431,29 @@ public class Home_DetailInfo_Activity extends BaseActivity<Home_DetailInfo_Prese
                         @Override
                         public void onClick(View view) {
                             popupWindow.dismiss();
+                            isSelect = false;
                         }
                     });
+
                     isSelect = false;
                 } else {
 
                     popupWindow.dismiss();
+
+                    if(shu <= 0){
+                        ToastUtils.s(Home_DetailInfo_Activity.this,getString(R.string.tips_shu));
+                        return;
+                    }
+                    if(productList.size() > 0){
+                        int goodsId = info.getId();
+                        String number = tv_shu.getText().toString();
+                        int productid = productList.get(0).getId();
+                        Map<String,String> map = new HashMap<>();
+                        map.put("goodsId",String.valueOf(goodsId));
+                        map.put("number",number);
+                        map.put("productId",String.valueOf(productid));
+                        presenter.addGoodCar(map);
+                    }
 
                     View join_view = LayoutInflater.from(Home_DetailInfo_Activity.this).inflate(R.layout.layout_detail_pop_ok, null);
                     PopupWindow popupWindow1 = new PopupWindow(join_view, 200, 200);

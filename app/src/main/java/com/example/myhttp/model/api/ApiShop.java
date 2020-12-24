@@ -12,7 +12,10 @@ import com.example.myhttp.model.bean.home.Home_NewGoods_Below_Bean;
 import com.example.myhttp.model.bean.home.Home_NewGoods_Top_Bean;
 import com.example.myhttp.model.bean.me.MeLoginBean;
 import com.example.myhttp.model.bean.me.MeRegisterBean;
-import com.example.myhttp.model.bean.shop.ShopBean;
+import com.example.myhttp.model.bean.shop.AddCarBean;
+import com.example.myhttp.model.bean.shop.CarBean;
+import com.example.myhttp.model.bean.shop.DeleteCarBean;
+import com.example.myhttp.model.bean.shop.UpdateCarBean;
 import com.example.myhttp.model.bean.sort.SortBean;
 import com.example.myhttp.model.bean.sort.SortDataBean;
 import com.example.myhttp.model.bean.sort.Sort_Data_InfoBean;
@@ -20,6 +23,7 @@ import com.example.myhttp.model.bean.topic.TopicBean;
 import com.example.myhttp.model.bean.topic.TopicCommentBean;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import io.reactivex.Flowable;
 import retrofit2.http.Field;
@@ -105,10 +109,20 @@ public interface ApiShop {
     //添加到购物车
     @POST("cart/add")
     @FormUrlEncoded
-    Flowable<MeLoginBean> getAddCar(@FieldMap HashMap<String,String> map);
-    
+    Flowable<AddCarBean> addCar(@FieldMap Map<String,String> map);
+
+    //更新购物车的数据
+    @POST("cart/update")
+    @FormUrlEncoded
+    Flowable<UpdateCarBean> updateCar(@FieldMap Map<String,String> map);
+
+    //删除购物车数据
+    @POST("cart/delete")
+    @FormUrlEncoded
+    Flowable<DeleteCarBean> deleteCar(@Field("productIds") String productIds);
+
     //购物车列表
     @GET("cart/index")
-    Flowable<ShopBean> getShop();
+    Flowable<CarBean> getCarList();
 
 }
