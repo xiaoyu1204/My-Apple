@@ -1,6 +1,7 @@
 package com.example.myhttp.ui.home;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -156,6 +157,15 @@ public class Home_NewGoods_Activity extends BaseActivity<Home_NewGoods_Presenter
         //分类数据
         List<Home_NewGoods_Below_Bean.DataBeanX.GoodsListBean> goodsList = result.getData().getGoodsList();
         goodsListBeans.addAll(goodsList);
+
+        homeNewGoodsBelowAdapter.addListClick(new BaseAdapter.IListClick() {
+            @Override
+            public void itemClick(int pos) {
+                Intent intent = new Intent(Home_NewGoods_Activity.this, Home_DetailInfo_Activity.class);
+                intent.putExtra("id",data.get(pos).getId());
+                startActivity(intent);
+            }
+        });
 
     }
 

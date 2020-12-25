@@ -109,4 +109,7 @@ dependencies {
     //图片
     implementation 'com.github.chrisbanes:PhotoView:2.0.0'
 
+    //侧滑    删除
+    implementation 'com.yanzhenjie:recyclerview-swipe:1.1.4'
+
 }

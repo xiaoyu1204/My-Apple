@@ -1,4 +1,4 @@
-package com.example.myhttp.sort;
+package com.example.myhttp.adapter.sort;
 
 import android.content.Context;
 import android.widget.ImageView;
@@ -7,7 +7,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.myhttp.R;
 import com.example.myhttp.base.BaseAdapter;
-import com.example.myhttp.model.bean.home.Home_Channel_Tree_Bean;
 import com.example.myhttp.model.bean.sort.SortDataBean;
 import com.example.myhttp.utils.TxUtils;
 

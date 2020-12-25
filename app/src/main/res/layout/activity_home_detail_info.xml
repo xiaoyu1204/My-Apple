@@ -83,6 +83,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
             <!--数量选择区域-->
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/detail_con_guige"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_40"
                 android:layout_marginBottom="@dimen/dp_10">
@@ -355,7 +356,6 @@
                 android:layout_marginBottom="@dimen/dp_18"
                 android:background="@drawable/shape_car_number"
                 android:gravity="center"
-                android:text="11"
                 android:textColor="@color/white"
                 android:textSize="@dimen/sp_8" />
         </FrameLayout>

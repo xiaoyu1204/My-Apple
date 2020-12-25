@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.example.myhttp.R;
 import com.example.myhttp.adapter.home.brand.HomeBrandInfoBelowAdapter;
 import com.example.myhttp.base.BaseActivity;
+import com.example.myhttp.base.BaseAdapter;
 import com.example.myhttp.model.bean.home.Home_Brand_Info_Below_Bean;
 import com.example.myhttp.model.bean.home.Home_Brand_Info_Top_Bean;
 import com.example.myhttp.presenter.home.Home_Brand_Info_Top_Presenter;
@@ -97,6 +98,15 @@ public class Home_Brand_Info_Activity extends BaseActivity<Home_Brand_Info_Top_P
         List<Home_Brand_Info_Below_Bean.DataBeanX.DataBean> data = result.getData().getData();
         belowBeans.addAll(data);
         homeBrandInfoBelowAdapter.notifyDataSetChanged();
+
+        homeBrandInfoBelowAdapter.addListClick(new BaseAdapter.IListClick() {
+            @Override
+            public void itemClick(int pos) {
+                Intent intent = new Intent(Home_Brand_Info_Activity.this, Home_DetailInfo_Activity.class);
+                intent.putExtra("id",data.get(pos).getId());
+                startActivity(intent);
+            }
+        });
 
     }
 

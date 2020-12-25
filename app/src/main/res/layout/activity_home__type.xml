@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".ui.home.Home_Type_Activity">
 
-    <include layout="@layout/toolbar_layout"/>
+<!--    <include layout="@layout/toolbar_layout" />-->
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/home_type_tab"

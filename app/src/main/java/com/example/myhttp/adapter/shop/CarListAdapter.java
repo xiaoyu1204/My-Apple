@@ -84,10 +84,13 @@ public class CarListAdapter extends BaseAdapter<CarBean.DataBean.CartListBean> {
             }
         });
 
-    }
 
+
+    }
 
     public interface UpdateItem{
         void updateItemDate(CarBean.DataBean.CartListBean data);
     }
+
+
 }

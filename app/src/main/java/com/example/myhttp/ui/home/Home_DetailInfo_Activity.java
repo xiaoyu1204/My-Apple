@@ -103,6 +103,7 @@ public class Home_DetailInfo_Activity extends BaseActivity<IHomeDetailInfo.Perse
     //评论con
     private ConstraintLayout home_detail_info_comment_con1;        //加入购物车
     private ConstraintLayout home_detail_info_comment_con2;        //加入购物车
+    private ConstraintLayout detail_con_guige;                 //请选择规格
 
     private String h5 = "<html>\n" +
             "            <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no\"/>\n" +
@@ -176,6 +177,7 @@ public class Home_DetailInfo_Activity extends BaseActivity<IHomeDetailInfo.Perse
 
         home_detail_info_comment_con1 = (ConstraintLayout) findViewById(R.id.home_detail_info_comment_con1);
         home_detail_info_comment_con2 = (ConstraintLayout) findViewById(R.id.home_detail_info_comment_con2);
+        detail_con_guige = (ConstraintLayout) findViewById(R.id.detail_con_guige);
 
         initViewIssue();//常见问题布局
         initBottomInfo();//底部列表数据
@@ -363,6 +365,8 @@ public class Home_DetailInfo_Activity extends BaseActivity<IHomeDetailInfo.Perse
         categoryButtomInfoAdapter = new HomeDetailInfoButtomAdapter(this, goodsList);
         mRlv_category_all.setAdapter(categoryButtomInfoAdapter);
 
+        tv_category_number.setVisibility(View.GONE);
+
         iv_category_car.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -391,6 +395,7 @@ public class Home_DetailInfo_Activity extends BaseActivity<IHomeDetailInfo.Perse
         tv_category_number.setVisibility(View.VISIBLE);
     }
 
+    private PopupWindow popupWindow;
     //TODO 加入购物车
     private void initaddCar(Home_DetailInfo_Bean.DataBeanX.InfoBean info, List<Home_DetailInfo_Bean.DataBeanX.ProductListBean> productList) {
         //判断选中状态
@@ -400,91 +405,108 @@ public class Home_DetailInfo_Activity extends BaseActivity<IHomeDetailInfo.Perse
             isSelect = false;
         }
 
-        tv_category_addCar.setOnClickListener(new View.OnClickListener() {
-
-            private PopupWindow popupWindow;
-
+        detail_con_guige.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //显示隐藏
                 if (isSelect) {
-                    View join_view = LayoutInflater.from(Home_DetailInfo_Activity.this).inflate(R.layout.layout_detail_pop, null);
-                    popupWindow = new PopupWindow(join_view, GridLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    popupWindow.showAtLocation(tv_category_addCar, Gravity.BOTTOM, 0, 150);
-
-                    ImageView image_pop = join_view.findViewById(R.id.detail_image_pop);
-                    TextView price_pop = join_view.findViewById(R.id.detail_tv_price_pop);
-                    btn_jia = join_view.findViewById(R.id.detail_btn_jia);
-                    btn_jian = join_view.findViewById(R.id.detail_btn_jian);
-                    tv_shu = join_view.findViewById(R.id.detail_tv_shu);
-                    TextView tv_back = join_view.findViewById(R.id.detail_tv_back);
-
-                    Glide.with(Home_DetailInfo_Activity.this).load(info.getList_pic_url()).into(image_pop);
-                    price_pop.setText("价格:  ￥" + info.getRetail_price() + "");
-                    shu = 1;
-
-                    ClickListener clickListener = new ClickListener();
-                    btn_jia.setOnClickListener(clickListener);
-                    btn_jian.setOnClickListener(clickListener);
-
-                    tv_back.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            popupWindow.dismiss();
-                            isSelect = false;
-                        }
-                    });
-
-                    isSelect = false;
+                    initpwxian(info);
                 } else {
-
-                    popupWindow.dismiss();
-
-                    if(shu <= 0){
-                        ToastUtils.s(Home_DetailInfo_Activity.this,getString(R.string.tips_shu));
-                        return;
-                    }
-                    if(productList.size() > 0){
-                        int goodsId = info.getId();
-                        String number = tv_shu.getText().toString();
-                        int productid = productList.get(0).getId();
-                        Map<String,String> map = new HashMap<>();
-                        map.put("goodsId",String.valueOf(goodsId));
-                        map.put("number",number);
-                        map.put("productId",String.valueOf(productid));
-                        presenter.addGoodCar(map);
-                    }
-
-                    View join_view = LayoutInflater.from(Home_DetailInfo_Activity.this).inflate(R.layout.layout_detail_pop_ok, null);
-                    PopupWindow popupWindow1 = new PopupWindow(join_view, 200, 200);
-
-                    WindowManager.LayoutParams attributes = getWindow().getAttributes();
-                    attributes.alpha = 0.5f;
-                    getWindow().setAttributes(attributes);
-
-                    popupWindow1.showAtLocation(tv_category_addCar, Gravity.CENTER, 0, 0);
-
-                    //两秒自动关闭
-                    new Timer().schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    popupWindow1.dismiss();
-                                    WindowManager.LayoutParams attributes = getWindow().getAttributes();
-                                    attributes.alpha = 1f;
-                                    getWindow().setAttributes(attributes);
-                                }
-                            });
-                        }
-                    },1000,3000);
-
-                    isSelect = true;
-
+                    initpwyin(info,productList);
                 }
             }
         });
+        tv_category_addCar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //显示隐藏
+                if (isSelect) {
+                    initpwxian(info);
+                } else {
+                    initpwyin(info,productList);
+                }
+            }
+        });
+
+    }
+
+
+
+    private void initpwxian(Home_DetailInfo_Bean.DataBeanX.InfoBean info) {
+        View join_view = LayoutInflater.from(Home_DetailInfo_Activity.this).inflate(R.layout.layout_detail_pop, null);
+        popupWindow = new PopupWindow(join_view, GridLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        popupWindow.showAtLocation(tv_category_addCar, Gravity.BOTTOM, 0, 150);
+
+        ImageView image_pop = join_view.findViewById(R.id.detail_image_pop);
+        TextView price_pop = join_view.findViewById(R.id.detail_tv_price_pop);
+        btn_jia = join_view.findViewById(R.id.detail_btn_jia);
+        btn_jian = join_view.findViewById(R.id.detail_btn_jian);
+        tv_shu = join_view.findViewById(R.id.detail_tv_shu);
+        TextView tv_back = join_view.findViewById(R.id.detail_tv_back);
+
+        Glide.with(Home_DetailInfo_Activity.this).load(info.getList_pic_url()).into(image_pop);
+        price_pop.setText("价格:  ￥" + info.getRetail_price() + "");
+        shu = 1;
+
+        ClickListener clickListener = new ClickListener();
+        btn_jia.setOnClickListener(clickListener);
+        btn_jian.setOnClickListener(clickListener);
+
+        tv_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isSelect = true;
+                popupWindow.dismiss();
+            }
+        });
+
+        isSelect = false;
+    }
+
+    private void initpwyin(Home_DetailInfo_Bean.DataBeanX.InfoBean info, List<Home_DetailInfo_Bean.DataBeanX.ProductListBean> productList) {
+        popupWindow.dismiss();
+
+        if(shu <= 0){
+            ToastUtils.s(Home_DetailInfo_Activity.this,getString(R.string.tips_shu));
+            return;
+        }
+        if(productList.size() > 0){
+            int goodsId = info.getId();
+            String number = tv_shu.getText().toString();
+            int productid = productList.get(0).getId();
+            Map<String,String> map = new HashMap<>();
+            map.put("goodsId",String.valueOf(goodsId));
+            map.put("number",number);
+            map.put("productId",String.valueOf(productid));
+            presenter.addGoodCar(map);
+        }
+
+        View join_view = LayoutInflater.from(Home_DetailInfo_Activity.this).inflate(R.layout.layout_detail_pop_ok, null);
+        PopupWindow popupWindow1 = new PopupWindow(join_view, 200, 200);
+
+        WindowManager.LayoutParams attributes = getWindow().getAttributes();
+        attributes.alpha = 0.5f;
+        getWindow().setAttributes(attributes);
+
+        popupWindow1.showAtLocation(tv_category_addCar, Gravity.CENTER, 0, 0);
+
+        //两秒自动关闭
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        popupWindow1.dismiss();
+                        WindowManager.LayoutParams attributes = getWindow().getAttributes();
+                        attributes.alpha = 1f;
+                        getWindow().setAttributes(attributes);
+                    }
+                });
+            }
+        },1000,3000);
+
+        isSelect = true;
     }
 
     //TODO 购物车的点击

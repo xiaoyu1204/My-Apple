@@ -13,6 +13,8 @@ import com.example.myhttp.model.bean.home.Home_NewGoods_Top_Bean;
 import com.example.myhttp.model.bean.me.MeLoginBean;
 import com.example.myhttp.model.bean.me.MeRegisterBean;
 import com.example.myhttp.model.bean.shop.AddCarBean;
+import com.example.myhttp.model.bean.shop.AddressAddProvinceBean;
+import com.example.myhttp.model.bean.shop.AddressBean;
 import com.example.myhttp.model.bean.shop.CarBean;
 import com.example.myhttp.model.bean.shop.DeleteCarBean;
 import com.example.myhttp.model.bean.shop.UpdateCarBean;
@@ -124,5 +126,18 @@ public interface ApiShop {
     //购物车列表
     @GET("cart/index")
     Flowable<CarBean> getCarList();
+
+    //收获地址列表
+    @GET("address/list")
+    Flowable<AddressBean> getAddress();
+
+    //添加地址
+    @POST("address/save")
+    @FormUrlEncoded
+    Flowable<DeleteCarBean> AddressAdd(@Field("productIds") String productIds);
+
+    //获得省市接口数据
+    @GET("region/list") //parentId  1
+    Flowable<AddressAddProvinceBean> getAddressAddProvince(@Query("parentId")int parentId);
 
 }

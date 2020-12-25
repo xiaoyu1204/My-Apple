@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myhttp.R;
 import com.example.myhttp.adapter.shop.CarListAdapter;
+import com.example.myhttp.app.MyApp;
 import com.example.myhttp.base.BaseAdapter;
 import com.example.myhttp.base.BaseFragment;
 import com.example.myhttp.model.bean.shop.CarBean;
@@ -61,22 +63,9 @@ public class ShopFragment extends BaseFragment<ICar.Presenter> implements ICar.V
 
     @Override
     protected void initView() {
-        /*checkBoxAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Log.i("TAG","onCheckedChangeed");
-                if(isEdit){
-                    updateGoodSelectStateEdit(isChecked);
-                }else{
-                    updateGoodSelectStateOrder(isChecked);
-                }
-            }
-        });*/
-
         checkBoxAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("TAG","checkboxall:"+checkBoxAll.isChecked());
                 boolean bool = checkBoxAll.isChecked();
                 if(isEdit){
                     updateGoodSelectStateEdit(bool);
@@ -171,8 +160,6 @@ public class ShopFragment extends BaseFragment<ICar.Presenter> implements ICar.V
     @Override
     public void updateCarReturn(UpdateCarBean result) {
 
-        Log.i("TAG",result.toString());
-
         for(UpdateCarBean.DataBean.CartListBean item:result.getData().getCartList()){
             updateCartListBeanNumberById(item.getId(),item.getNumber());
         }
@@ -204,7 +191,6 @@ public class ShopFragment extends BaseFragment<ICar.Presenter> implements ICar.V
     @Override
     public void deleteCarReturn(DeleteCarBean result) {
 
-        Log.i("TAG","deleteCar:"+result.toString());
         //通过购物车返回的最新数据，同步本地列表中的数据
         int index,lg=list.size();
         for(index=0;index<lg; index++){
@@ -262,8 +248,6 @@ public class ShopFragment extends BaseFragment<ICar.Presenter> implements ICar.V
         carListAdapter.notifyDataSetChanged();
     }
 
-
-
     /**
      * 下单状态下的总数和价格的计算
      */
@@ -285,7 +269,6 @@ public class ShopFragment extends BaseFragment<ICar.Presenter> implements ICar.V
         strAll = strAll.replace("$",String.valueOf(num));
         checkBoxAll.setText(strAll);
         txtTotalPrice.setText("￥"+totalPrice);
-        Log.i("TAG","num: "+num+"price："+totalPrice);
         return isSelectAll;
     }
 
@@ -369,7 +352,6 @@ public class ShopFragment extends BaseFragment<ICar.Presenter> implements ICar.V
         if(sb.length() > 0){
             sb.deleteCharAt(sb.length()-1);
         }
-        Log.i("TAG",sb.toString());
         presenter.deleteCar(sb.toString());
     }
 
@@ -377,18 +359,22 @@ public class ShopFragment extends BaseFragment<ICar.Presenter> implements ICar.V
      *下单所有选中的商品数据
      */
     private void OrdersCar() {
-        StringBuilder sb = new StringBuilder();
-        for(CarBean.DataBean.CartListBean item:list){
-            if(item.selectEdit){
-                sb.append(item.getProduct_id());
-                sb.append(",");
-            }
-        }
-        if(sb.length() > 0){
-            sb.deleteCharAt(sb.length()-1);
-        }
-        Log.i("TAG",sb.toString());
 
+        StringBuilder sb = new StringBuilder();
+            for(CarBean.DataBean.CartListBean item:list){
+                if(item.selectOrder){
+                    sb.append(item.getProduct_id());
+                    sb.append(",");
+                }
+            }
+            if(sb.length() > 0){
+                sb.deleteCharAt(sb.length()-1);
+            }
+
+            Intent intent = new Intent(mContext, ShopOrderCarActivity.class);
+            MyApp.getMap().put("shoppinglist",list);
+            startActivity(intent);
+            presenter.deleteCar(sb.toString());
     }
 
 }

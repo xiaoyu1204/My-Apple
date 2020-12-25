@@ -16,7 +16,7 @@ import com.example.myhttp.base.BaseFragment;
 import com.example.myhttp.model.bean.sort.SortBean;
 import com.example.myhttp.model.bean.sort.SortDataBean;
 import com.example.myhttp.presenter.sort.SortPresenter;
-import com.example.myhttp.sort.SortDataAdapter;
+import com.example.myhttp.adapter.sort.SortDataAdapter;
 import com.example.myhttp.utils.TxUtils;
 import com.example.myhttp.view.sort.ISort;
 
