@@ -19,6 +19,7 @@ import com.example.myhttp.adapter.topic.RlvDeToAdapter;
 import com.example.myhttp.adapter.topic.TopicCommentAdapter;
 import com.example.myhttp.adapter.topic.TopicRelatedAdapter;
 import com.example.myhttp.base.BaseActivity;
+import com.example.myhttp.base.BaseAdapter;
 import com.example.myhttp.model.bean.topic.TopicCommentBean;
 import com.example.myhttp.model.bean.topic.TopicRelatedBean;
 import com.example.myhttp.model.bean.topic.TopicdeBean;
@@ -26,6 +27,7 @@ import com.example.myhttp.presenter.topic.TopicCommentPresenter;
 import com.example.myhttp.view.topic.ITopicCommennt;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -54,6 +56,7 @@ public class Topic_CommentActivity extends BaseActivity<TopicCommentPresenter> i
 
     private int typeId = 1;
     private int size = 5;
+    private int id;
 
     @Override
     protected int getLayout() {
@@ -74,37 +77,51 @@ public class Topic_CommentActivity extends BaseActivity<TopicCommentPresenter> i
     protected void initData() {
         persenter = new TopicCommentPresenter(this);
         Intent intent = getIntent();
-        int id = intent.getIntExtra("id", 0);
+        id = intent.getIntExtra("id", 0);
         persenter.getTopicde(id);
         persenter.getTopicRela(id);
         persenter.getTopicComment(id, typeId, size);
     }
 
+    //TODO 专题详情页评论评论数据
     @Override
     public void getTopicCommentReturn(TopicCommentBean result) {
 
         List<TopicCommentBean.DataBeanX.DataBean> data = result.getData().getData();
 
-        if(data.size() >=5 ){
+        if(result.getData().getData()!=null  && result.getData().getData().size()> 0){
+            topicCommentRlv.setLayoutManager(new LinearLayoutManager(this));
+            topicCommentRlv.addItemDecoration(new DividerItemDecoration(this, LinearLayout.VERTICAL));
+            TopicCommentAdapter topicCommentAdapter = new TopicCommentAdapter(this, data);
+            topicCommentRlv.setAdapter(topicCommentAdapter);
+            topicCommentAdapter.notifyDataSetChanged();
+
+            Gengduo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Topic_CommentActivity.this, Topic_Comment_InfoActivity.class);
+                    intent.putExtra("id",id );
+                    startActivity(intent);
+                }
+            });
+
             Gengduo.setVisibility(View.VISIBLE);
         }else{
             Gengduo.setVisibility(View.GONE);
         }
 
-        topicCommentRlv.setLayoutManager(new LinearLayoutManager(this));
-        topicCommentRlv.addItemDecoration(new DividerItemDecoration(this, LinearLayout.VERTICAL));
-        TopicCommentAdapter topicCommentAdapter = new TopicCommentAdapter(this, data);
-        topicCommentRlv.setAdapter(topicCommentAdapter);
-        topicCommentAdapter.notifyDataSetChanged();
+
 
     }
 
+    //TODO  专题详情数据
     @Override
     public void getTopicdeReturn(TopicdeBean result) {
         TopicdeBean.DataBean data = result.getData();
-        initgetImage(data.getContent());
+        initgetImage(data.getContent());     //TODO  专题详情数据
     }
 
+    //TODO H5分割图片
     private void initgetImage(String content) {
         String img = "<img[\\s\\S]*?>";
         Pattern pattern = Pattern.compile(img);
@@ -140,16 +157,28 @@ public class Topic_CommentActivity extends BaseActivity<TopicCommentPresenter> i
         rlvDeToAdapter.notifyDataSetChanged();
     }
 
+    //TODO 专题底部列表
     @Override
     public void getTopicRelaReturn(TopicRelatedBean topicRelatedBean) {
 
         List<TopicRelatedBean.DataBean> data = topicRelatedBean.getData();
-        Log.e("TAG", "getTopicRelaReturn: "+data.size() );
 
         topicJingxuanRlv.setLayoutManager(new LinearLayoutManager(this));
         TopicRelatedAdapter relatedAdapter = new TopicRelatedAdapter(this, data);
         topicJingxuanRlv.setAdapter(relatedAdapter);
         relatedAdapter.notifyDataSetChanged();
+
+        relatedAdapter.addListClick(new BaseAdapter.IListClick() {
+            @Override
+            public void itemClick(int pos) {
+//                int id = data.get(pos).getId();
+//                Intent intent = new Intent(Topic_CommentActivity.this,Topic_CommentActivity.class);
+//                persenter.getTopicde(id);
+//                persenter.getTopicRela(id);
+//                persenter.getTopicComment(id, typeId, size);
+//                startActivity(intent);
+            }
+        });
 
     }
 
