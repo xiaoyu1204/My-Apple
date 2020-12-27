@@ -61,6 +61,17 @@ public class ShopFragment extends BaseFragment<ICar.Presenter> implements ICar.V
         return new CarPresenter();
     }
 
+    //懒加载
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden){
+            list.clear();
+            initData();
+            carListAdapter.notifyDataSetChanged();
+        }
+    }
+
     @Override
     protected void initView() {
         checkBoxAll.setOnClickListener(new View.OnClickListener() {

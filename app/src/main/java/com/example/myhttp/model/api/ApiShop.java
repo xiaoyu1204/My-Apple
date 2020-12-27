@@ -23,8 +23,9 @@ import com.example.myhttp.model.bean.sort.SortDataBean;
 import com.example.myhttp.model.bean.sort.Sort_Data_InfoBean;
 import com.example.myhttp.model.bean.topic.TopicBean;
 import com.example.myhttp.model.bean.topic.TopicCommentBean;
+import com.example.myhttp.model.bean.topic.TopicRelatedBean;
+import com.example.myhttp.model.bean.topic.TopicdeBean;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import io.reactivex.Flowable;
@@ -54,9 +55,17 @@ public interface ApiShop {
     @GET("topic/list")
     Flowable<TopicBean> getTopic(@Query("page")int page);
 
-    //专题评论    valueId=314&typeId=1&size=5
+    //专题详情页评论评论数据    valueId=314&typeId=1&size=5
     @GET("comment/list")
     Flowable<TopicCommentBean> getTopicComment(@Query("valueId")int valueId,@Query("typeId")int typeId,@Query("size")int size);
+
+    //专题详情数据        id=314
+    @GET("topic/detail")
+    Flowable<TopicdeBean> getTopicde(@Query("id") int id);
+
+    //专题详情页相关的专题推荐数据        id=314
+    @GET("topic/related")
+    Flowable<TopicRelatedBean> getTopicRela(@Query("id") int id);
 
    //首页制造商     page=1&size=1000
     @GET("brand/list")

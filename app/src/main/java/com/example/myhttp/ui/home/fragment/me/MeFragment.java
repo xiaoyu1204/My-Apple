@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import com.example.myhttp.R;
 import com.example.myhttp.base.BaseFragment;
 import com.example.myhttp.base.IBasePersenter;
+import com.example.myhttp.ui.home.fragment.me.shoucang.FavoritesActivity;
 import com.example.myhttp.utils.SpUtils;
 import com.example.myhttp.utils.ToastUtils;
 
@@ -96,6 +97,7 @@ public class MeFragment extends BaseFragment {
                 break;
             //我的收藏
             case R.id.me_ll_shoucang:
+                startActivity(new Intent(mContext, FavoritesActivity.class));
                 break;
             //我的足迹
             case R.id.me_ll_zuji:

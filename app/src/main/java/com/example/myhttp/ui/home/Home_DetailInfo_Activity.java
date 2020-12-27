@@ -43,6 +43,8 @@ import com.example.myhttp.model.bean.shop.AddCarBean;
 import com.example.myhttp.presenter.home.Home_DetailInfo_Presenter;
 import com.example.myhttp.ui.home.fragment.home.HomeBigimageActivity;
 import com.example.myhttp.ui.home.fragment.me.MeLoginActivity;
+import com.example.myhttp.ui.home.fragment.me.shoucang.Favorites;
+import com.example.myhttp.ui.home.fragment.me.shoucang.Realms;
 import com.example.myhttp.utils.ImageLoaderUtils;
 import com.example.myhttp.utils.ItemDecoration;
 import com.example.myhttp.utils.SpUtils;
@@ -61,6 +63,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import io.realm.Realm;
 
 public class Home_DetailInfo_Activity extends BaseActivity<IHomeDetailInfo.Persenter> implements IHomeDetailInfo.View {
 
@@ -405,6 +409,25 @@ public class Home_DetailInfo_Activity extends BaseActivity<IHomeDetailInfo.Perse
             isSelect = false;
         }
 
+        //添加数据库
+        img_collect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(Home_DetailInfo_Activity.this, "收藏成功", Toast.LENGTH_SHORT).show();
+                Realms.getRealm(Home_DetailInfo_Activity.this).executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        Favorites favorites = realm.createObject(Favorites.class);
+                        favorites.setName(info.getName());
+                        favorites.setPic(info.getList_pic_url());
+                        favorites.setPrice(info.getRetail_price());
+                        favorites.setTitle(info.getGoods_brief());
+
+                        Log.e("TAG", "execute: "+info.getName()+info.getList_pic_url() );
+                    }
+                });
+            }
+        });
         detail_con_guige.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -429,8 +452,6 @@ public class Home_DetailInfo_Activity extends BaseActivity<IHomeDetailInfo.Perse
         });
 
     }
-
-
 
     private void initpwxian(Home_DetailInfo_Bean.DataBeanX.InfoBean info) {
         View join_view = LayoutInflater.from(Home_DetailInfo_Activity.this).inflate(R.layout.layout_detail_pop, null);

@@ -16,6 +16,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".ui.home.fragment.shop.ShopAddressesAddActivity"></activity>
+        <activity android:name=".ui.home.fragment.me.shoucang.FavoritesActivity"></activity>
         <activity android:name=".ui.home.fragment.shop.ShopAddressesActivity" />
         <activity android:name=".ui.home.fragment.shop.ShopOrderCarActivity" />
         <activity android:name=".ui.home.fragment.me.MeRegistActivity" />

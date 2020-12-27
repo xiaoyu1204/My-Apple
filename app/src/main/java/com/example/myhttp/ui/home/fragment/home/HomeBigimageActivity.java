@@ -85,7 +85,6 @@ public class HomeBigimageActivity extends AppCompatActivity {
             if (bundle != null) {
                 list = bundle.getStringArrayList("image");
                 currentPos = bundle.getInt("position");//存放此下标
-//                adapter = new BigImageAdapter(this, list);
 //                mVp.setAdapter(adapter);
                 updatePage();//调用修改Page页的方法
             }

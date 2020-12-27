@@ -4,41 +4,57 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/dp_10"
-    android:paddingTop="@dimen/dp_10"
+    android:background="@color/huise"
     tools:context=".ui.home.fragment.topic.Topic_CommentActivity">
 
     <androidx.core.widget.NestedScrollView
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/topic_comment_txt"
-                android:text="精选留言"
-                android:textSize="@dimen/dp_18"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/topic_rlv_img"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-            <ImageView
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                android:id="@+id/topic_comment_img"
-                android:src="@mipmap/comment"
-                android:paddingRight="@dimen/dp_10"
-                android:layout_width="@dimen/dp_25"
-                android:layout_height="@dimen/dp_25"
-                />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/topic_con"
+                android:paddingTop="@dimen/dp_10"
+                android:paddingLeft="@dimen/dp_10"
+                android:paddingBottom="@dimen/dp_10"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/topic_comment_txt"
+                    android:text="精选留言"
+                    android:textSize="@dimen/dp_18"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+
+                <ImageView
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:id="@+id/topic_comment_img"
+                    android:src="@mipmap/comment"
+                    android:paddingRight="@dimen/dp_10"
+                    android:layout_width="@dimen/dp_25"
+                    android:layout_height="@dimen/dp_25"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <View
                 android:id="@+id/topic_comment_view"
-                app:layout_constraintTop_toBottomOf="@+id/topic_comment_txt"
                 android:layout_marginTop="@dimen/dp_5"
                 android:background="@color/huise"
                 android:layout_marginBottom="@dimen/dp_5"
@@ -48,12 +64,34 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/topic_comment_rlv"
-                app:layout_constraintTop_toBottomOf="@+id/topic_comment_view"
+                android:padding="@dimen/dp_10"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_height="wrap_content"
+                />
+            
+            <Button
+                android:id="@+id/topic_comment_btn_gengduo"
+                android:background="@color/white"
+                android:text="查看更多"
+                android:visibility="gone"
+                android:textSize="@dimen/dp_24"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/topic_jingxuan_tuijian"
+                android:background="@color/huise"
+                android:text="专题推荐"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_70"
                 />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:id="@+id/topic_jingxuan_rlv"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

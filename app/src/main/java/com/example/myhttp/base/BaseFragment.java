@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.myhttp.ui.home.HomeActivity;
+import com.example.myhttp.ui.home.fragment.me.MeLoginActivity;
 import com.example.myhttp.utils.ActivityManager;
 
 import butterknife.ButterKnife;
@@ -77,7 +78,7 @@ public abstract class BaseFragment<P extends IBasePersenter> extends Fragment im
      * 跳转登录
      */
     protected void gotoLogin(){
-        ActivityManager.startFragmentForResult(this,100, HomeActivity.class);
+        ActivityManager.startFragmentForResult(this,100, MeLoginActivity.class);
     }
 
     @Override

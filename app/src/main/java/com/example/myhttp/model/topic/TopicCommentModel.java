@@ -2,6 +2,8 @@ package com.example.myhttp.model.topic;
 
 import com.example.myhttp.base.BaseModel;
 import com.example.myhttp.model.bean.topic.TopicCommentBean;
+import com.example.myhttp.model.bean.topic.TopicRelatedBean;
+import com.example.myhttp.model.bean.topic.TopicdeBean;
 import com.example.myhttp.model.callback.Callback;
 import com.example.myhttp.net.CommonSubscriber;
 import com.example.myhttp.net.HttpManager;
@@ -21,4 +23,30 @@ public class TopicCommentModel extends BaseModel implements ITopicCommennt.Model
             }
         }));
     }
+
+    @Override
+    public void getTopicde(int id, Callback callback) {
+        addDisposable(HttpManager.getInstance().getApiShop().getTopicde(id)
+        .compose(RxUtils.rxScheduler())
+        .subscribeWith(new CommonSubscriber<TopicdeBean>(callback) {
+            @Override
+            public void onNext(TopicdeBean topicdeBean) {
+                callback.success(topicdeBean);
+            }
+        }));
+    }
+
+    @Override
+    public void getTopicRela(int id, Callback callback) {
+        addDisposable(HttpManager.getInstance().getApiShop().getTopicRela(id)
+        .compose(RxUtils.rxScheduler())
+        .subscribeWith(new CommonSubscriber<TopicRelatedBean>(callback) {
+            @Override
+            public void onNext(TopicRelatedBean topicRelatedBean) {
+                callback.success(topicRelatedBean);
+            }
+        }));
+    }
+
+
 }

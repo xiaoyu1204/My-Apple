@@ -68,7 +68,6 @@ public class ShopAddressesAddActivity extends BaseActivity<IShopAddress.Presente
     private String defaultCity = "城市"; //显示在上面tab中的城市
     private String defaultDistrict = "区县"; //显示在上面tab中的区县
 
-    private AddressAddProvinceBean addressAddProvinceBean;  // 总数据
     private AddressAddProvinceBean.DataBean mSelectProvice; //选中 省份 bean
     private AddressAddProvinceBean.DataBean mSelectCity;//选中 城市  bean
     private AddressAddProvinceBean.DataBean mSelectDistrict;//选中 区县  bean
@@ -146,6 +145,7 @@ public class ShopAddressesAddActivity extends BaseActivity<IShopAddress.Presente
         // UI
         View rootView = View.inflate(this, R.layout.address_add_province_pw, null);
         window = new PopupWindow(rootView, ViewGroup.LayoutParams.MATCH_PARENT, 1000);
+        presenter.getAddressAddProvince(1);
 
         //集合
         mRvData = new ArrayList<AddressAddProvinceBean.DataBean>();
@@ -233,6 +233,7 @@ public class ShopAddressesAddActivity extends BaseActivity<IShopAddress.Presente
             mRvData.clear();
             switch (tab.getPosition()) {
                 case 0:
+                    presenter.getAddressAddProvince(1);
                     mAdapter.notifyDataSetChanged();
                     // 滚动到这个位置
                     mRvList.smoothScrollToPosition(mSelectProvicePosition);
