@@ -18,12 +18,12 @@ public class MeLoginPresenter extends BasePresenter<IMeLogin.View> implements IM
     }
 
     @Override
-    public void getMeLogin(String username, String password) {
-        model.getMeLogin(username, password, new Callback() {
+    public void MeLogin(String username, String password) {
+        model.MeLogin(username, password, new Callback() {
             @Override
             public void success(Object o) {
                 if(view != null){
-                    view.getMeLoginReturn((MeLoginBean) o);
+                    view.MeLoginReturn((MeLoginBean) o);
                 }
             }
 
