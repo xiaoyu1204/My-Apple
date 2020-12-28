@@ -14,6 +14,7 @@ import com.example.myhttp.R;
 import com.example.myhttp.base.BaseFragment;
 import com.example.myhttp.base.IBasePersenter;
 import com.example.myhttp.ui.home.fragment.me.shoucang.FavoritesActivity;
+import com.example.myhttp.ui.home.fragment.me.shoucang.MeActivity;
 import com.example.myhttp.utils.SpUtils;
 import com.example.myhttp.utils.ToastUtils;
 
@@ -130,6 +131,9 @@ public class MeFragment extends BaseFragment {
             startActivityForResult(intent,100);
         }else{
             ToastUtils.s(mContext,getString(R.string.tips_ok_login));
+            //进入个人主页
+            Intent intent = new Intent(mContext, MeActivity.class);
+            startActivity(intent);
         }
     }
 
