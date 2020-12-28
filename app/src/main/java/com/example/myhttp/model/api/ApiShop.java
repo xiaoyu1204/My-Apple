@@ -110,12 +110,12 @@ public interface ApiShop {
     //登录接口
     @POST("auth/login")
     @FormUrlEncoded
-    Flowable<MeLoginBean> getMeLogin(@Field("username") String username, @Field("password") String password);
+    Flowable<MeLoginBean> MeLogin(@Field("username") String username, @Field("password") String password);
 
     //注册接口
     @POST("auth/register")
     @FormUrlEncoded
-    Flowable<MeRegisterBean> getMeRegist(@Field("username") String username, @Field("password") String password);
+    Flowable<MeRegisterBean> MeRegist(@Field("username") String username, @Field("password") String password);
 
     //添加到购物车
     @POST("cart/add")

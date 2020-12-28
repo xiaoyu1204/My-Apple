@@ -3,7 +3,7 @@ package com.example.myhttp.view.shop;
 import com.example.myhttp.base.IBaseModel;
 import com.example.myhttp.base.IBasePersenter;
 import com.example.myhttp.base.IBaseView;
-import com.example.myhttp.model.bean.shop.ShopBean;
+import com.example.myhttp.model.bean.shop.CarBean;
 import com.example.myhttp.model.callback.Callback;
 
 //接口契约类
@@ -12,9 +12,9 @@ public interface IShop {
     interface View extends IBaseView {
         //定义一个被实现的View层接口方法
         //购物车列表
-        void getShopReturn(ShopBean result);
+        void getShopReturn(CarBean result);
         //添加购物车
-        void ShopAddCarReturn(ShopBean result);
+        void ShopAddCarReturn(CarBean result);
     }
 
     interface Persenter extends IBasePersenter<View> {

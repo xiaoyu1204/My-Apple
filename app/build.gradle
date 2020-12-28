@@ -38,78 +38,72 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
-    //Butterknife
-    implementation 'com.jakewharton:butterknife:10.0.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
+    //网络请求Retrofint2依赖（包括解析）
+    implementation "com.squareup.retrofit2:retrofit:2.5.0"
+    implementation "com.squareup.retrofit2:converter-gson:2.5.0"
+    implementation "com.squareup.retrofit2:converter-scalars:2.0.1"
+    implementation "com.squareup.okhttp3:okhttp:3.12.1"
+    // 必要rxjava2依赖
+    implementation "io.reactivex.rxjava2:rxjava:2.1.3"
+    // 必要rxandrroid依赖，切线程时需要用到
+    implementation "io.reactivex.rxjava2:rxandroid:2.0.1"
+    // 必要依赖
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
 
-//解析json
-    implementation 'com.google.code.gson:gson:2.2.4'
+    //侧滑菜单 recyclerview  协调者布局
+    implementation 'com.android.support:design:30.1.1'
 
-//OkHttpClient
-    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
-
-    //最新版本	Banner
+    // 轮播图依赖
     implementation 'com.youth.banner:banner:1.4.10'
 
-//卡片佈局
+    // 图片加载依赖（新）
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
+
+    //卡片布局
     implementation 'com.android.support:cardview-v7:30.0.0'
 
-//侧滑菜单，tablayout，recyclerview
-    implementation  'com.android.support:design:30.0.0'
-
-//不用异步加载器加载图片
-    implementation 'com.github.bumptech.glide:glide:4.11.0'
-
-//SmartRefreshLayout	自动加载自动刷新
-    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.4-7'
-    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.4-7'
-
-//retrofit和rxjava结合
-    implementation 'com.squareup.retrofit2:retrofit:2.5.0'  //Retrofit依赖
-    implementation 'com.squareup.retrofit2:converter-gson:2.5.0' // 必要依赖，解析json字符
-
-//RxJava依赖
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
-    implementation 'io.reactivex.rxjava2:rxjava:2.0.1'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
-
-//Eventbus
+    //EventBus依赖
     implementation 'org.greenrobot:eventbus:3.1.1'
 
-//动态权限
-    implementation 'com.github.dfqin:grantor:1.1.0'
+    // Gson解析依赖
+    implementation 'com.google.code.gson:gson:2.8.5'
 
-//设置图片
-    implementation 'com.facebook.fresco:fresco:1.12.1'
+    //获取动态权限框架
+    implementation 'com.github.dfqin:grantor:2.5'
 
-//过滤器
-    implementation 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
-    implementation "org.reactivestreams:reactive-streams:1.0.2"
+    //OKHttp依赖
+    implementation "com.squareup.okhttp3:okhttp:3.12.1"
 
-//NineGridLayout
-    compile 'com.jaeger.ninegridimageview:library:1.0.2'
+    //上拉加载 下拉刷新依赖 // 列表刷新依赖
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.2'
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-14'
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-14'
 
-//文本过长 点击展开全部
-    implementation 'com.ms-square:expandableTextView:0.1.4'
-    compile 'cn.carbs.android:ExpandableTextView:1.0.0'
 
-//SmartRefreshLayout	自动加载自动刷新
-//默认提供三种加载效果
-    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.4-7'
-//提供了多种现成的刷新Header库，可以直接用，如不需要可以不集成
-    compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.4-7'
-
-    //垂直 Tab
+    //垂直的tablayout
     implementation 'q.rorbin:VerticalTabLayout:1.2.5'
 
-    // 支持双指拖动放大的ImageView
-    compile 'com.bm.photoview:library:1.4.1'
-    //Glide 图片加载框架
-    compile 'com.github.bumptech.glide:glide:3.7.0'
-    //图片
+    //Vp2
+    implementation 'androidx.appcompat:appcompat:1.3.0-alpha02'
+    implementation 'com.android.support:design:30.0.0'
+    implementation 'androidx.viewpager2:viewpager2:1.1.0-alpha01'
+
+//九宫格
+    implementation 'com.jaeger.ninegridimageview:library:1.0.2'
+
+    //图片布局 类似ImageView 手势
+    implementation 'com.bm.photoview:library:1.4.1'
+
+//黄油刀
+    implementation 'com.jakewharton:butterknife:10.1.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
+
+    //图片缩放
     implementation 'com.github.chrisbanes:PhotoView:2.0.0'
 
-    //侧滑    删除
-    implementation 'com.yanzhenjie:recyclerview-swipe:1.1.4'
+    // 图片加载依赖
+    //implementation 'com.dyhdyh.support:glide:1.0.0'
+    //recyclerview 列表 依赖
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
 
 }

@@ -1,7 +1,7 @@
 package com.example.myhttp.ui.home.fragment.me;
 
+
 import android.content.Intent;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -24,7 +24,6 @@ import com.example.myhttp.utils.ToastUtils;
 import com.example.myhttp.view.me.IMeLogin;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 //登陆界面
@@ -87,34 +86,34 @@ public class MeLoginActivity extends BaseActivity<IMeLogin.Persenter> implements
         }
     }
 
-    private void login() {
-        String username = meLoginInputUsername.getText().toString();
-        String pw = meLoginInputPw.getText().toString();
-        if(!TextUtils.isEmpty(username) && !TextUtils.isEmpty(pw)){
-
-            String token = SpUtils.getInstance().getString("token");
-<<<<<<< HEAD
-            if(token != null){
-                presenter.getMeLogin(username,pw);
-=======
-            Log.e("TAG", "login: "+token);
-
-            if(token != null){
-                presenter.MeLogin(username,pw);
->>>>>>> origin/main
-            }else{
-                ToastUtils.s(this,getString(R.string.tips_login));
-            }
-
-        }else{
-            ToastUtils.s(this,getString(R.string.tips_login_));
-        }
-    }
-
-    private void initRegist() {        //跳转到注册页面
+    private void initRegist() {
         Intent intent = new Intent(this, MeRegistActivity.class);
         startActivityForResult(intent,100);
     }
+
+    private void login() {
+        String username = meLoginInputUsername.getText().toString();
+        String pw = meLoginInputPw.getText().toString();
+        if (!TextUtils.isEmpty(username) && !TextUtils.isEmpty(pw)) {
+
+            String token = SpUtils.getInstance().getString("token");
+            if (token != null) {
+                presenter.MeLogin(username, pw);
+                Log.e("TAG", "login: " + token);
+
+                if (token != null) {
+                    presenter.MeLogin(username, pw);
+
+                } else {
+                    ToastUtils.s(this, getString(R.string.tips_login));
+                }
+
+            } else {
+                ToastUtils.s(this, getString(R.string.tips_login_));
+            }
+        }
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
