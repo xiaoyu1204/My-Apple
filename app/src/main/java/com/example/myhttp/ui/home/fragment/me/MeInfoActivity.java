@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -58,24 +57,14 @@ import butterknife.OnClick;
 
 public class MeInfoActivity extends BaseActivity<IUser.Presenter> implements IUser.View {
 
-    @BindView(R.id.include_head_portrait_one)
-    ConstraintLayout inclue_one;
-    @BindView(R.id.include_head_portrait_two)
-    ConstraintLayout inclue_two;
-    @BindView(R.id.include_head_portrait_three)
-    ConstraintLayout inclue_three;
-    @BindView(R.id.include_head_portrait_four)
-    ConstraintLayout inclue_four;
-    @BindView(R.id.iv_head_portrait_pic)
-    ImageView iv_Pic;
-    @BindView(R.id.iv_head_portrait_select_img)
-    ImageView iv_Img;
-    @BindView(R.id.layout_input)
-    ConstraintLayout layoutInput;
     @BindView(R.id.txt_input)
     EditText txtInput;
+    @BindView(R.id.layout_input)
+    ConstraintLayout layoutInput;
     @BindView(R.id.btn_save)
     Button btnSave;
+    @BindView(R.id.img_avatar)
+    ImageView imgAvatar;
 
     String bucketName = "2002a02"; //Bucket 名
     String ossPoint = "http://oss-cn-beijing.aliyuncs.com";    //Bucket 名
@@ -83,6 +72,8 @@ public class MeInfoActivity extends BaseActivity<IUser.Presenter> implements IUs
     //这个通常使用密钥传输，直接放着不安全
     String key = "LTAI4G3x7KtcnYUxxSmYK17e";  //appkey
     String secret = "D1PLamKr1tuzcMC0J4dGrXTfvAe9Jq";  //密码
+
+
 
     private OSS ossClient;
 
@@ -99,33 +90,19 @@ public class MeInfoActivity extends BaseActivity<IUser.Presenter> implements IUs
     @Override
     protected void initView() {
         initOss();
-        TextView one_left = inclue_one.findViewById(R.id.tv_head_portrait_left);
-        TextView two_left = inclue_two.findViewById(R.id.tv_head_portrait_left);
-        TextView three_left = inclue_three.findViewById(R.id.tv_head_portrait_left);
-        TextView four_left = inclue_four.findViewById(R.id.tv_head_portrait_left);
 
-        one_left.setText("昵称");
-        two_left.setText("微信号");
-        three_left.setText("拍一拍");
-        four_left.setText("更多");
-
-        iv_Pic.setOnClickListener(new View.OnClickListener() {
+        imgAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openPhoto();
             }
         });
-        one_left.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //打开输入的状态
-                showInput();
-            }
-        });
+
         String img = SpUtils.getInstance().getString("img");
         if (!TextUtils.isEmpty(img)) {
-            Glide.with(this).load(img).apply(new RequestOptions().circleCrop()).into(iv_Pic);
+            Glide.with(this).load(img).apply(new RequestOptions().circleCrop()).into(imgAvatar);
         }
+
     }
 
     @Override
@@ -152,17 +129,17 @@ public class MeInfoActivity extends BaseActivity<IUser.Presenter> implements IUs
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.iv_head_portrait_pic, R.id.btn_save})
+    @OnClick({R.id.img_avatar, R.id.btn_save})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.iv_head_portrait_pic:
+            case R.id.img_avatar:
                 openPhoto();
                 break;
             case R.id.btn_save:
                 String nickname = txtInput.getText().toString();
-                if(!TextUtils.isEmpty(nickname)){
-                    Map<String,String> map = new HashMap<>();
-                    map.put("nickname",nickname);
+                if (!TextUtils.isEmpty(nickname)) {
+                    Map<String, String> map = new HashMap<>();
+                    map.put("nickname", nickname);
                     persenter.updateUserInfo(map);
                 }
                 break;
@@ -283,10 +260,10 @@ public class MeInfoActivity extends BaseActivity<IUser.Presenter> implements IUs
 
     //TODO 上传头像
     private void updateHead(String url) {
-        iv_Pic.post(new Runnable() {
+        imgAvatar.post(new Runnable() {
             @Override
             public void run() {
-                Glide.with(iv_Pic).load(url).apply(new RequestOptions().circleCrop()).into(iv_Pic);
+                Glide.with(imgAvatar).load(url).apply(new RequestOptions().circleCrop()).into(imgAvatar);
             }
         });
     }
@@ -306,4 +283,7 @@ public class MeInfoActivity extends BaseActivity<IUser.Presenter> implements IUs
     }
 
 
+    @OnClick(R.id.img_avatar)
+    public void onClick() {
+    }
 }

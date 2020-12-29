@@ -22,6 +22,9 @@ import butterknife.OnClick;
 
 public class MeFragment extends BaseFragment {
 
+    public static final int LOGIN_ME = 10001; //登录成功的回传值
+    public static final int LOGINOUT_ME = 10002; //退出登录的回传
+
     @BindView(R.id.me_head_img)
     ImageView meHeadImg;
     @BindView(R.id.me_head_login)
