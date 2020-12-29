@@ -152,6 +152,7 @@ public interface ApiShop {
 
     //用户信息更新
     @POST("user/updateUserInfo")
+    @FormUrlEncoded
     Flowable<UserInfoBean> updateUserInfo(@FieldMap Map<String,String> map);
 
 }

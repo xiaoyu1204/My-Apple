@@ -15,8 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.home.fragment.me.shoucang.LoginActivity"></activity>
-        <activity android:name=".view.start.SplaceActivity"></activity>
+        <activity android:name=".ui.home.fragment.topic.SendingActivity"></activity>
+        <activity android:name=".ui.home.fragment.me.shoucang.LoginActivity" />
+        <activity android:name=".view.start.SplaceActivity" />
         <activity android:name=".ui.home.fragment.me.MeInfoActivity" />
         <activity android:name=".ui.home.fragment.topic.Topic_Comment_InfoActivity" />
         <activity android:name=".ui.home.fragment.shop.ShopAddressesAddActivity" />

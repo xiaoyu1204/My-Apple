@@ -9,12 +9,14 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.alibaba.sdk.android.oss.ClientConfiguration;
 import com.alibaba.sdk.android.oss.ClientException;
@@ -39,6 +41,7 @@ import com.example.myhttp.utils.ActivityCollectorUtil;
 import com.example.myhttp.utils.BitmapUtils;
 import com.example.myhttp.utils.GlideEngine;
 import com.example.myhttp.utils.SpUtils;
+import com.example.myhttp.utils.SystemUtils;
 import com.example.myhttp.view.me.IUser;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
@@ -46,7 +49,9 @@ import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,11 +59,30 @@ import butterknife.OnClick;
 
 public class MeInfoActivity extends BaseActivity<IUser.Presenter> implements IUser.View {
 
-    Button btnSave;
     @BindView(R.id.img_avatar)
     ImageView imgAvatar;
-    @BindView(R.id.btn_loginout)
-    Button btnLoginout;
+    @BindView(R.id.layout_avatar)
+    ConstraintLayout layoutAvatar;
+    @BindView(R.id.layout_nickname)
+    ConstraintLayout layoutNickname;
+    @BindView(R.id.txt_nickname)
+    TextView txtNickname;
+    @BindView(R.id.txt_username)
+    TextView txtUsername;
+    @BindView(R.id.txt_mark)
+    TextView txtMark;
+    @BindView(R.id.layout_mark)
+    ConstraintLayout layoutMark;
+    @BindView(R.id.txt_birthday)
+    TextView txtBirthday;
+    @BindView(R.id.layout_birthday)
+    ConstraintLayout layoutBirthday;
+    @BindView(R.id.txt_input)
+    EditText txtInput;
+    @BindView(R.id.btn_save)
+    Button btnSave;
+    @BindView(R.id.layout_input)
+    ConstraintLayout layoutInput;
 
     String bucketName = "2002a02"; //Bucket 名
     String ossPoint = "http://oss-cn-beijing.aliyuncs.com";    //Bucket 名
@@ -81,14 +105,16 @@ public class MeInfoActivity extends BaseActivity<IUser.Presenter> implements IUs
 
     @Override
     protected void initView() {
-        initOss();
 
-        imgAvatar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openPhoto();
-            }
-        });
+        String name = SpUtils.getInstance().getString("name");
+        String txtName = getIntent().getStringExtra("txtName");
+        String Mark = getIntent().getStringExtra("txtMark");
+
+        txtUsername.setText(name);
+        txtNickname.setText(txtName);
+        txtMark.setText(Mark);
+
+        initOss();
 
         String img = SpUtils.getInstance().getString("img");
         if (!TextUtils.isEmpty(img)) {
@@ -121,27 +147,66 @@ public class MeInfoActivity extends BaseActivity<IUser.Presenter> implements IUs
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.img_avatar,R.id.btn_loginout})
+    //更新用户信息返回
+    @Override
+    public void updateUserInfoReturn(UserInfoBean result) {
+        if (result.getErrno() == 0) {
+            SystemUtils.closeSoftKeyBoard(this);
+            layoutInput.setVisibility(View.GONE);
+        }
+    }
+
+    @OnClick({R.id.img_avatar,R.id.txt_nickname, R.id.layout_mark, R.id.layout_birthday})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_avatar:
                 openPhoto();
                 break;
-            case R.id.btn_loginout:
-                //清空Sp
-                SpUtils.getInstance().delete();
-
-                //退出登录
-                ActivityCollectorUtil.finishAllActivity();
-
-                //关闭页面
-                finishAndRemoveTask();
+            case R.id.txt_nickname:
+                updateName();
+                btnSave.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String nickname = txtInput.getText().toString();
+                        if(!TextUtils.isEmpty(nickname)){
+                            Map<String,String> map = new HashMap<>();
+                            map.put("nickname",nickname);
+                            persenter.updateUserInfo(map);
+                            layoutInput.setVisibility(View.GONE);
+                            SpUtils.getInstance().remove("nickname");
+                            SpUtils.getInstance().setValue("nickname",nickname);
+                            txtNickname.setText(nickname);
+                            txtInput.setText("");
+                        }
+                    }
+                });
+                break;
+            case R.id.layout_mark:
+                updateName();
+                btnSave.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String markName = txtInput.getText().toString();
+                        if(!TextUtils.isEmpty(markName)){
+                            Map<String,String> map = new HashMap<>();
+                            map.put("mark",markName);
+                            persenter.updateUserInfo(map);
+                            layoutInput.setVisibility(View.GONE);
+                            SpUtils.getInstance().remove("mark");
+                            SpUtils.getInstance().setValue("mark",markName);
+                            txtMark.setText(markName);
+                            txtInput.setText("");
+                        }
+                    }
+                });
                 break;
         }
     }
 
-    public void refresh() {
-        onCreate(null);
+    private void updateName() {
+        layoutInput.setVisibility(View.VISIBLE);
+        txtInput.setFocusable(true);
+        SystemUtils.openSoftKeyBoard(this);
     }
 
     //TODO 打开相册
@@ -266,8 +331,6 @@ public class MeInfoActivity extends BaseActivity<IUser.Presenter> implements IUs
         });
     }
 
-    @Override
-    public void updateUserInfoReturn(UserInfoBean result) {
 
-    }
+    
 }

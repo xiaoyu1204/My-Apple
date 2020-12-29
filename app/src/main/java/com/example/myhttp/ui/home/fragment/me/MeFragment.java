@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -19,6 +20,7 @@ import com.example.myhttp.base.BaseFragment;
 import com.example.myhttp.base.IBasePersenter;
 import com.example.myhttp.ui.home.fragment.me.shoucang.FavoritesActivity;
 import com.example.myhttp.ui.home.fragment.me.shoucang.LoginActivity;
+import com.example.myhttp.utils.ActivityCollectorUtil;
 import com.example.myhttp.utils.ImageLoader;
 import com.example.myhttp.utils.SpUtils;
 import com.example.myhttp.utils.ToastUtils;
@@ -64,6 +66,8 @@ public class MeFragment extends BaseFragment {
     TextView txtNickname;
     @BindView(R.id.me_head_mark)
     TextView txtMark;
+    @BindView(R.id.btn_loginout)
+    Button btnLoginout;
 
     @Override
     protected int getLayout() {
@@ -90,7 +94,17 @@ public class MeFragment extends BaseFragment {
         }
     }
 
-    @OnClick({R.id.me_head_img, R.id.me_head_login, R.id.me_head_jt_img, R.id.me_ll_dingdan, R.id.me_ll_youhuiquan, R.id.me_ll_lipinka, R.id.me_ll_shoucang, R.id.me_ll_zuji, R.id.me_ll_fuli, R.id.me_ll_dizhi, R.id.me_ll_zhanghao, R.id.me_ll_lianxi, R.id.me_ll_bangzhu, R.id.me_ll_fankui})
+    //懒加载
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden){
+            initData();
+            initLogin();
+        }
+    }
+
+    @OnClick({R.id.btn_loginout,R.id.me_head_img, R.id.me_head_login, R.id.me_head_jt_img, R.id.me_ll_dingdan, R.id.me_ll_youhuiquan, R.id.me_ll_lipinka, R.id.me_ll_shoucang, R.id.me_ll_zuji, R.id.me_ll_fuli, R.id.me_ll_dizhi, R.id.me_ll_zhanghao, R.id.me_ll_lianxi, R.id.me_ll_bangzhu, R.id.me_ll_fankui})
     public void onClick(View view) {
         switch (view.getId()) {
             //头像
@@ -139,22 +153,37 @@ public class MeFragment extends BaseFragment {
             //意见反馈
             case R.id.me_ll_fankui:
                 break;
+            case R.id.btn_loginout:
+                //清空Sp
+                SpUtils.getInstance().delete();
+                //退出登录
+                ActivityCollectorUtil.finishAllActivity();
+                break;
         }
     }
 
     //跳转登录界面
     private void initLogin() {
         if (!TextUtils.isEmpty(SpUtils.getInstance().getString("token"))) {
-            ToastUtils.s(mContext, getString(R.string.tips_ok_login));
-            //进入个人主页
-            Intent intent = new Intent(mContext, MeInfoActivity.class);
-            startActivity(intent);
-            isLogin(true);
+            openUserInfoDetail();
         } else {
             Intent intent = new Intent(mContext, LoginActivity.class);
             startActivity(intent);
             isLogin(false);
         }
+    }
+
+    private void openUserInfoDetail() {
+        //进入个人主页
+        Intent intent = new Intent(mContext, MeInfoActivity.class);
+
+        String txtName = txtNickname.getText().toString();
+        String txtMark = this.txtMark.getText().toString();
+        intent.putExtra("txtName", txtName);
+        intent.putExtra("txtMark", txtMark);
+        startActivityForResult(intent, 200);
+
+        isLogin(true);
     }
 
     /**
@@ -166,22 +195,25 @@ public class MeFragment extends BaseFragment {
             meHeadLogin.setVisibility(View.GONE);
             txtNickname.setVisibility(View.VISIBLE);
             txtMark.setVisibility(View.VISIBLE);
+
             String username = SpUtils.getInstance().getString("name");
             String nickname = SpUtils.getInstance().getString("nickname");
             String avatar = SpUtils.getInstance().getString("avatar");
             String mark = SpUtils.getInstance().getString("mark");
-            Log.e("TAG", "isLogin: "+nickname);
+
             if(!TextUtils.isEmpty(nickname)){
                 txtNickname.setText(nickname);
             }else{
                 txtNickname.setText(username);
             }
+
             ImageLoader.loadImage(avatar,meHeadImg);
             TxtUtils.setTextView(txtMark,mark);
             String img = SpUtils.getInstance().getString("img");
             if (!TextUtils.isEmpty(img)) {
                 Glide.with(this).load(img).apply(new RequestOptions().circleCrop()).into(meHeadImg);
             }
+
         }else{
             meHeadLogin.setVisibility(View.VISIBLE);
             txtNickname.setVisibility(View.GONE);

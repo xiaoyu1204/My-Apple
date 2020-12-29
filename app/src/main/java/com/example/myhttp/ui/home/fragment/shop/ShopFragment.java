@@ -50,6 +50,7 @@ public class ShopFragment extends BaseFragment<ICar.Presenter> implements ICar.V
 
     private CarListAdapter carListAdapter;
     private List<CarBean.DataBean.CartListBean> list;
+    private List<CarBean.DataBean.CartListBean> list1;
 
     @Override
     protected int getLayout() {
@@ -94,6 +95,7 @@ public class ShopFragment extends BaseFragment<ICar.Presenter> implements ICar.V
     @Override
     protected void initData() {
         list = new ArrayList<>();
+        list1 = new ArrayList<>();
         carListAdapter = new CarListAdapter(mContext,list);
         recyGood.setLayoutManager(new LinearLayoutManager(mContext));
         recyGood.setAdapter(carListAdapter);
@@ -340,6 +342,10 @@ public class ShopFragment extends BaseFragment<ICar.Presenter> implements ICar.V
      * 提交
      */
     private void submit(){
+        if(list1!=null){
+            list1.clear();
+        }
+
         if("下单".equals(txtSubmit.getText().toString())){
             //下单
             OrdersCar();
@@ -370,22 +376,23 @@ public class ShopFragment extends BaseFragment<ICar.Presenter> implements ICar.V
      *下单所有选中的商品数据
      */
     private void OrdersCar() {
-
+        list1.clear();
+        //下单
         StringBuilder sb = new StringBuilder();
-            for(CarBean.DataBean.CartListBean item:list){
-                if(item.selectOrder){
-                    sb.append(item.getProduct_id());
-                    sb.append(",");
-                }
+        for(CarBean.DataBean.CartListBean item:list){
+            if(item.selectOrder){
+                sb.append(item.getProduct_id());
+                sb.append(",");
+                list1.add(item);
             }
-            if(sb.length() > 0){
-                sb.deleteCharAt(sb.length()-1);
-            }
-
-            Intent intent = new Intent(mContext, ShopOrderCarActivity.class);
-            MyApp.getMap().put("shoppinglist",list);
-            startActivity(intent);
-            presenter.deleteCar(sb.toString());
+        }
+        if(sb.length() > 0){
+            sb.deleteCharAt(sb.length()-1);
+        }
+        Intent intent = new Intent(mContext, ShopOrderCarActivity.class);
+        MyApp.getMap().put("shoppinglist",list1);
+        startActivity(intent);
+        presenter.deleteCar(sb.toString());
     }
 
 }

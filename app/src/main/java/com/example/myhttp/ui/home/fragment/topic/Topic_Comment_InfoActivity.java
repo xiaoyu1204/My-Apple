@@ -2,7 +2,9 @@ package com.example.myhttp.ui.home.fragment.topic;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,12 +23,17 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class Topic_Comment_InfoActivity extends BaseActivity<TopicCommentPresenter> implements ITopicCommennt.View {
 
 
     @BindView(R.id.mRlv_topic_comment)
     RecyclerView mRlvTopicComment;
+    @BindView(R.id.topic_comment_info_txt)
+    TextView topicCommentInfoTxt;
+    @BindView(R.id.topic_comment_info_img)
+    ImageView topicCommentInfoImg;
     private int id;
     private int typeId = 1;
     private int size = 5;
@@ -79,4 +86,11 @@ public class Topic_Comment_InfoActivity extends BaseActivity<TopicCommentPresent
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
+
+    @OnClick(R.id.topic_comment_info_img)
+    public void onClick() {
+        Intent intent = new Intent(this, SendingActivity.class);
+        startActivity(intent);
+    }
+
 }
