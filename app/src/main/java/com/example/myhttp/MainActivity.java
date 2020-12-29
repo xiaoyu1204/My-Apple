@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myhttp.ui.CheckBoxActivity;
 import com.example.myhttp.ui.home.HomeActivity;
+import com.example.myhttp.view.start.SplaceActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(new Intent(this, CheckBoxActivity.class));
                 break;
             case R.id.btn_myapple:
-                startActivity(new Intent(this, HomeActivity.class));
+                startActivity(new Intent(this, SplaceActivity.class));
                 break;
         }
     }
