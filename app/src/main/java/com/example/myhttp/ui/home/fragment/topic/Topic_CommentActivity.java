@@ -171,12 +171,12 @@ public class Topic_CommentActivity extends BaseActivity<TopicCommentPresenter> i
         relatedAdapter.addListClick(new BaseAdapter.IListClick() {
             @Override
             public void itemClick(int pos) {
-//                int id = data.get(pos).getId();
-//                Intent intent = new Intent(Topic_CommentActivity.this,Topic_CommentActivity.class);
+                int id = data.get(pos).getId();
+                Intent intent = new Intent(Topic_CommentActivity.this,Topic_CommentActivity.class);
 //                persenter.getTopicde(id);
 //                persenter.getTopicRela(id);
 //                persenter.getTopicComment(id, typeId, size);
-//                startActivity(intent);
+                startActivity(intent);
             }
         });
 
@@ -199,11 +199,6 @@ public class Topic_CommentActivity extends BaseActivity<TopicCommentPresenter> i
             case R.id.topic_comment_btn_gengduo:
                 break;
         }
-    }
-
-    @Override
-    public void tips(String tip) {//错误时的view方法
-        Log.e("TAG", "getTopicRelaReturntips: "+tip );
     }
 
 }

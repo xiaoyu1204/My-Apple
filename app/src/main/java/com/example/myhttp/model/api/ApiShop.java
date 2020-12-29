@@ -12,6 +12,7 @@ import com.example.myhttp.model.bean.home.Home_NewGoods_Below_Bean;
 import com.example.myhttp.model.bean.home.Home_NewGoods_Top_Bean;
 import com.example.myhttp.model.bean.me.MeLoginBean;
 import com.example.myhttp.model.bean.me.MeRegisterBean;
+import com.example.myhttp.model.bean.me.UserInfoBean;
 import com.example.myhttp.model.bean.shop.AddCarBean;
 import com.example.myhttp.model.bean.shop.AddressAddProvinceBean;
 import com.example.myhttp.model.bean.shop.AddressBean;
@@ -110,12 +111,12 @@ public interface ApiShop {
     //登录接口
     @POST("auth/login")
     @FormUrlEncoded
-    Flowable<MeLoginBean> getMeLogin(@Field("username") String username, @Field("password") String password);
+    Flowable<MeLoginBean> MeLogin(@Field("username") String username, @Field("password") String password);
 
     //注册接口
     @POST("auth/register")
     @FormUrlEncoded
-    Flowable<MeRegisterBean> getMeRegist(@Field("username") String username, @Field("password") String password);
+    Flowable<MeRegisterBean> MeRegist(@Field("username") String username, @Field("password") String password);
 
     //添加到购物车
     @POST("cart/add")
@@ -148,5 +149,9 @@ public interface ApiShop {
     //获得省市接口数据
     @GET("region/list") //parentId  1
     Flowable<AddressAddProvinceBean> getAddressAddProvince(@Query("parentId")int parentId);
+
+    //用户信息更新
+    @POST("user/updateUserInfo")
+    Flowable<UserInfoBean> updateUserInfo(@FieldMap Map<String,String> map);
 
 }

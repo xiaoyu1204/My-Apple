@@ -130,6 +130,9 @@ public class MeFragment extends BaseFragment {
             startActivityForResult(intent,100);
         }else{
             ToastUtils.s(mContext,getString(R.string.tips_ok_login));
+            //进入个人主页
+            Intent intent = new Intent(mContext, MeInfoActivity.class);
+            startActivity(intent);
         }
     }
 

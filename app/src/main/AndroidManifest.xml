@@ -15,7 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.home.fragment.topic.Topic_Comment_InfoActivity"></activity>
+        <activity android:name=".ui.home.fragment.me.MeInfoActivity"></activity>
+        <activity android:name=".ui.home.fragment.topic.Topic_Comment_InfoActivity" />
         <activity android:name=".ui.home.fragment.shop.ShopAddressesAddActivity" />
         <activity android:name=".ui.home.fragment.me.shoucang.FavoritesActivity" />
         <activity android:name=".ui.home.fragment.shop.ShopAddressesActivity" />

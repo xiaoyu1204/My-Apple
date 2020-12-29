@@ -12,7 +12,7 @@ import butterknife.Unbinder;
 public abstract class BaseActivity<P extends IBasePersenter> extends AppCompatActivity implements IBaseView {
     //p层关联
     protected P persenter;
-    private Unbinder bind;
+    protected Unbinder bind;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

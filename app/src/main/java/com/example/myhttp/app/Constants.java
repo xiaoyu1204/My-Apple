@@ -7,4 +7,11 @@ public class Constants {
     public static final String PATH_DATA = MyApp.app.getCacheDir().getAbsolutePath() + File.separator + "data";
     //拼接一个地址
     public static final String PATH_IMGS = PATH_DATA + "/tp/imgs";
+
+    public static final String ACTION_UPDATEHEADER = "updateheader"; //头像更新的动作
+    public static final String ACTION_UPDATENICKNAME = "upatenickname";  //修改昵称
+
+    public static final int HEAD_WIDTH = 160;
+    public static final int HEAD_HEIGHT = 160;
+
 }

@@ -7,6 +7,7 @@ public abstract class BasePresenter<V extends IBaseView> implements IBasePersent
 
     WeakReference<V> weakReference;
     protected V mView;
+
     @Override
     public void attachView(V view) {
         weakReference = new WeakReference<V>(view);
