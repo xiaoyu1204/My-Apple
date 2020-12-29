@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myhttp.R;
-import com.example.myhttp.adapter.shop.SendingAdapter;
+import com.example.myhttp.adapter.topic.SendingAdapter;
 import com.example.myhttp.base.BaseActivity;
 import com.example.myhttp.base.IBasePersenter;
 import com.example.myhttp.utils.GlideEngine;
