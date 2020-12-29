@@ -1,7 +1,7 @@
-package com.example.myhttp.ui.home.fragment.me;
-
+package com.example.myhttp.ui.home.fragment.me.shoucang;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -17,19 +17,20 @@ import androidx.annotation.Nullable;
 
 import com.example.myhttp.R;
 import com.example.myhttp.base.BaseActivity;
+import com.example.myhttp.base.IBasePersenter;
 import com.example.myhttp.model.bean.me.MeLoginBean;
 import com.example.myhttp.presenter.me.MeLoginPresenter;
+import com.example.myhttp.ui.home.fragment.me.MeRegistActivity;
 import com.example.myhttp.utils.SpUtils;
 import com.example.myhttp.utils.ToastUtils;
 import com.example.myhttp.view.me.IMeLogin;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-//登陆界面
-public class MeLoginActivity extends BaseActivity<IMeLogin.Persenter> implements IMeLogin.View {
+public class LoginActivity extends BaseActivity<IMeLogin.Persenter> implements IMeLogin.View {
 
-    IMeLogin.Persenter presenter;
     @BindView(R.id.me_login_input_username)
     EditText meLoginInputUsername;
     @BindView(R.id.me_login_input_pw)
@@ -44,8 +45,8 @@ public class MeLoginActivity extends BaseActivity<IMeLogin.Persenter> implements
     TextView meLoginRegist;
     @BindView(R.id.me_login_forget_psd)
     TextView meLoginForgetPsd;
-    private String token;
 
+    private String token;
 
     @Override
     protected int getLayout() {
@@ -64,25 +65,28 @@ public class MeLoginActivity extends BaseActivity<IMeLogin.Persenter> implements
 
     @Override
     protected void initData() {
-        presenter = new MeLoginPresenter(this);
+
     }
 
-    @OnClick({R.id.me_login_btn_login, R.id.me_login_regist, R.id.me_login_forget_psd,R.id.me_login_img_pw})
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
+
+    @OnClick({R.id.me_login_img_pw, R.id.me_login_btn_login, R.id.me_login_regist})
     public void onClick(View view) {
-        if(!TextUtils.isEmpty(SpUtils.getInstance().getString("token"))) {
-            switch (view.getId()) {
-                case R.id.me_login_btn_login:
-                    login();
-                    break;
-                case R.id.me_login_regist:
-                    initRegist();
-                    break;
-                case R.id.me_login_forget_psd:
-                    break;
-                case R.id.me_login_img_pw:
-                    initPwImg();
-                    break;
-            }
+        switch (view.getId()) {
+            case R.id.me_login_img_pw:
+                initPwImg();
+                break;
+            case R.id.me_login_btn_login:
+                login();
+                break;
+            case R.id.me_login_regist:
+                initRegist();
+                break;
         }
     }
 
@@ -98,12 +102,10 @@ public class MeLoginActivity extends BaseActivity<IMeLogin.Persenter> implements
 
             String token = SpUtils.getInstance().getString("token");
             if (token != null) {
-                presenter.MeLogin(username, pw);
-                Log.e("TAG", "login: " + token);
-
+                persenter.MeLogin(username, pw);
                 if (token != null) {
-                    presenter.MeLogin(username, pw);
-
+                    persenter.MeLogin(username, pw);
+                    SpUtils.getInstance().setValue("name",username);
                 } else {
                     ToastUtils.s(this, getString(R.string.tips_login));
                 }
@@ -113,7 +115,6 @@ public class MeLoginActivity extends BaseActivity<IMeLogin.Persenter> implements
             }
         }
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -148,15 +149,9 @@ public class MeLoginActivity extends BaseActivity<IMeLogin.Persenter> implements
             SpUtils.getInstance().setValue("token", token);
             SpUtils.getInstance().setValue("uid",result.getData().getUserInfo().getUid());
 
-            String name = meLoginInputUsername.getText().toString();
-            Intent intent = getIntent();
-            intent.putExtra("name",name);
-            setResult(100,intent);
-
             finishAndRemoveTask();//关闭当前页面返回之前页面
         }
     }
 
 
-    
 }

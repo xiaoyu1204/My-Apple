@@ -15,14 +15,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.home.fragment.me.MeInfoActivity"></activity>
+        <activity android:name=".ui.home.fragment.me.shoucang.LoginActivity"></activity>
+        <activity android:name=".ui.home.fragment.me.MeInfoActivity" />
         <activity android:name=".ui.home.fragment.topic.Topic_Comment_InfoActivity" />
         <activity android:name=".ui.home.fragment.shop.ShopAddressesAddActivity" />
         <activity android:name=".ui.home.fragment.me.shoucang.FavoritesActivity" />
         <activity android:name=".ui.home.fragment.shop.ShopAddressesActivity" />
         <activity android:name=".ui.home.fragment.shop.ShopOrderCarActivity" />
         <activity android:name=".ui.home.fragment.me.MeRegistActivity" />
-        <activity android:name=".ui.home.fragment.me.MeLoginActivity" />
         <activity android:name=".ui.home.fragment.home.HomeBigimageActivity" />
         <activity android:name=".ui.home.fragment.topic.Topic_CommentActivity" />
         <activity android:name=".ui.home.fragment.sort.Sort_Data_InfoActivity" />

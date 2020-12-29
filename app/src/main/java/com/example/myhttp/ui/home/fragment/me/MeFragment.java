@@ -3,6 +3,8 @@ package com.example.myhttp.ui.home.fragment.me;
 
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -10,12 +12,17 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.myhttp.R;
 import com.example.myhttp.base.BaseFragment;
 import com.example.myhttp.base.IBasePersenter;
 import com.example.myhttp.ui.home.fragment.me.shoucang.FavoritesActivity;
+import com.example.myhttp.ui.home.fragment.me.shoucang.LoginActivity;
+import com.example.myhttp.utils.ImageLoader;
 import com.example.myhttp.utils.SpUtils;
 import com.example.myhttp.utils.ToastUtils;
+import com.example.myhttp.utils.TxtUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -53,6 +60,10 @@ public class MeFragment extends BaseFragment {
     LinearLayout meLlBangzhu;
     @BindView(R.id.me_ll_fankui)
     LinearLayout meLlFankui;
+    @BindView(R.id.me_head_nickname)
+    TextView txtNickname;
+    @BindView(R.id.me_head_mark)
+    TextView txtMark;
 
     @Override
     protected int getLayout() {
@@ -71,7 +82,12 @@ public class MeFragment extends BaseFragment {
 
     @Override
     protected void initData() {
-
+        String token = SpUtils.getInstance().getString("token");
+        if(!TextUtils.isEmpty(token)){
+            isLogin(true);
+        }else{
+            isLogin(false);
+        }
     }
 
     @OnClick({R.id.me_head_img, R.id.me_head_login, R.id.me_head_jt_img, R.id.me_ll_dingdan, R.id.me_ll_youhuiquan, R.id.me_ll_lipinka, R.id.me_ll_shoucang, R.id.me_ll_zuji, R.id.me_ll_fuli, R.id.me_ll_dizhi, R.id.me_ll_zhanghao, R.id.me_ll_lianxi, R.id.me_ll_bangzhu, R.id.me_ll_fankui})
@@ -128,23 +144,49 @@ public class MeFragment extends BaseFragment {
 
     //跳转登录界面
     private void initLogin() {
-        if(!TextUtils.isEmpty(SpUtils.getInstance().getString("token"))){
-            Intent intent = new Intent(mContext, MeLoginActivity.class);
-            startActivityForResult(intent,100);
-        }else{
-            ToastUtils.s(mContext,getString(R.string.tips_ok_login));
+        if (!TextUtils.isEmpty(SpUtils.getInstance().getString("token"))) {
+            ToastUtils.s(mContext, getString(R.string.tips_ok_login));
             //进入个人主页
             Intent intent = new Intent(mContext, MeInfoActivity.class);
             startActivity(intent);
+            isLogin(true);
+        } else {
+            Intent intent = new Intent(mContext, LoginActivity.class);
+            startActivity(intent);
+            isLogin(false);
         }
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 100 && resultCode == 100){
-            String name = data.getStringExtra("name");
-            meHeadLogin.setText(name);
+    /**
+     * 登录状态的界面控制
+     * @param bool
+     */
+    private void isLogin(boolean bool){
+        if(bool){
+            meHeadLogin.setVisibility(View.GONE);
+            txtNickname.setVisibility(View.VISIBLE);
+            txtMark.setVisibility(View.VISIBLE);
+            String username = SpUtils.getInstance().getString("name");
+            String nickname = SpUtils.getInstance().getString("nickname");
+            String avatar = SpUtils.getInstance().getString("avatar");
+            String mark = SpUtils.getInstance().getString("mark");
+            Log.e("TAG", "isLogin: "+nickname);
+            if(!TextUtils.isEmpty(nickname)){
+                txtNickname.setText(nickname);
+            }else{
+                txtNickname.setText(username);
+            }
+            ImageLoader.loadImage(avatar,meHeadImg);
+            TxtUtils.setTextView(txtMark,mark);
+            String img = SpUtils.getInstance().getString("img");
+            if (!TextUtils.isEmpty(img)) {
+                Glide.with(this).load(img).apply(new RequestOptions().circleCrop()).into(meHeadImg);
+            }
+        }else{
+            meHeadLogin.setVisibility(View.VISIBLE);
+            txtNickname.setVisibility(View.GONE);
+            txtMark.setVisibility(View.GONE);
+            Glide.with(this).load(R.mipmap.f9).apply(new RequestOptions().circleCrop()).into(meHeadImg);
         }
     }
 

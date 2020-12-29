@@ -1,10 +1,17 @@
 package com.example.myhttp.base;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.myhttp.ui.home.HomeActivity;
+import com.example.myhttp.utils.ActivityCollectorUtil;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -24,6 +31,9 @@ public abstract class BaseActivity<P extends IBasePersenter> extends AppCompatAc
             setContentView(getLayout());
         }
         bind = ButterKnife.bind(this);
+
+        //退出登录
+        ActivityCollectorUtil.addActivity(this);
 
         persenter = createPersenter();
         if(persenter!=null){
@@ -70,6 +80,8 @@ public abstract class BaseActivity<P extends IBasePersenter> extends AppCompatAc
         if(persenter != null){
             persenter.unAttachView();
         }
+        //退出登录
+        ActivityCollectorUtil.removeActivity(this);
     }
 
 }

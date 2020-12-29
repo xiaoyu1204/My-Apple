@@ -9,13 +9,12 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.alibaba.sdk.android.oss.ClientConfiguration;
 import com.alibaba.sdk.android.oss.ClientException;
@@ -36,10 +35,10 @@ import com.example.myhttp.app.Constants;
 import com.example.myhttp.base.BaseActivity;
 import com.example.myhttp.model.bean.me.UserInfoBean;
 import com.example.myhttp.presenter.me.UserPresenter;
+import com.example.myhttp.utils.ActivityCollectorUtil;
 import com.example.myhttp.utils.BitmapUtils;
 import com.example.myhttp.utils.GlideEngine;
 import com.example.myhttp.utils.SpUtils;
-import com.example.myhttp.utils.SystemUtils;
 import com.example.myhttp.view.me.IUser;
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
@@ -47,9 +46,7 @@ import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,14 +54,11 @@ import butterknife.OnClick;
 
 public class MeInfoActivity extends BaseActivity<IUser.Presenter> implements IUser.View {
 
-    @BindView(R.id.txt_input)
-    EditText txtInput;
-    @BindView(R.id.layout_input)
-    ConstraintLayout layoutInput;
-    @BindView(R.id.btn_save)
     Button btnSave;
     @BindView(R.id.img_avatar)
     ImageView imgAvatar;
+    @BindView(R.id.btn_loginout)
+    Button btnLoginout;
 
     String bucketName = "2002a02"; //Bucket 名
     String ossPoint = "http://oss-cn-beijing.aliyuncs.com";    //Bucket 名
@@ -72,8 +66,6 @@ public class MeInfoActivity extends BaseActivity<IUser.Presenter> implements IUs
     //这个通常使用密钥传输，直接放着不安全
     String key = "LTAI4G3x7KtcnYUxxSmYK17e";  //appkey
     String secret = "D1PLamKr1tuzcMC0J4dGrXTfvAe9Jq";  //密码
-
-
 
     private OSS ossClient;
 
@@ -129,21 +121,27 @@ public class MeInfoActivity extends BaseActivity<IUser.Presenter> implements IUs
         ButterKnife.bind(this);
     }
 
-    @OnClick({R.id.img_avatar, R.id.btn_save})
+    @OnClick({R.id.img_avatar,R.id.btn_loginout})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_avatar:
                 openPhoto();
                 break;
-            case R.id.btn_save:
-                String nickname = txtInput.getText().toString();
-                if (!TextUtils.isEmpty(nickname)) {
-                    Map<String, String> map = new HashMap<>();
-                    map.put("nickname", nickname);
-                    persenter.updateUserInfo(map);
-                }
+            case R.id.btn_loginout:
+                //清空Sp
+                SpUtils.getInstance().delete();
+
+                //退出登录
+                ActivityCollectorUtil.finishAllActivity();
+
+                //关闭页面
+                finishAndRemoveTask();
                 break;
         }
+    }
+
+    public void refresh() {
+        onCreate(null);
     }
 
     //TODO 打开相册
@@ -268,22 +266,8 @@ public class MeInfoActivity extends BaseActivity<IUser.Presenter> implements IUs
         });
     }
 
-    private void showInput() {
-        layoutInput.setVisibility(View.VISIBLE);
-        txtInput.setFocusable(true);
-        SystemUtils.openSoftKeyBoard(this);
-    }
-
     @Override
     public void updateUserInfoReturn(UserInfoBean result) {
-        if (result.getErrno() == 0) {
-            SystemUtils.closeSoftKeyBoard(this);
-            layoutInput.setVisibility(View.GONE);
-        }
-    }
 
-
-    @OnClick(R.id.img_avatar)
-    public void onClick() {
     }
 }
