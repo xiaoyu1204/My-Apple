@@ -194,6 +194,9 @@ public class Topic_CommentActivity extends BaseActivity<TopicCommentPresenter> i
         switch (view.getId()) {
             //点击编辑的图片
             case R.id.topic_comment_img:
+                //发评论
+                Intent intent = new Intent(this, SendingActivity.class);
+                startActivity(intent);
                 break;
             //查看更多
             case R.id.topic_comment_btn_gengduo:

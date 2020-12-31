@@ -24,7 +24,7 @@ public class AddressAdapter extends BaseAdapter {
 
     @Override
     protected void bindData(Object data, VH vh) {
-         CarBean.DataBean.CartListBean bean= (CarBean.DataBean.CartListBean) data;
+        CarBean.DataBean.CartListBean bean= (CarBean.DataBean.CartListBean) data;
 
         ImageView img = (ImageView) vh.getViewById(R.id.iv_address_item_img);
         TextView Name = (TextView) vh.getViewById(R.id.tv_address_item_name);

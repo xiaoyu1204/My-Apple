@@ -1,8 +1,10 @@
 package com.example.myhttp.ui.home.fragment.shop;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +25,9 @@ import com.example.myhttp.base.BaseActivity;
 import com.example.myhttp.base.BaseAdapter;
 import com.example.myhttp.model.bean.shop.AddressAddProvinceBean;
 import com.example.myhttp.model.bean.shop.AddressBean;
+import com.example.myhttp.model.bean.shop.ShopAddressBean_String;
 import com.example.myhttp.presenter.shop.ShopAddressesPresenter;
+import com.example.myhttp.utils.ToastUtils;
 import com.example.myhttp.view.shop.IShopAddress;
 import com.google.android.material.tabs.TabLayout;
 
@@ -82,6 +86,7 @@ public class ShopAddressesAddActivity extends BaseActivity<IShopAddress.Presente
     private RecyclerView mRvList; // 显示数据的RecyclerView pw
     private ShopAddressesAddAdapter mAdapter;   // pw recyclerview 的 adapter
     private PopupWindow window;     //pw
+    private ArrayList<ShopAddressBean_String> strings;
 
     @Override
     protected int getLayout() {
@@ -133,11 +138,44 @@ public class ShopAddressesAddActivity extends BaseActivity<IShopAddress.Presente
                 finishAfterTransition();
                 break;
             case R.id.address_add_btn_ok:
+                initOk();
                 break;
             case R.id.address_add_sheng_qu_xian:
                 initPw();
                 break;
         }
+    }
+
+    private void initOk() {
+
+        strings = new ArrayList<>();
+
+        String addName = addressAddName.getText().toString();
+        String addPhone = addressAddPhone.getText().toString();
+        String addShengQuXian = addressAddShengQuXian.getText().toString();
+        String addXiangxi = addressAddXiangxi.getText().toString();
+
+        Log.e("TAG", "addName: "+addName );
+        Log.e("TAG", "addPhone: "+addPhone );
+        Log.e("TAG", "addShengQuXian: "+addShengQuXian );
+        Log.e("TAG", "addXiangxi: "+addXiangxi );
+
+        if ((addName!=null && addName.equals("")) || (addPhone!=null && addPhone.equals("")) || (addShengQuXian!=null && addShengQuXian.equals("")) || (addXiangxi!=null && addXiangxi.equals(""))){
+
+            Intent intent = getIntent();
+
+            intent.putExtra("addName",addName);
+            intent.putExtra("addPhone",addPhone);
+            intent.putExtra("addShengQuXian",addShengQuXian);
+            intent.putExtra("addXiangxi",addXiangxi);
+            setResult(200,intent);
+
+            finish();
+
+        }else{
+            ToastUtils.s(this,getString(R.string.address));
+        }
+
     }
 
     private void initPw() {

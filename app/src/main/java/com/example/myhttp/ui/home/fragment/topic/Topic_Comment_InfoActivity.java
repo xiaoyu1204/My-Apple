@@ -6,6 +6,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +20,7 @@ import com.example.myhttp.model.bean.topic.TopicdeBean;
 import com.example.myhttp.presenter.topic.TopicCommentPresenter;
 import com.example.myhttp.view.topic.ITopicCommennt;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -92,5 +94,6 @@ public class Topic_Comment_InfoActivity extends BaseActivity<TopicCommentPresent
         Intent intent = new Intent(this, SendingActivity.class);
         startActivity(intent);
     }
+
 
 }

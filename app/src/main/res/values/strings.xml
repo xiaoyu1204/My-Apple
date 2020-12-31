@@ -40,5 +40,6 @@
     <string name="tips_regist_ver">正确填写验证码</string>
     <string name="tips_regist_">用户已经被注册</string>
     <string name="tips_shu">请选中购买商品数量</string>
+    <string name="address">填写的地址信息不完整</string>
 
 </resources>

@@ -43,7 +43,7 @@
 
                 <TextView
                     android:id="@+id/tv_order_form_default"
-                    android:layout_width="wrap_content"
+                    android:layout_width="@dimen/dp_30"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_order_form_name"
                     android:layout_marginHorizontal="@dimen/dp_30"
@@ -51,8 +51,9 @@
                     android:background="@drawable/shape_tv_moren"
                     android:padding="@dimen/dp_4"
                     android:text="默认"
+                    android:gravity="center"
                     android:textSize="@dimen/sp_8"
-                    android:textColor="#872E28" />
+                    android:textColor="@color/Jiured" />
 
                 <TextView
                     android:id="@+id/tv_order_form_phone"

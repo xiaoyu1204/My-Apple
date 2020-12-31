@@ -97,12 +97,12 @@ public class SendingActivity extends BaseActivity {
             Toast.makeText(this, "评论不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
-        Intent intent = new Intent();
-        Bundle bundle = new Bundle();
-        bundle.putString("text",et);
-        bundle.putStringArrayList("list",strings);
-        intent.putExtra("bundle",bundle);
-        setResult(200,intent);
+//        Intent intent = new Intent();
+//        Bundle bundle = new Bundle();
+//        bundle.putString("text",et);
+//        bundle.putStringArrayList("list",strings);
+//        intent.putExtra("bundle",bundle);
+//        setResult(200,intent);
         finish();
     }
 
