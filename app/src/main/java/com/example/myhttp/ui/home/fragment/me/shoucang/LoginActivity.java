@@ -106,6 +106,7 @@ public class LoginActivity extends BaseActivity<IMeLogin.Persenter> implements I
                 if (token != null) {
                     persenter.MeLogin(username, pw);
                     SpUtils.getInstance().setValue("name",username);
+                    SpUtils.getInstance().setValue("password",pw);
                 } else {
                     ToastUtils.s(this, getString(R.string.tips_login));
                 }

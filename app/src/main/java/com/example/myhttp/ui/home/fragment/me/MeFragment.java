@@ -2,34 +2,34 @@ package com.example.myhttp.ui.home.fragment.me;
 
 
 import android.content.Intent;
+import android.media.session.MediaSession;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.myhttp.R;
 import com.example.myhttp.base.BaseFragment;
-import com.example.myhttp.base.IBasePersenter;
+import com.example.myhttp.model.bean.me.LogoutBean;
+import com.example.myhttp.model.bean.me.UserInfoBean;
+import com.example.myhttp.presenter.me.LogoutPresenter;
 import com.example.myhttp.ui.home.fragment.me.shoucang.FavoritesActivity;
 import com.example.myhttp.ui.home.fragment.me.shoucang.LoginActivity;
 import com.example.myhttp.utils.ActivityCollectorUtil;
 import com.example.myhttp.utils.ImageLoader;
 import com.example.myhttp.utils.SpUtils;
-import com.example.myhttp.utils.ToastUtils;
 import com.example.myhttp.utils.TxtUtils;
+import com.example.myhttp.view.me.ILogout;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class MeFragment extends BaseFragment {
+public class MeFragment extends BaseFragment<LogoutPresenter> implements ILogout.View {
 
     public static final int LOGIN_ME = 10001; //登录成功的回传值
     public static final int LOGINOUT_ME = 10002; //退出登录的回传
@@ -75,9 +75,10 @@ public class MeFragment extends BaseFragment {
     }
 
     @Override
-    protected IBasePersenter createPrenter() {
-        return null;
+    protected LogoutPresenter createPrenter() {
+        return new LogoutPresenter(this);
     }
+
 
     @Override
     protected void initView() {
@@ -154,10 +155,7 @@ public class MeFragment extends BaseFragment {
             case R.id.me_ll_fankui:
                 break;
             case R.id.btn_loginout:
-                //清空Sp
-                SpUtils.getInstance().delete();
-                //退出登录
-                ActivityCollectorUtil.finishAllActivity();
+                presenter.Logout();
                 break;
         }
     }
@@ -171,6 +169,7 @@ public class MeFragment extends BaseFragment {
             startActivity(intent);
             isLogin(false);
         }
+        Log.e("TAG", "initLogin: "+ SpUtils.getInstance().getString("token"));
     }
 
     private void openUserInfoDetail() {
@@ -220,6 +219,16 @@ public class MeFragment extends BaseFragment {
             txtMark.setVisibility(View.GONE);
             Glide.with(this).load(R.mipmap.f9).apply(new RequestOptions().circleCrop()).into(meHeadImg);
         }
+    }
+
+    //退出登录
+    @Override
+    public void LogoutReturn(LogoutBean result) {
+        //清空token
+        SpUtils.getInstance().remove_token();
+        //退出登录
+        ActivityCollectorUtil.finishAllActivity();
+        isLogin(false);
     }
 
 }

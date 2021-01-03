@@ -1,5 +1,6 @@
 package com.example.myhttp.model.api;
 
+import com.example.myhttp.model.bean.app.AppBean;
 import com.example.myhttp.model.bean.home.HomeBean;
 import com.example.myhttp.model.bean.home.Home_Brand_Bean;
 import com.example.myhttp.model.bean.home.Home_Brand_Info_Below_Bean;
@@ -10,6 +11,7 @@ import com.example.myhttp.model.bean.home.Home_DetailInfo_Bean;
 import com.example.myhttp.model.bean.home.Home_DetailInfo_Bottom_Bean;
 import com.example.myhttp.model.bean.home.Home_NewGoods_Below_Bean;
 import com.example.myhttp.model.bean.home.Home_NewGoods_Top_Bean;
+import com.example.myhttp.model.bean.me.LogoutBean;
 import com.example.myhttp.model.bean.me.MeLoginBean;
 import com.example.myhttp.model.bean.me.MeRegisterBean;
 import com.example.myhttp.model.bean.me.UserInfoBean;
@@ -114,7 +116,7 @@ public interface ApiShop {
     Flowable<MeLoginBean> MeLogin(@Field("username") String username, @Field("password") String password);
 
     //注册接口
-    @POST("auth/register")
+    @POST("auth/registernew")
     @FormUrlEncoded
     Flowable<MeRegisterBean> MeRegist(@Field("username") String username, @Field("password") String password);
 
@@ -150,9 +152,17 @@ public interface ApiShop {
     @GET("region/list") //parentId  1
     Flowable<AddressAddProvinceBean> getAddressAddProvince(@Query("parentId")int parentId);
 
+    //退出登录
+    @POST("auth/logout")
+    Flowable<LogoutBean> Logout();
+
     //用户信息更新
     @POST("user/updateUserInfo")
     @FormUrlEncoded
     Flowable<UserInfoBean> updateUserInfo(@FieldMap Map<String,String> map);
+
+    //版本更新
+    @GET("apk/appinfo")
+    Flowable<AppBean> getAppInfo();
 
 }
