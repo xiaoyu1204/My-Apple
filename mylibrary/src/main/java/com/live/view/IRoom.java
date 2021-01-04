@@ -1,10 +1,10 @@
-package com.example.myhttp.view.room;
+package com.live.view;
 
-import com.example.myhttp.base.IBaseModel;
-import com.example.myhttp.base.IBasePersenter;
-import com.example.myhttp.base.IBaseView;
-import com.example.myhttp.model.bean.room.RoomBean;
-import com.example.myhttp.model.callback.Callback;
+import com.live.base.Callback;
+import com.live.base.IBaseModel;
+import com.live.base.IBasePersenter;
+import com.live.base.IBaseView;
+import com.live.model.bean.RoomBean;
 
 public interface IRoom {
 

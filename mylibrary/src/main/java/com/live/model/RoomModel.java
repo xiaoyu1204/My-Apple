@@ -1,12 +1,12 @@
-package com.example.myhttp.model.room;
+package com.live.model;
 
-import com.example.myhttp.base.BaseModel;
-import com.example.myhttp.model.bean.room.RoomBean;
-import com.example.myhttp.model.callback.Callback;
-import com.example.myhttp.net.CommonSubscriber;
-import com.example.myhttp.net.HttpManager;
-import com.example.myhttp.utils.RxUtils;
-import com.example.myhttp.view.room.IRoom;
+import com.live.base.BaseModel;
+import com.live.base.Callback;
+import com.live.model.bean.RoomBean;
+import com.live.net.CommonSubscriber;
+import com.live.net.HttpManager;
+import com.live.utils.RxUtils;
+import com.live.view.IRoom;
 
 public class RoomModel extends BaseModel implements IRoom.Model {
     @Override

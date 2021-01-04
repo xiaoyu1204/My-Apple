@@ -1,10 +1,10 @@
-package com.example.myhttp.presenter.room;
+package com.live.presenter;
 
-import com.example.myhttp.base.BasePresenter;
-import com.example.myhttp.model.bean.room.RoomBean;
-import com.example.myhttp.model.callback.Callback;
-import com.example.myhttp.model.room.RoomModel;
-import com.example.myhttp.view.room.IRoom;
+import com.live.base.BasePresenter;
+import com.live.base.Callback;
+import com.live.model.RoomModel;
+import com.live.model.bean.RoomBean;
+import com.live.view.IRoom;
 
 public class RoomPresenter extends BasePresenter<IRoom.View> implements IRoom.Presenter {
 
@@ -21,8 +21,8 @@ public class RoomPresenter extends BasePresenter<IRoom.View> implements IRoom.Pr
         model.room(new Callback() {
             @Override
             public void success(Object data) {
-                if(mView != null){
-                    mView.roomreturn((RoomBean) data);
+                if(view != null){
+                    view.roomreturn((RoomBean) data);
                 }
             }
 

@@ -1,4 +1,4 @@
-package com.example.myhttp.model.bean.room;
+package com.live.model.bean;
 
 import java.util.List;
 

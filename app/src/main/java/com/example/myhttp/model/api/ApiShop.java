@@ -15,8 +15,8 @@ import com.example.myhttp.model.bean.me.LogoutBean;
 import com.example.myhttp.model.bean.me.MeLoginBean;
 import com.example.myhttp.model.bean.me.MeRegisterBean;
 import com.example.myhttp.model.bean.me.UserInfoBean;
-import com.example.myhttp.model.bean.room.CreateRoomBean;
-import com.example.myhttp.model.bean.room.RoomBean;
+import com.live.model.bean.CreateRoomBean;
+import com.live.model.bean.RoomBean;
 import com.example.myhttp.model.bean.shop.AddCarBean;
 import com.example.myhttp.model.bean.shop.AddressAddProvinceBean;
 import com.example.myhttp.model.bean.shop.AddressBean;
@@ -43,7 +43,7 @@ import retrofit2.http.Query;
 
 public interface ApiShop {
 
-    String BASE_URL = "http://cdplay.cn/api/";
+    String BASE_URL = "https://cdplay.cn/api/";
 
     @GET("index")
     Flowable<HomeBean> getHome();

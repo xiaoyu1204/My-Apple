@@ -47,7 +47,6 @@ public class LiveActivity extends AppCompatActivity implements ITXLivePlayListen
         mVideoView = findViewById(R.id.video_play);
         mPlayerConfig = new TXLivePlayConfig();
         mLivePlayer = new TXLivePlayer(this);
-
         startPlay();
     }
 

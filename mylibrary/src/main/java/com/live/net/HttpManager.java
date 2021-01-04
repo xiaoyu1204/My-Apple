@@ -1,16 +1,14 @@
-package com.example.myhttp.net;
+package com.live.net;
+
 import android.util.Log;
 
-
-import com.example.myhttp.model.api.ApiService;
-import com.example.myhttp.model.api.ApiShop;
-import com.example.myhttp.utils.SpUtils;
+import com.live.model.api.ApiShop;
+import com.live.utils.SpUtils;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -27,8 +25,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class HttpManager {
     //单例模式
     private static HttpManager instance;
-
-    private Map<String,Retrofit> map = new HashMap<>();  //retrofit请求对象的对象池
 
     public static HttpManager getInstance(){
         if(instance == null){
@@ -48,7 +44,7 @@ public class HttpManager {
             Request request = chain.request();
             Response response = chain.proceed(request);
             ResponseBody responseBody = response.peekBody(Integer.MAX_VALUE);
-            Log.i("responseBody",responseBody.string());
+            Log.e("responseBody",responseBody.string());
             return response;
         }
     }
@@ -88,15 +84,6 @@ public class HttpManager {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
         return retrofit;
-    }
-
-    //使用提交请求
-    private ApiService apiService;//网络请求
-    public ApiService getService(){
-        if(apiService == null){
-            apiService = getRetrofit(ApiService.BASE_URL).create(ApiService.class);
-        }
-        return apiService;
     }
 
     public ApiShop apiShop;

@@ -1,4 +1,4 @@
-package com.example.myhttp.adapter.room;
+package com.live.adapter;
 
 import android.content.Context;
 import android.view.View;
@@ -6,10 +6,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.myhttp.R;
-import com.example.myhttp.base.BaseAdapter;
-import com.example.myhttp.model.bean.room.RoomBean;
-import com.example.myhttp.utils.TxtUtils;
+import com.live.R;
+import com.live.base.BaseAdapter;
+import com.live.model.bean.RoomBean;
 
 import java.util.List;
 
@@ -21,7 +20,7 @@ public class RoomAdapter extends BaseAdapter {
 
     @Override
     protected int getLayout(int type) {
-        return R.layout.room_rlv_item;
+        return R.layout.layout_room_rlv_item;
     }
 
     @Override
@@ -30,9 +29,8 @@ public class RoomAdapter extends BaseAdapter {
         RoomBean.DataBean bean = (RoomBean.DataBean) data;
 
         TextView room_rlv_name = (TextView) vh.getViewById(R.id.room_rlv_name);
-        ImageView room_rlv_img = (ImageView) vh.getViewById(R.id.room_rlv_img);
 
-        TxtUtils.setTextView(room_rlv_name,bean.getName());
+        room_rlv_name.setText(bean.getName());
 
     }
 

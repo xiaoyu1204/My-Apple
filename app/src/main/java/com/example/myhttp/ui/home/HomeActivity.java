@@ -13,9 +13,9 @@ import com.example.myhttp.ui.home.fragment.me.MeFragment;
 import com.example.myhttp.ui.home.fragment.shop.ShopFragment;
 import com.example.myhttp.ui.home.fragment.sort.SortFragment;
 import com.example.myhttp.ui.home.fragment.topic.TopicFragment;
-import com.example.myhttp.ui.room.ListActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+import com.live.RoomActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,7 +50,7 @@ public class HomeActivity extends AppCompatActivity {
         btnLive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomeActivity.this, ListActivity.class);
+                Intent intent = new Intent(HomeActivity.this, RoomActivity.class);
                 startActivity(intent);
             }
         });
