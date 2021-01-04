@@ -75,8 +75,8 @@ public class SpUtils {
     }
 
     public void remove_token(){
-        sp.edit().remove("token").commit();
-//        sp.edit().clear().commit();
+//        sp.edit().remove("token").commit();
+        sp.edit().clear().commit();
     }
 
 }

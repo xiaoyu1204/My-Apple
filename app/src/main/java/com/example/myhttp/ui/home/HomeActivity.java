@@ -1,36 +1,30 @@
 package com.example.myhttp.ui.home;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager.widget.ViewPager;
-
-import android.os.Bundle;
-import android.view.View;
-import android.widget.PopupWindow;
-import android.widget.TextView;
 
 import com.example.myhttp.R;
-import com.example.myhttp.adapter.home.ShopAdapter;
 import com.example.myhttp.ui.home.fragment.home.HomeFragment;
 import com.example.myhttp.ui.home.fragment.me.MeFragment;
 import com.example.myhttp.ui.home.fragment.shop.ShopFragment;
 import com.example.myhttp.ui.home.fragment.sort.SortFragment;
 import com.example.myhttp.ui.home.fragment.topic.TopicFragment;
+import com.example.myhttp.ui.room.ListActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class HomeActivity extends AppCompatActivity {
 
+    @BindView(R.id.btn_live)
+    FloatingActionButton btnLive;
     private TabLayout mTab;
 
     private FragmentManager mFm;
@@ -45,6 +39,7 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        ButterKnife.bind(this);
         initView();
         initFragment();//碎片
         initTab();//Tab添加
@@ -52,6 +47,13 @@ public class HomeActivity extends AppCompatActivity {
 
     private void initView() {
         mTab = (TabLayout) findViewById(R.id.mTab_shop);
+        btnLive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeActivity.this, ListActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initFragment() {

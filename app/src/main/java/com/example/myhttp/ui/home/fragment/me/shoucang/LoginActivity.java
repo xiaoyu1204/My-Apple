@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -147,9 +148,10 @@ public class LoginActivity extends BaseActivity<IMeLogin.Persenter> implements I
     public void MeLoginReturn(MeLoginBean result) {
         token = result.getData().getToken();
         if(!TextUtils.isEmpty(token)){
+            Log.e("TAG", "MeLoginReturn: "+token );
             SpUtils.getInstance().setValue("token", token);
             SpUtils.getInstance().setValue("uid",result.getData().getUserInfo().getUid());
-
+            Toast.makeText(this, "登录成功", Toast.LENGTH_SHORT).show();
             finishAndRemoveTask();//关闭当前页面返回之前页面
         }
     }

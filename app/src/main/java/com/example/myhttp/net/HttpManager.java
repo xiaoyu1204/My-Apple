@@ -74,7 +74,7 @@ public class HttpManager {
                 .connectTimeout(60, TimeUnit.SECONDS)
                 .readTimeout(60,TimeUnit.SECONDS)
                 .addInterceptor(new LoggingInterceptor())
-                //.addInterceptor(new HeaderInterceptor())
+                .addInterceptor(new HeaderInterceptor())
                 .build();
         return ok;
     }

@@ -15,6 +15,8 @@ import com.example.myhttp.model.bean.me.LogoutBean;
 import com.example.myhttp.model.bean.me.MeLoginBean;
 import com.example.myhttp.model.bean.me.MeRegisterBean;
 import com.example.myhttp.model.bean.me.UserInfoBean;
+import com.example.myhttp.model.bean.room.CreateRoomBean;
+import com.example.myhttp.model.bean.room.RoomBean;
 import com.example.myhttp.model.bean.shop.AddCarBean;
 import com.example.myhttp.model.bean.shop.AddressAddProvinceBean;
 import com.example.myhttp.model.bean.shop.AddressBean;
@@ -158,11 +160,19 @@ public interface ApiShop {
 
     //用户信息更新
     @POST("user/updateUserInfo")
-    @FormUrlEncoded
     Flowable<UserInfoBean> updateUserInfo(@FieldMap Map<String,String> map);
 
     //版本更新
     @GET("apk/appinfo")
     Flowable<AppBean> getAppInfo();
+
+    //创建直播间
+    @POST("live/createRoom") //room_name 小白的直播间  房间名      room_icon https://shop-app1.oss-cn-beijing.aliyuncs.com/live/1/room.jpg    房间列表默认的背景图
+    @FormUrlEncoded     //isopen    1   1公开  2密码
+    Flowable<CreateRoomBean> CreateRoom(@FieldMap Map<String,String> map);
+
+    //获取房间列表
+    @GET("live/getRoomList")
+    Flowable<RoomBean> getRoom();
 
 }

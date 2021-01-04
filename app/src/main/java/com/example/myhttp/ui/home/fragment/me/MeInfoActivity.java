@@ -57,7 +57,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MeInfoActivity extends BaseActivity<IUser.Presenter> implements IUser.View {
+public class MeInfoActivity extends BaseActivity<UserPresenter> implements IUser.View {
 
     @BindView(R.id.img_avatar)
     ImageView imgAvatar;
@@ -92,6 +92,8 @@ public class MeInfoActivity extends BaseActivity<IUser.Presenter> implements IUs
     String secret = "D1PLamKr1tuzcMC0J4dGrXTfvAe9Jq";  //密码
 
     private OSS ossClient;
+    private String birthday;
+    private String nickname;
 
     @Override
     protected int getLayout() {
@@ -99,7 +101,7 @@ public class MeInfoActivity extends BaseActivity<IUser.Presenter> implements IUs
     }
 
     @Override
-    protected IUser.Presenter createPersenter() {
+    protected UserPresenter createPersenter() {
         return new UserPresenter();
     }
 
@@ -107,12 +109,14 @@ public class MeInfoActivity extends BaseActivity<IUser.Presenter> implements IUs
     protected void initView() {
 
         String name = SpUtils.getInstance().getString("name");
-        String txtName = getIntent().getStringExtra("txtName");
-        String Mark = getIntent().getStringExtra("txtMark");
+        String txtName = SpUtils.getInstance().getString("nickname");
+        String Mark = SpUtils.getInstance().getString("mark");
+        String Birthday = SpUtils.getInstance().getString("birthday");
 
         txtUsername.setText(name);
         txtNickname.setText(txtName);
         txtMark.setText(Mark);
+        txtBirthday.setText(Birthday);
 
         initOss();
 
@@ -140,13 +144,6 @@ public class MeInfoActivity extends BaseActivity<IUser.Presenter> implements IUs
         ossClient = new OSSClient(getApplicationContext(), ossPoint, credentialProvider);
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
     //更新用户信息返回
     @Override
     public void updateUserInfoReturn(UserInfoBean result) {
@@ -156,30 +153,32 @@ public class MeInfoActivity extends BaseActivity<IUser.Presenter> implements IUs
         }
     }
 
-    @OnClick({R.id.img_avatar,R.id.txt_nickname, R.id.layout_mark, R.id.layout_birthday})
+    @OnClick({R.id.img_avatar,R.id.layout_nickname, R.id.layout_mark, R.id.layout_birthday})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_avatar:
                 openPhoto();
                 break;
-            case R.id.txt_nickname:
-                updateName();
-                btnSave.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        String nickname = txtInput.getText().toString();
-                        if(!TextUtils.isEmpty(nickname)){
-                            Map<String,String> map = new HashMap<>();
-                            map.put("nickname",nickname);
-                            persenter.updateUserInfo(map);
-                            layoutInput.setVisibility(View.GONE);
-                            SpUtils.getInstance().remove("nickname");
-                            SpUtils.getInstance().setValue("nickname",nickname);
-                            txtNickname.setText(nickname);
-                            txtInput.setText("");
+            case R.id.layout_nickname:
+                if(!TextUtils.isEmpty(SpUtils.getInstance().getString("token"))) {
+                    updateName();
+                    btnSave.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            nickname = txtInput.getText().toString();
+                            if (!TextUtils.isEmpty(nickname)) {
+                                Map<String, String> map = new HashMap<>();
+                                map.put("nickname", nickname);
+                                persenter.updateUserInfo(map);
+                                layoutInput.setVisibility(View.GONE);
+                                SpUtils.getInstance().remove("nickname");
+                                SpUtils.getInstance().setValue("nickname",nickname);
+                                txtNickname.setText(nickname);
+                                txtInput.setText("");
+                            }
                         }
-                    }
-                });
+                    });
+                }
                 break;
             case R.id.layout_mark:
                 updateName();
@@ -189,16 +188,37 @@ public class MeInfoActivity extends BaseActivity<IUser.Presenter> implements IUs
                         String markName = txtInput.getText().toString();
                         if(!TextUtils.isEmpty(markName)){
                             Map<String,String> map = new HashMap<>();
-                            map.put("mark",markName);
+                            map.put("avatar",markName);
                             persenter.updateUserInfo(map);
                             layoutInput.setVisibility(View.GONE);
-                            SpUtils.getInstance().remove("mark");
-                            SpUtils.getInstance().setValue("mark",markName);
+                            SpUtils.getInstance().remove("avatar");
+                            SpUtils.getInstance().setValue("avatar",markName);
                             txtMark.setText(markName);
                             txtInput.setText("");
                         }
                     }
                 });
+                break;
+            case R.id.layout_birthday:
+                if(!TextUtils.isEmpty(SpUtils.getInstance().getString("token"))) {
+                    updateName();
+                    btnSave.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            birthday = txtInput.getText().toString();
+                            if (!TextUtils.isEmpty(birthday)) {
+                                Map<String, String> map = new HashMap<>();
+                                map.put("birthday", birthday);
+                                persenter.updateUserInfo(map);
+                                layoutInput.setVisibility(View.GONE);
+                                SpUtils.getInstance().remove("birthday");
+                                SpUtils.getInstance().setValue("birthday",birthday);
+                                txtBirthday.setText(birthday);
+                                txtInput.setText("");
+                            }
+                        }
+                    });
+                }
                 break;
         }
     }
@@ -301,6 +321,7 @@ public class MeInfoActivity extends BaseActivity<IUser.Presenter> implements IUs
                 updateHead(url);
                 //调用服务器接口，把url上传到服务器的接口
                 SpUtils.getInstance().setValue("img", url);
+                SpUtils.getInstance().setValue("avatar", url);
             }
 
             @Override

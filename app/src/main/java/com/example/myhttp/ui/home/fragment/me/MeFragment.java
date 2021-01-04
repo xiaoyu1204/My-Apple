@@ -198,6 +198,7 @@ public class MeFragment extends BaseFragment<LogoutPresenter> implements ILogout
             String username = SpUtils.getInstance().getString("name");
             String nickname = SpUtils.getInstance().getString("nickname");
             String avatar = SpUtils.getInstance().getString("avatar");
+            Log.e("TAG", "isLogin: "+avatar );
             String mark = SpUtils.getInstance().getString("mark");
 
             if(!TextUtils.isEmpty(nickname)){
@@ -206,8 +207,8 @@ public class MeFragment extends BaseFragment<LogoutPresenter> implements ILogout
                 txtNickname.setText(username);
             }
 
-            ImageLoader.loadImage(avatar,meHeadImg);
-            TxtUtils.setTextView(txtMark,mark);
+            ImageLoader.loadImage(mark,meHeadImg);
+            TxtUtils.setTextView(txtMark,avatar);
             String img = SpUtils.getInstance().getString("img");
             if (!TextUtils.isEmpty(img)) {
                 Glide.with(this).load(img).apply(new RequestOptions().circleCrop()).into(meHeadImg);
