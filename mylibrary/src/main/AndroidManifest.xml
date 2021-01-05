@@ -17,10 +17,10 @@
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application>
-        <activity android:name=".view.CreateHomeActivity"></activity>
-        <activity android:name=".LiveActivity" />
-        <activity android:name=".PushActivity" />
-        <activity android:name=".RoomActivity" />
+        <activity android:name=".ui.CreateRoomActivity"></activity>
+        <activity android:name=".ui.LiveActivity" />
+        <activity android:name=".ui.PushActivity" />
+        <activity android:name=".ui.RoomActivity" />
     </application>
 
 </manifest>

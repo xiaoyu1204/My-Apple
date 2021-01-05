@@ -169,7 +169,6 @@ public class MeFragment extends BaseFragment<LogoutPresenter> implements ILogout
             startActivity(intent);
             isLogin(false);
         }
-        Log.e("TAG", "initLogin: "+ SpUtils.getInstance().getString("token"));
     }
 
     private void openUserInfoDetail() {

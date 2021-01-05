@@ -1,4 +1,4 @@
-package com.live;
+package com.live.app;
 
 /**
  * 常量类

@@ -1,31 +1,30 @@
-package com.live;
+package com.live.ui;
 
-import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.live.MyApplication;
+import com.live.R;
 import com.live.adapter.RoomAdapter;
 import com.live.base.BaseActivity;
 import com.live.base.BaseAdapter;
 import com.live.model.bean.RoomBean;
 import com.live.presenter.RoomPresenter;
-import com.live.view.CreateHomeActivity;
+import com.live.utils.SpUtils;
 import com.live.view.IRoom;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/*主界面*/
 public class RoomActivity extends BaseActivity<IRoom.Presenter> implements IRoom.View, View.OnClickListener {
 
     ImageView imgBack;
@@ -62,10 +61,11 @@ public class RoomActivity extends BaseActivity<IRoom.Presenter> implements IRoom
         imgStartLive = findViewById(R.id.img_startLive);
         imgHome = findViewById(R.id.img_home);
 
+        imgHome.setOnClickListener(this);
         imgBack.setOnClickListener(this);
         imgStartLive.setOnClickListener(this);
 
-        recyList.setLayoutManager(new LinearLayoutManager(MyApplication.application));
+        recyList.setLayoutManager(new GridLayoutManager(MyApplication.application,2));
         roomBeans = new ArrayList<>();
         roomAdapter = new RoomAdapter(this,roomBeans);
         recyList.setAdapter(roomAdapter);
@@ -73,8 +73,8 @@ public class RoomActivity extends BaseActivity<IRoom.Presenter> implements IRoom
         roomAdapter.addListClick(new BaseAdapter.IListClick() {
             @Override
             public void itemClick(int pos) {
-                Intent intent = new Intent(RoomActivity.this, CreateHomeActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(RoomActivity.this, CreateHomeActivity.class);
+//                startActivity(intent);
             }
         });
 
@@ -89,10 +89,15 @@ public class RoomActivity extends BaseActivity<IRoom.Presenter> implements IRoom
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.img_startLive) {
+            //摄像头
             Intent intent = new Intent(RoomActivity.this, PushActivity.class);
             startActivity(intent);
         } else if (id == R.id.img_back) {
             finish();
+        }else if(id == R.id.img_home){
+            //创建房间
+            Intent intent = new Intent(RoomActivity.this, CreateRoomActivity.class);
+            startActivity(intent);
         }
     }
 

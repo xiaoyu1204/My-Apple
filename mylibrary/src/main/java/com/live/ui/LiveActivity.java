@@ -1,4 +1,4 @@
-package com.live;
+package com.live.ui;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -12,6 +12,8 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.live.app.Global;
+import com.live.R;
 import com.tencent.rtmp.ITXLivePlayListener;
 import com.tencent.rtmp.TXLiveConstants;
 import com.tencent.rtmp.TXLivePlayConfig;

@@ -1,7 +1,6 @@
-package com.live;
+package com.live.ui;
 
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -10,6 +9,8 @@ import android.widget.ImageView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.live.app.Global;
+import com.live.R;
 import com.tencent.rtmp.ITXLivePushListener;
 import com.tencent.rtmp.TXLiveConstants;
 import com.tencent.rtmp.TXLivePushConfig;
@@ -17,6 +18,7 @@ import com.tencent.rtmp.TXLivePusher;
 import com.tencent.rtmp.TXLog;
 import com.tencent.rtmp.ui.TXCloudVideoView;
 
+/*摄像头*/
 public class PushActivity extends AppCompatActivity implements ITXLivePushListener,View.OnClickListener {
 
     private static String TAG = PushActivity.class.getSimpleName();

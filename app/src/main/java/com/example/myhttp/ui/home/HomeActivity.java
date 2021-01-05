@@ -15,11 +15,10 @@ import com.example.myhttp.ui.home.fragment.sort.SortFragment;
 import com.example.myhttp.ui.home.fragment.topic.TopicFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
-import com.live.RoomActivity;
+import com.live.ui.RoomActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class HomeActivity extends AppCompatActivity {
 
