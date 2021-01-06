@@ -17,7 +17,7 @@
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application>
-        <activity android:name=".ui.CreateRoomActivity"></activity>
+        <activity android:name=".ui.CreateRoomActivity" />
         <activity android:name=".ui.LiveActivity" />
         <activity android:name=".ui.PushActivity" />
         <activity android:name=".ui.RoomActivity" />

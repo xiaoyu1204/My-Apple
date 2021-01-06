@@ -1,7 +1,9 @@
 package com.live.ui;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -14,6 +16,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.live.app.Global;
 import com.live.R;
+import com.live.base.BaseActivity;
+import com.live.base.IBasePersenter;
+import com.live.model.bean.RoomLiveBean;
+import com.live.presenter.LivePresenter;
+import com.live.presenter.RoomPresenter;
+import com.live.utils.SpUtils;
+import com.live.view.ILive;
 import com.tencent.rtmp.ITXLivePlayListener;
 import com.tencent.rtmp.TXLiveConstants;
 import com.tencent.rtmp.TXLivePlayConfig;
@@ -22,7 +31,7 @@ import com.tencent.rtmp.ui.TXCloudVideoView;
 
 import java.nio.charset.StandardCharsets;
 
-public class LiveActivity extends AppCompatActivity implements ITXLivePlayListener, View.OnClickListener {
+public class LiveActivity extends BaseActivity<ILive.Presenter> implements ITXLivePlayListener, View.OnClickListener, ILive.View {
 
     private static String TAG = LiveActivity.class.getSimpleName();
 
@@ -32,28 +41,52 @@ public class LiveActivity extends AppCompatActivity implements ITXLivePlayListen
     TXLivePlayConfig mPlayerConfig; //播放器的配置类
     TXCloudVideoView mVideoView; //播放器view
 
-    private String mPlayUrl = "";
+    private String mPlayUrl ;
     private boolean mIsPlaying;
+    private int id;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_live);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        initView();
-        initListener();
+    protected int getLayout() {
+        return R.layout.activity_live;
     }
 
-    private void initView() {
+    @Override
+    protected ILive.Presenter createPersenter() {
+        return new LivePresenter();
+    }
+
+    @Override
+    protected void initView() {
+
+        getWindow().addFlags( WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON );
+
         imgBack = findViewById(R.id.img_back);
         mVideoView = findViewById(R.id.video_play);
         mPlayerConfig = new TXLivePlayConfig();
-        mLivePlayer = new TXLivePlayer(this);
-        startPlay();
+
+        initListener();
+
+    }
+
+    @Override
+    protected void initData() {
+        Intent intent = getIntent();
+        id = intent.getIntExtra( "id" ,0);
+        if(!TextUtils.isEmpty( SpUtils.getInstance().getString( "token" ) )){
+            if(id!=0){
+                Toast.makeText( this, id+"", Toast.LENGTH_SHORT ).show();
+                persenter.roomlive(id);
+            }else{
+
+            }
+        }else{
+            Toast.makeText( this, "您没有登录", Toast.LENGTH_SHORT ).show();
+        }
     }
 
     private void initListener(){
         imgBack.setOnClickListener(this);
+        mLivePlayer = new TXLivePlayer(this);
     }
 
     @Override
@@ -64,6 +97,7 @@ public class LiveActivity extends AppCompatActivity implements ITXLivePlayListen
         }
     }
 
+    //观察流
     private void startPlay(){
         mLivePlayer.setPlayerView(mVideoView);
         mLivePlayer.setPlayListener(this);
@@ -72,7 +106,7 @@ public class LiveActivity extends AppCompatActivity implements ITXLivePlayListen
         mLivePlayer.setRenderMode(TXLiveConstants.RENDER_MODE_ADJUST_RESOLUTION);
         mPlayerConfig.setEnableMessage(true);
         mLivePlayer.setConfig(mPlayerConfig);
-        int code = mLivePlayer.startPlay(Global.PLAY_URL,TXLivePlayer.PLAY_TYPE_LIVE_RTMP);
+        int code = mLivePlayer.startPlay(mPlayUrl,TXLivePlayer.PLAY_TYPE_LIVE_RTMP);
         mIsPlaying = code == 0;
 
     }
@@ -141,4 +175,15 @@ public class LiveActivity extends AppCompatActivity implements ITXLivePlayListen
         //处理UI相关操作
 
     }
+
+    @Override
+    public void RoomLivereturn(RoomLiveBean result) {
+        RoomLiveBean.DataBean data = result.getData();
+        mPlayUrl = data.getPlay_url();
+
+        startPlay();
+
+        Log.e( TAG, "ssssssss-url: "+data.getPlay_url() );
+    }
+
 }

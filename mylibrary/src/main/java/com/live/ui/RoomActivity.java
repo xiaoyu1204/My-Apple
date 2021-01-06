@@ -1,14 +1,12 @@
 package com.live.ui;
 
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.live.MyApplication;
@@ -16,9 +14,10 @@ import com.live.R;
 import com.live.adapter.RoomAdapter;
 import com.live.base.BaseActivity;
 import com.live.base.BaseAdapter;
+import com.live.model.bean.MeRoomBean;
+import com.live.model.bean.StartLiveBean;
 import com.live.model.bean.RoomBean;
 import com.live.presenter.RoomPresenter;
-import com.live.utils.SpUtils;
 import com.live.view.IRoom;
 
 import java.util.ArrayList;
@@ -42,14 +41,8 @@ public class RoomActivity extends BaseActivity<IRoom.Presenter> implements IRoom
     }
 
     @Override
-    public void tips(String tip) {
-        super.tips(tip);
-        Log.i("TAG", "tips: "+tip);
-    }
-
-    @Override
     protected IRoom.Presenter createPersenter() {
-        return new RoomPresenter(this);
+        return new RoomPresenter();
     }
 
     @Override
@@ -73,8 +66,10 @@ public class RoomActivity extends BaseActivity<IRoom.Presenter> implements IRoom
         roomAdapter.addListClick(new BaseAdapter.IListClick() {
             @Override
             public void itemClick(int pos) {
-//                Intent intent = new Intent(RoomActivity.this, CreateHomeActivity.class);
-//                startActivity(intent);
+                int id = roomBeans.get(pos).getId();
+                Intent intent = new Intent(RoomActivity.this, LiveActivity.class);
+                intent.putExtra("id",id);
+                startActivity(intent);
             }
         });
 
@@ -82,6 +77,7 @@ public class RoomActivity extends BaseActivity<IRoom.Presenter> implements IRoom
 
     @Override
     protected void initData() {
+        //获取房间列表
         persenter.room();
     }
 
@@ -89,9 +85,8 @@ public class RoomActivity extends BaseActivity<IRoom.Presenter> implements IRoom
     public void onClick(View v) {
         int id = v.getId();
         if (id == R.id.img_startLive) {
-            //摄像头
-            Intent intent = new Intent(RoomActivity.this, PushActivity.class);
-            startActivity(intent);
+            //获取自己房间信息
+            persenter.meroom();
         } else if (id == R.id.img_back) {
             finish();
         }else if(id == R.id.img_home){
@@ -108,6 +103,18 @@ public class RoomActivity extends BaseActivity<IRoom.Presenter> implements IRoom
             List<RoomBean.DataBean> data = result.getData();
             roomBeans.addAll(data);
             roomAdapter.notifyDataSetChanged();
+        } else {
+            Toast.makeText(this, result.getErrmsg(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void MeRoomreturn(MeRoomBean result) {
+        if (result.getErrno() == 0) {
+            MeRoomBean.DataBean data = result.getData();
+            Intent intent = new Intent(RoomActivity.this, PushActivity.class);
+            intent.putExtra("id",data.getId());
+            startActivity(intent);
         } else {
             Toast.makeText(this, result.getErrmsg(), Toast.LENGTH_SHORT).show();
         }

@@ -58,6 +58,14 @@
 
             </RadioGroup>
 
+            <EditText
+                android:id="@+id/create_psd"
+                android:hint="输入房间的密码"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
         </LinearLayout>
 
         <Button

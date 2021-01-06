@@ -1,12 +1,15 @@
 package com.live.model.api;
 import com.live.model.bean.CreateRoomBean;
 import com.live.model.bean.MeRoomBean;
+import com.live.model.bean.StartLiveBean;
 import com.live.model.bean.RoomBean;
+import com.live.model.bean.RoomLiveBean;
 import com.live.model.bean.UpdateRoomBean;
 
 import java.util.Map;
 
 import io.reactivex.Flowable;
+import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -33,5 +36,15 @@ public interface ApiShop {
     //获取自己房间信息
     @POST("api/live/myroom")
     Flowable<MeRoomBean> MeRoom();
+
+    //开启直播  (推流 开始自己的直播 push)
+    @POST("api/live/startLive")
+    @FormUrlEncoded
+    Flowable<StartLiveBean> StartLive(@FieldMap Map<String, String> map);
+
+    //房间播放地址获取  (拉流 看别人的 play)
+    @POST("api/live/roomLiveUrl")
+    @FormUrlEncoded
+    Flowable<RoomLiveBean> RoomLive(@Field("roomid")int id);
 
 }
