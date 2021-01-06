@@ -1,5 +1,7 @@
 package com.example.myhttp.app;
 
+import android.os.Environment;
+
 import java.io.File;
 
 public class Constants {
@@ -7,6 +9,8 @@ public class Constants {
     public static final String PATH_DATA = MyApp.app.getCacheDir().getAbsolutePath() + File.separator + "data";
     //拼接一个地址
     public static final String PATH_IMGS = PATH_DATA + "/tp/imgs";
+
+    public static final String APK_PATH = Environment.getStorageDirectory()+File.separator+"apk/";
 
     public static final String ACTION_UPDATEHEADER = "updateheader"; //头像更新的动作
     public static final String ACTION_UPDATENICKNAME = "upatenickname";  //修改昵称
